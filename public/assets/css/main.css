@@ -1,0 +1,34 @@
+.alert-custom {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: 0.42rem;
+    position: relative;
+}
+.alert-custom .alert-icon {
+    font-size: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+}
+.alert-custom .alert-text {
+    margin-left: 1.5rem;
+    font-size: 1rem;
+}
+.alert-custom .alert-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+}
+.alert-custom.alert-light-success {
+    background-color: #f0f9eb;
+    color: #67b246;
+    border: 1px solid #d7e9c6;
+}
+.alert-custom.alert-light-error {
+    background-color: #fff5f8;
+    color: #f1416c;
+    border: 1px solid #f1416c;
+}
