@@ -59,12 +59,13 @@
                                                         <span class="symbol-label bg-warning text-inverse-warning fw-bold">{{ ucfirst(substr($subAdmin->name,0,1)) }}</span>
                                                     </div>
                                                 @endif
-                                            @else
+                                            @endif
+                                        @endforeach                                        
+                                        @if(count($subAdmins) > 6)
                                             <a href="{{ route('adminAllClients') }}" class="symbol symbol-35px symbol-circle">
                                                 <span class="symbol-label bg-dark text-gray-300 fs-8 fw-bold">+{{ $total }}</span>
                                             </a>
-                                            @endif
-                                        @endforeach
+                                        @endif
                                     @endif
                                 </div>
                             </div>
@@ -109,12 +110,13 @@
                                                         </div>
                                                     </a>
                                                 @endif
-                                            @else
+                                            @endif
+                                        @endforeach
+                                        @if(count($advisors) > 6)
                                             <a href="{{ route('adminAllClients') }}" class="symbol symbol-35px symbol-circle">
                                                 <span class="symbol-label bg-dark text-gray-300 fs-8 fw-bold">+{{ $total }}</span>
                                             </a>
-                                            @endif
-                                        @endforeach
+                                        @endif
                                     @endif
                                 </div>
                             </div>
@@ -159,12 +161,13 @@
                                                         </div>
                                                     </a>
                                                 @endif
-                                            @else
+                                            @endif
+                                        @endforeach
+                                        @if(count($users) > 6)
                                             <a href="{{ route('adminAllClients') }}" class="symbol symbol-35px symbol-circle">
                                                 <span class="symbol-label bg-dark text-gray-300 fs-8 fw-bold">+{{ $total }}</span>
                                             </a>
-                                            @endif
-                                        @endforeach
+                                        @endif
                                     @endif
                                 </div>
                             </div>
@@ -205,12 +208,13 @@
                                                         <span class="symbol-label bg-warning text-inverse-warning fw-bold">{{ ucfirst(substr($event->name,0,1)) }}</span>
                                                     </div>
                                                 @endif
-                                            @else
+                                            @endif
+                                        @endforeach
+                                        @if(count($events) > 6)
                                             <a href="{{ route('adminAllEvents') }}" class="symbol symbol-35px symbol-circle">
                                                 <span class="symbol-label bg-dark text-gray-300 fs-8 fw-bold">+{{ $total }}</span>
                                             </a>
-                                            @endif
-                                        @endforeach
+                                        @endif
                                     @endif
                                 </div>
                             </div>
@@ -251,12 +255,13 @@
                                                         <span class="symbol-label bg-warning text-inverse-warning fw-bold">{{ ucfirst(substr($income->name,0,1)) }}</span>
                                                     </div>
                                                 @endif
-                                            @else
+                                            @endif
+                                        @endforeach
+                                        @if(count($incomes) > 6)
                                             <a href="{{ route('adminAllIncomes') }}" class="symbol symbol-35px symbol-circle">
                                                 <span class="symbol-label bg-dark text-gray-300 fs-8 fw-bold">+{{ $total }}</span>
                                             </a>
-                                            @endif
-                                        @endforeach
+                                        @endif
                                     @endif
                                 </div>
                             </div>
@@ -297,12 +302,13 @@
                                                         <span class="symbol-label bg-warning text-inverse-warning fw-bold">{{ ucfirst(substr($otherEvent->name,0,1)) }}</span>
                                                     </div>
                                                 @endif
-                                            @else
+                                            @endif
+                                        @endforeach
+                                        @if(count($otherEvents) > 6)
                                             <a href="{{ route('adminAllIncomes') }}" class="symbol symbol-35px symbol-circle">
                                                 <span class="symbol-label bg-dark text-gray-300 fs-8 fw-bold">+{{ $total }}</span>
                                             </a>
-                                            @endif
-                                        @endforeach
+                                        @endif
                                     @endif
                                 </div>
                             </div>

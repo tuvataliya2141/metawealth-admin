@@ -64,7 +64,7 @@
                         </thead>
                         <tbody class="fw-semibold text-gray-600">
                             @foreach($clients as $client)
-                                @if(decrypt($client->status) == 'self')
+                                @if($client->status != null && decrypt($client->status) == 'self')
                                 <tr>
                                     <td>
                                         <div class="form-check form-check-sm form-check-custom form-check-solid">

@@ -8,10 +8,10 @@ var KTUsersAddSchedule = function () {
     const modal = new bootstrap.Modal(element);
     const siteUrl = $('meta[name="site-url"]').attr('content');
     var table;
-
+    
     // Init add schedule modal
     var initAddSchedule = () => {       
-
+        
         // Init flatpickr -- for more info: https://flatpickr.js.org/       
         new tempusDominus.TempusDominus(document.getElementById("kt_modal_add_income_datepicker"), {
             display: {

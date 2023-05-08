@@ -226,7 +226,6 @@
                                 <div class="card-header pt-5">
                                     <h3 class="card-title align-items-start flex-column">
                                         <span class="card-label fw-bold text-dark">Events Performance</span>
-                                        <!-- <span class="text-gray-400 mt-1 fw-semibold fs-6">1,046 Inbound Calls today</span> -->
                                     </h3>
                                     <input type="hidden" class="events_chart_data" value="{{ json_encode($eventsChart['data']['chartData'], true) }}">
                                 </div>
