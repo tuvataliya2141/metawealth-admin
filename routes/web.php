@@ -229,6 +229,7 @@ Route::middleware(['auth', 'verifUser'])->group(function () {
     // Routs for user
     Route::middleware(['VerifyIsUser'])->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+        Route::post('/change-risk-rate', [App\Http\Controllers\HomeController::class, 'changeRiskRate'])->name('changeRiskRate');
     });
     
 });

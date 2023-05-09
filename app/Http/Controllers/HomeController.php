@@ -8,7 +8,9 @@ use App\Models\AssignAdvisor;
 use App\Models\Events;
 use App\Models\OtherEvents;
 use App\Models\Incomes;
+use App\Models\User;
 use App\Models\WealthManagement;
+use App\Models\NetWorthRankings;
 use Carbon\Carbon;
 
 class HomeController extends Controller
@@ -31,6 +33,7 @@ class HomeController extends Controller
     public function index() {
         $advisor = null;
         $user = auth()->user();
+
         $eventsChart = app('App\Http\Controllers\AdminController')->getEventsChartData($user->id);        
         $eventsLineChart = app('App\Http\Controllers\AdminController')->getEventsLineChartData($user->id);
         $incomeChart = app('App\Http\Controllers\AdminController')->getIncomeChartData($user->id);
@@ -103,6 +106,48 @@ class HomeController extends Controller
             $wealthEvent['eventName'] = $eventName;
         }
 
-        return view('user.home', compact(['clientDetail', 'incomes', 'events', 'totalWealth', 'userAge', 'rateReturn', 'wealthIncomes', 'incomeChart', 'wealthEvents', 'eventsChart', 'eventsLineChart']));
+        $myAge = $birthday->diffInYears(Carbon::now());
+        $startYear = Carbon::now()->year;
+        $endYear = $startYear + 20;
+
+        $wealthData = WealthManagement::orderBy('id', 'ASC')->where('user_id', $user->id)->where('event_name', '!=', '')->get();
+
+        foreach ($wealthData as $wealth) {
+            if ($wealth->is_other_event == 1) {
+                $eventNameData = OtherEvents::where('id', $wealth->event_name)->first();
+                if ($eventNameData) {
+                    $eventName = $eventNameData->name;
+                }
+            } else {
+                $eventNameData = Events::where('id', $wealth->event_name)->first();
+                if ($eventNameData) {
+                    $eventName = $eventNameData->name;
+                }
+            }
+            $wealth['eventName'] = $eventName;
+        }
+
+        $netWorth = NetWorthRankings::where('net_worth', '>=', $WealthManagementData->total_wealth)->limit(1)->get();
+        $totalRecords = count($netWorth);
+
+        if($totalRecords > 0) {            
+            $i = 0;
+            $statement = 'Your net worth percentile is ';
+            foreach ($netWorth as $value) {
+                $statement .= '<strong><span class="text-primary">'.$value->net_worth_percentile . '%</span></strong>';
+            }
+        } else {
+            $statement = 'Your net worth percentile is <strong><span class="text-primary">0%</span></strong>';
+        }
+
+        return view('user.home', compact(['user', 'myAge', 'startYear', 'endYear', 'wealthData', 'statement', 'clientDetail', 'incomes', 'events', 'totalWealth', 'userAge', 'rateReturn', 'wealthIncomes', 'incomeChart', 'wealthEvents', 'eventsChart', 'eventsLineChart']));
+    }
+
+    public function changeRiskRate(Request $request) {
+        $user = User::where('id', auth()->user()->id)->first();
+        $user->risk_rate = $request->risk_rate;
+        $user->update();
+
+        return true;
     }
 }

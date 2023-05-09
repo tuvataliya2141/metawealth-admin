@@ -18,6 +18,19 @@
                     <li class="breadcrumb-item text-muted"> Overview </li>
                 </ul>
             </div>
+            <div class="d-flex align-items-center gap-2 gap-lg-3">
+                <div class="me-0">
+                    <button class="btn btn-sm fw-bold btn-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"> Add </button>
+                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px py-3" data-kt-menu="true">
+                        <div class="menu-item px-3">
+                            <a href="javascript:void(0)" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_add_event"> Add Event </a>
+                        </div>
+                        <div class="menu-item px-3">
+                        <a href="javascript:void(0)" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_add_income"> Add Income </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div id="kt_app_content" class="app-content  flex-column-fluid">
@@ -46,8 +59,17 @@
                                         </span>
                                     </span>
                                 </div>
-                                <span data-bs-toggle="tooltip" data-bs-trigger="hover" title="Edit client details">
-                                    <a href="{{ route('adminUpdateClient', auth()->user()->id) }}" class="btn btn-sm btn-light-primary"> Add </a>
+                                <span data-bs-toggle="tooltip" data-bs-trigger="hover" title="Add the events">
+                                    <button type="button" class="btn btn-sm btn-flex btn-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_event">
+                                        <span class="svg-icon svg-icon-3">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor" />
+                                                <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor" />
+                                                <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                        Add event
+                                    </button>
                                 </span>
                             </div>
                             <div class="separator separator-dashed my-3"></div>
@@ -95,11 +117,13 @@
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="kt_list_widget_10_tab_1">
-                                    <div class="d-flex justify-content-end">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="fw-bold m-0 text-primary">Personal Details</h5>
                                         <span class="text-end" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Edit client details">
                                             <a href="{{ route('adminUpdateClient', $clientDetail['user']->id) }}" class="btn btn-sm btn-light-primary"> Edit </a>
                                         </span>
                                     </div>
+                                    <div class="separator separator-solid border-success my-6"></div>
                                     <div class="m-0">
                                         <div class="fw-bold mt-5">Email Id</div>
                                         <div class="text-gray-600">
@@ -168,7 +192,8 @@
                                     @if(isset($clientDetail['personalDetails'][1]))
                                         <div class="separator separator-dashed my-6"></div>
                                         <div class="m-0">
-                                            <h5 class="fw-bold m-0">Spouse / Partner Details</h5>
+                                            <h5 class="fw-bold m-0 text-primary">Spouse / Partner Details</h5>
+                                            <div class="separator separator-solid border-success my-6"></div>
                                             @php
                                                 $firstName = ($clientDetail['personalDetails'][1]->first_name != NULL) ? decrypt($clientDetail['personalDetails'][1]->first_name) : NULL;
                                             @endphp
@@ -219,7 +244,8 @@
                                     @if($clientDetail['advisor'] != NULL)
                                     <div class="separator separator-dashed my-6"></div>
                                     <div class="m-0">
-                                        <h5 class="fw-bold m-0">Advisor Details</h5>
+                                        <h5 class="fw-bold m-0 text-primary">Advisor Details</h5>
+                                        <div class="separator separator-solid border-success my-6"></div>
                                         @if($clientDetail['advisor'] != NULL && $clientDetail['advisor']->first_name != NULL)
                                         <div class="fw-bold mt-5">First Name</div>
                                         <div class="text-gray-600">
@@ -273,7 +299,8 @@
                                     @endif
                                 </div>
                                 <div class="tab-pane fade " id="kt_list_widget_10_tab_2">
-                                    <div class="d-flex justify-content-end mb-5">
+                                    <div class="d-flex justify-content-between align-items-center mb-5">
+                                        <h5 class="fw-bold m-0 text-primary">Event Details</h5>
                                         <button type="button" class="btn btn-sm btn-flex btn-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_event">
                                             <span class="svg-icon svg-icon-3">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -285,6 +312,7 @@
                                             Add event
                                         </button>
                                     </div>
+                                    <div class="separator separator-solid border-success my-6"></div>
                                     <div id="kt_table_clients_events">
                                         @foreach($wealthEvents as $wealthEvent)
                                             <div class="m-0">
@@ -348,13 +376,14 @@
                                                         </div>
                                                     </div>
                                                 @endif
-                                            </div>                                        
+                                            </div>
                                             <div class="separator separator-dashed my-6"></div>
                                         @endforeach
                                     </div>
                                 </div>
                                 <div class="tab-pane fade " id="kt_list_widget_10_tab_3">
-                                    <div class="d-flex justify-content-end mb-5">
+                                    <div class="d-flex justify-content-between align-items-center mb-5">
+                                        <h5 class="fw-bold m-0 text-primary">Income Details</h5>
                                         <button type="button" class="btn btn-sm btn-flex btn-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_income">
                                             <span class="svg-icon svg-icon-3">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -366,6 +395,7 @@
                                             Add income
                                         </button>
                                     </div>
+                                    <div class="separator separator-solid border-success my-6"></div>
                                     <div id="kt_table_clients_incomes">
                                         @foreach($wealthIncomes as $wealthIncome)
                                             <div class="m-0">
@@ -425,7 +455,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card mb-5 mb-xl-8">
+                    <div class="card mb-5 mb-xl-8 d-none">
                         <div class="card-body d-flex flex-column flex-center">
                             <div class="mb-2">
                                 <h1 class="fw-semibold text-gray-800 text-center lh-lg">
@@ -444,119 +474,255 @@
                     </div>
                 </div>
                 <div class="flex-lg-row-fluid ms-lg-15">
-                    <div class="card pt-4 mb-6 mb-xl-9">
-                        <div class="card-header pt-5">
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">Events Performance</span>
-                            </h3>
-                            <input type="hidden" class="events_chart_data" value="{{ json_encode($eventsChart['data']['chartData'], true) }}">
-                        </div>
-                        <div class="card-body d-flex align-items-center p-0">
-                            <div id="kt_chart_events" class="mx-auto mb-4"></div>
-                            <div class="mx-auto">
-                                <div class="d-flex align-items-center mb-2">
-                                    <div class="bullet bullet-dot w-8px h-7px bg-primary me-2"></div>
-                                    <div class="fs-8 fw-semibold text-muted"><b>Long Term - ${{ $eventsChart['data']['pv_of_year_long_term'] }}</b></div>
+                    <ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-semibold mb-8">
+                        <li class="nav-item">
+                            <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab" href="#kt_user_view_overview_tab">Events Details</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-active-primary pb-4" data-kt-countup-tabs="true" data-bs-toggle="tab" href="#kt_user_view_overview_security">Goal Planner</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="kt_user_view_overview_tab" role="tabpanel">
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <div class="card-header">
+                                    <h3 class="card-title align-items-start flex-column">
+                                        <span class="card-label fw-bold text-dark">Events Performance</span>
+                                    </h3>
+                                    <input type="hidden" class="events_chart_data" value="{{ json_encode($eventsChart['data']['chartData'], true) }}">
                                 </div>
-                                <div class="d-flex align-items-center mb-2">
-                                    <div class="bullet bullet-dot w-8px h-7px bg-success me-2"></div>
-                                    <div class="fs-8 fw-semibold text-muted"><b>Mid Term - ${{ $eventsChart['data']['pv_of_year_mid_term'] }}</b></div>
+                                <div class="card-body d-flex align-items-center p-0">
+                                    <div id="kt_chart_events" class="mx-auto mb-4"></div>
+                                    <div class="mx-auto">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div class="bullet bullet-dot w-8px h-7px bg-primary me-2"></div>
+                                            <div class="fs-8 fw-semibold text-muted"><b>Long Term - ${{ $eventsChart['data']['pv_of_year_long_term'] }}</b></div>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div class="bullet bullet-dot w-8px h-7px bg-success me-2"></div>
+                                            <div class="fs-8 fw-semibold text-muted"><b>Mid Term - ${{ $eventsChart['data']['pv_of_year_mid_term'] }}</b></div>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div class="bullet bullet-dot w-8px h-7px bg-info me-2"></div>
+                                            <div class="fs-8 fw-semibold text-muted"><b>Short Term - ${{ $eventsChart['data']['pv_of_year_short_term'] }}</b></div>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div class="bullet bullet-dot w-8px h-7px bg-danger me-2"></div>
+                                            <div class="fs-8 fw-semibold text-muted"> <b>Legacy - ${{ $eventsChart['data']['lagacy'] }}</b></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="d-flex align-items-center mb-2">
-                                    <div class="bullet bullet-dot w-8px h-7px bg-info me-2"></div>
-                                    <div class="fs-8 fw-semibold text-muted"><b>Short Term - ${{ $eventsChart['data']['pv_of_year_short_term'] }}</b></div>
+                            </div>                            
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <div class="card-header">
+                                    <h3 class="card-title align-items-start flex-column">
+                                        <span class="card-label fw-bold text-dark">Please Select Your Risk Tolerance Level</span>
+                                    </h3>
                                 </div>
-                                <div class="d-flex align-items-center mb-2">
-                                    <div class="bullet bullet-dot w-8px h-7px bg-danger me-2"></div>
-                                    <div class="fs-8 fw-semibold text-muted"> <b>Legacy - ${{ $eventsChart['data']['lagacy'] }}</b></div>
+                                <div class="card-body d-flex align-items-center">
+                                    <div class="row w-100">
+                                        @php $risk_rate = $user->risk_rate; @endphp
+                                        <div class="col-md-3 col-lg-3 col-xxl-3">
+                                            @php $highLightDiv = ''; $checked = ''; @endphp
+                                            @if($risk_rate == 'low')
+                                                @php $highLightDiv = 'active'; $checked = 'checked'; @endphp
+                                            @endif
+                                            <label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 {{ $highLightDiv }}" data-kt-button="true">
+                                                <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                    <input class="form-check-input risk_rate" type="radio" name="risk_rate" value="low" {{ $checked }}/>
+                                                </span>
+                                                <span class="ms-5">
+                                                    <span class="fs-4 fw-bold text-gray-800 mb-2 d-block">Low</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-xxl-3">
+                                            @php $highLightDiv = ''; $checked = ''; @endphp
+                                            @if($risk_rate == 'medium')
+                                                @php $highLightDiv = 'active'; $checked = 'checked'; @endphp
+                                            @endif
+                                            <label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 {{ $highLightDiv }}" data-kt-button="true">
+                                                <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                    <input class="form-check-input risk_rate" type="radio" name="risk_rate" value="medium" {{ $checked }}/>
+                                                </span>
+                                                <span class="ms-5">
+                                                    <span class="fs-4 fw-bold text-gray-800 mb-2 d-block">Medium</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-xxl-3">
+                                            @php $highLightDiv = ''; $checked = ''; @endphp
+                                            @if($risk_rate == 'high')
+                                                @php $highLightDiv = 'active'; $checked = 'checked'; @endphp
+                                            @endif
+                                            <label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 {{ $highLightDiv }}" data-kt-button="true">
+                                                <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                    <input class="form-check-input risk_rate" type="radio" name="risk_rate" value="high" {{ $checked }}/>
+                                                </span>
+                                                <span class="ms-5">
+                                                    <span class="fs-4 fw-bold text-gray-800 mb-2 d-block">High</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-xxl-3">
+                                            @php $highLightDiv = ''; $checked = ''; @endphp
+                                            @if($risk_rate == 'extreme')
+                                                @php $highLightDiv = 'active'; $checked = 'checked'; @endphp
+                                            @endif
+                                            <label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 {{ $highLightDiv }}" data-kt-button="true">
+                                                <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                    <input class="form-check-input risk_rate" type="radio" name="risk_rate" value="extreme" {{ $checked }}/>
+                                                </span>
+                                                <span class="ms-5">
+                                                    <span class="fs-4 fw-bold text-gray-800 mb-2 d-block">Extreme</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="notice d-flex bg-light-primary rounded border-primary border border-dashed min-w-lg-600px flex-shrink-0 p-6 mb-10">
+                                <i class="ki-duotone ki-percentage fs-2tx text-primary me-4"><i class="path1"></i><i class="path2"></i></i>
+                                <!-- <i class="ki-duotone ki-devices-2 fs-2tx text-primary me-4"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i> -->
+                                <div class="d-flex flex-stack flex-grow-1 flex-wrap flex-md-nowrap">
+                                    <div class="mb-3 mb-md-0 fw-semibold">
+                                        <h4 class="text-gray-900 fw-bold"> {!! $statement !!} </h4>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <div class="card-header">
+                                    <h3 class="card-title align-items-start flex-column">
+                                        <span class="card-label fw-bold text-dark">Expense Indicator</span>
+                                    </h3>
+                                    <input type="hidden" class="expense_chart_data" value="{{ json_encode($eventsLineChart, true) }}">
+                                </div>
+                                <div class="card-body d-flex align-items-end p-0">
+                                    <div id="kt_charts_events" class="min-h-auto w-100 ps-4 pe-6" style="height: 300px"></div>
+                                </div>
+                            </div>
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <div class="card-header">
+                                    <h3 class="card-title align-items-start flex-column">
+                                        <span class="card-label fw-bold text-dark">Life Style Indicator</span>
+                                    </h3>
+                                    <input type="hidden" class="line_chart_data" value="{{ json_encode($incomeChart, true) }}">
+                                </div>
+                                <div class="card-body d-flex align-items-end p-0">
+                                    <div id="kt_charts_incomes" class="min-h-auto w-100 ps-4 pe-6" style="height: 300px"></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card pt-4 mb-6 mb-xl-9">
-                        <div class="card-header pt-5">
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">Expense Indicator</span>
-                            </h3>
-                            <input type="hidden" class="expense_chart_data" value="{{ json_encode($eventsLineChart, true) }}">
-                        </div>
-                        <div class="card-body d-flex align-items-end p-0">
-                            <div id="kt_charts_events" class="min-h-auto w-100 ps-4 pe-6" style="height: 300px"></div>
-                        </div>
-                    </div>
-                    <div class="card pt-4 mb-6 mb-xl-9">
-                        <div class="card-header pt-5">
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">Life Style Indicator</span>
-                            </h3>
-                            <input type="hidden" class="line_chart_data" value="{{ json_encode($incomeChart, true) }}">
-                        </div>
-                        <div class="card-body d-flex align-items-end p-0">
-                            <div id="kt_charts_incomes" class="min-h-auto w-100 ps-4 pe-6" style="height: 300px"></div>
-                        </div>
-                    </div>                    
-                    <div class="card pt-4 mb-6 mb-xl-9">
-                        <div class="card-header align-items-center py-5 gap-2 gap-md-5">
-                            <div class="card-title">
-                                <div class="d-flex align-items-center position-relative my-1">
-                                    <span class="svg-icon fs-1 position-absolute ms-4">...</span>
-                                    <input type="text" data-kt-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search Report" />
-                                </div>
-                                <div id="goal_planner_1_export" class="d-none"></div>
-                            </div>
-                            <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
-                                <button type="button" class="btn btn-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                    <i class="ki-duotone ki-exit-down fs-2"><span class="path1"></span><span class="path2"></span></i>
-                                    Export Report
-                                </button>
-                                <div id="goal_planner_export_menu" class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-200px py-4" data-kt-menu="true">
-                                    <div class="menu-item px-3">
-                                        <a href="#" class="menu-link px-3" data-kt-export="copy"> Copy to clipboard </a>
+                        <div class="tab-pane fade" id="kt_user_view_overview_security" role="tabpanel">
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+                                    <div class="card-title">
+                                        <h3 class="card-title align-items-start flex-column">
+                                            <span class="card-label fw-bold text-dark">Goal Planner</span>
+                                        </h3>
                                     </div>
-                                    <div class="menu-item px-3">
-                                        <a href="#" class="menu-link px-3" data-kt-export="excel"> Export as Excel </a>
-                                    </div>
-                                    <div class="menu-item px-3">
-                                        <a href="#" class="menu-link px-3" data-kt-export="csv"> Export as CSV </a>
-                                    </div>
-                                    <div class="menu-item px-3">
-                                        <a href="#" class="menu-link px-3" data-kt-export="pdf"> Export as PDF </a>
+                                    <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+                                        <button type="button" class="btn btn-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            <i class="ki-duotone ki-exit-down fs-2"><span class="path1"></span><span class="path2"></span></i>
+                                            Export Report
+                                        </button>
+                                        <div id="kt_datatable_example_export_menu" class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-200px py-4" data-kt-menu="true">
+                                            <div class="menu-item px-3">
+                                                <a href="#" class="menu-link px-3" data-kt-export="excel"> Export as Excel </a>
+                                            </div>
+                                            <div class="menu-item px-3">
+                                                <a href="#" class="menu-link px-3" data-kt-export="csv"> Export as CSV </a>
+                                            </div>
+                                        </div>
+                                        <div id="kt_datatable_example_buttons" class="d-none"></div>
                                     </div>
                                 </div>
-                                <div id="goal_planner_buttons" class="d-none"></div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <table class="table align-middle border rounded table-row-dashed fs-6 g-5" id="goal_planner">
-                                <thead>
-                                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase">
-                                        <th class="min-w-100px">Customer Name</th>
-                                        <th class="min-w-100px">Email</th>
-                                        <th class="min-w-100px">Status</th>
-                                        <th class="min-w-100px">Date Joined</th>
-                                        <th class="text-end min-w-75px">No. Orders</th>
-                                        <th class="text-end min-w-75px">No. Products</th>
-                                        <th class="text-end min-w-100px pe-5">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="fw-semibold text-gray-600">
-                                    <tr class="odd">
-                                        <td>
-                                            <a href="#" class="text-dark text-hover-primary">Emma Smith</a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="text-dark text-hover-primary">e.smith@kpmg.com.au</a>
-                                        </td>
-                                        <td>
-                                            <div class="badge badge-light-success">Active</div>
-                                        </td>
-                                        <td data-order="2022-03-10T14:40:00+05:00">10 Mar 2022, 2:40 pm</td>
-                                        <td class="text-end pe-0">94</td>
-                                        <td class="text-end pe-0">103</td>
-                                        <td class="text-end">$500.00</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                <div class="card-body">
+                                    <!-- <table class="table align-middle border rounded table-row-dashed fs-6 g-5" id="kt_datatable_example"> -->
+                                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_datatable_example">
+                                        <thead>
+                                            <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                                <th class="min-w-80px">Age</th>
+                                                @for($i = $myAge; $i <= 99; $i++)
+                                                    <th class="min-w-80px">{{ $i }}</th>
+                                                @endfor
+                                                <th></th>
+                                            </tr>
+                                            <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                                <th class="min-w-80px">Year</th>
+                                                @for($i = $myAge; $i <= 99; $i++)
+                                                    <th class="min-w-80px">{{ $startYear }}</th>
+                                                    @php $startYear++ @endphp
+                                                @endfor
+                                                <th class="min-w-80px">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="fw-semibold text-gray-600">
+                                            @php $columnWiseSum = array(); @endphp
+                                            @foreach($wealthData as $data)
+                                                @if($data->event_name)
+                                                    @php 
+                                                        $wdata = (array)json_decode($data->devide_year);
+                                                        $startYear2 = Carbon\Carbon::now()->year;
+                                                    @endphp
+                                                    <tr data-id="{{$data->id}}" id="ev-{{$data->id}}">                                                    
+                                                        <td>
+                                                            {{$data->eventName}}
+                                                            @if($data->down_payment)
+                                                                @if($data->down_payment < 900)
+                                                                    <div class="badge badge-light fw-bold">({{number_format($data->down_payment, 1)}} Down)</div>
+                                                                    @elseif($data->down_payment < 900000)
+                                                                    <div class="badge badge-light fw-bold">({{number_format($data->down_payment/1000, 1)}}K Down)</div>
+                                                                    @elseif($data->down_payment < 900000000)
+                                                                    <div class="badge badge-light fw-bold">({{number_format($data->down_payment/1000000, 1)}}M Down)</div>
+                                                                @endif
+                                                            @endif
+                                                        </td>
+                                                        @php $sum = 0; @endphp
+                                                        @for($i = $myAge; $i <= 99; $i++)
+                                                            @if($wdata)
+                                                                @if (array_key_exists($startYear2,$wdata))
+                                                                    <td data-year="{{$startYear2}}" data-price="{{number_format((float)$wdata[$startYear2], 2, '.', '')}}">{{number_format((float)$wdata[$startYear2], 2, '.', '')}}</td>
+                                                                    @php
+                                                                        $sum += number_format((float)$wdata[$startYear2], 2, '.', '');
+                                                                        if (array_key_exists($i, $columnWiseSum)) {
+                                                                            $columnWiseSum[$i] = $columnWiseSum[$i] + number_format((float)$wdata[$startYear2], 2, '.', ''); 
+                                                                        } else {
+                                                                            $columnWiseSum[$i] = number_format((float)$wdata[$startYear2], 2, '.', ''); 
+                                                                        }
+                                                                    @endphp
+                                                                @else
+                                                                    <td data-year="{{$startYear2}}"></td>
+                                                                @endif
+                                                            @else
+                                                                <td data-year="{{$startYear2}}"></td>
+                                                            @endif
+                                                            @php $startYear2++; @endphp
+                                                        @endfor
+                                                        @if($data->down_payment || $data->interest)
+                                                            <td><b>{{$sum}}</b></td>
+                                                        @else
+                                                            <td><b>{{$data->event_budget}}</b></td>
+                                                        @endif
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                            <tr>                                            
+                                                <td> Total </td>
+                                                @for($i = $myAge; $i <= 99; $i++)
+                                                    @if (array_key_exists($i, $columnWiseSum))
+                                                        <td><b> {{ $columnWiseSum[$i] }} </b></td>
+                                                    @else
+                                                        <td><b>-</b></td>
+                                                    @endif
+                                                @endfor
+                                                <td></td>
+                                            </tr>
+                                            @php $wdata = []; @endphp
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>                            
                         </div>
                     </div>
                 </div>
@@ -738,5 +904,59 @@
     <script src="{{ asset('assets/js/custom/apps/user-management/users/view/goal-planner.js') }}"></script>
     <script src="{{ asset('assets/js/custom/apps/customers/view/event-chart.js') }}"></script>
     <script src="{{ asset('assets/js/custom/apps/customers/view/expense-chart.js') }}"></script>
-    <script src="{{ asset('assets/js/custom/apps/customers/view/income-chart.js') }}"></script> 
+    <script src="{{ asset('assets/js/custom/apps/customers/view/income-chart.js') }}"></script>
+    <script>
+        $(".risk_rate").click(function(){
+
+            Swal.fire({
+                text: "Are you sure you want to change the risk rate?",
+                icon: "warning",
+                showCancelButton: true,
+                buttonsStyling: false,
+                confirmButtonText: "Yes, change!",
+                cancelButtonText: "No, cancel",
+                customClass: {
+                    confirmButton: "btn fw-bold btn-danger",
+                    cancelButton: "btn fw-bold btn-active-light-primary"
+                }
+            }).then(function (result) {
+                if (result.value) {
+                    var radioValue = $("input[name='risk_rate']:checked").val();
+                    if(radioValue){
+                        $.ajax({
+                            type:'POST',
+                                url:'{{ url("/change-risk-rate") }}',
+                                data: {
+                                    "_token": "{{ csrf_token() }}",
+                                    "risk_rate" : radioValue,
+                                },
+                            success:function(data) {
+                                Swal.fire({
+                                    text: "You have changed risk rate!",
+                                    icon: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary",
+                                    }
+                                }).then(function () {
+                                    location.reload();
+                                });           
+                            }
+                        }) ;
+                    }                    
+                } else if (result.dismiss === 'cancel') {
+                    Swal.fire({
+                        text: "Risk rate was not changed.",
+                        icon: "error",
+                        buttonsStyling: false,
+                        confirmButtonText: "Ok, got it!",
+                        customClass: {
+                            confirmButton: "btn fw-bold btn-primary",
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 @endsection

@@ -4,8 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class RoleSeeder extends Seeder
 {
@@ -14,19 +13,29 @@ class RoleSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
-    {
-        DB::table('roles')->insert([
-            'name' => 'User',
-        ],
-        [
-            'name' => 'Admin',
-        ],
-        [
-            'name' => 'Super Admin',
-        ],
-        [
-            'name' => 'Advisior',
-        ]);
+    public function run() {
+        $data = [
+            [
+                'name' => 'User',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Admin',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Super Admin',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Advisior',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
+        ];
+        DB::table('roles')->insert($data);
     }
 }
