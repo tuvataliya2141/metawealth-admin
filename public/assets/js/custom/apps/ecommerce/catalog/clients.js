@@ -10,8 +10,7 @@ var KTAppClients = function () {
             'order': [],
             'pageLength': 10,
             'columnDefs': [
-                { orderable: false, targets: 0 },
-                { orderable: false, targets: 5 },
+                { orderable: false, targets: 4 },
             ]
         });
 

@@ -230,6 +230,10 @@ Route::middleware(['auth', 'verifUser'])->group(function () {
     Route::middleware(['VerifyIsUser'])->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
         Route::post('/change-risk-rate', [App\Http\Controllers\HomeController::class, 'changeRiskRate'])->name('changeRiskRate');
+        Route::get('/booking', [App\Http\Controllers\HomeController::class, 'booking'])->name('booking');
+        Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
+        Route::get('/personalDetails/{id}', [App\Http\Controllers\HomeController::class, 'personalDetails'])->name('personalDetails');
+        Route::post('/updatePersonalDetails', [App\Http\Controllers\HomeController::class, 'updatePersonalDetails'])->name('updatePersonalDetails');
     });
     
 });

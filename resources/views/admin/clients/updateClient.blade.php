@@ -38,12 +38,6 @@
             <div class="card card-flush h-lg-100" id="kt_contacts_main">
                 <div class="card-header pt-7" id="kt_chat_contacts_header">
                     <div class="card-title">
-                        <span class="svg-icon svg-icon-1 me-2">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M20 14H18V10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21 16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21 19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8 21 7.6 21 7Z" fill="currentColor" />
-                                <path opacity="0.3" d="M17 22H3C2.4 22 2 21.6 2 21V3C2 2.4 2.4 2 3 2H17C17.6 2 18 2.4 18 3V21C18 21.6 17.6 22 17 22ZM10 7C8.9 7 8 7.9 8 9C8 10.1 8.9 11 10 11C11.1 11 12 10.1 12 9C12 7.9 11.1 7 10 7ZM13.3 16C14 16 14.5 15.3 14.3 14.7C13.7 13.2 12 12 10.1 12C8.10001 12 6.49999 13.1 5.89999 14.7C5.59999 15.3 6.19999 16 7.39999 16H13.3Z" fill="currentColor" />
-                            </svg>
-                        </span>
                         <h2>Update Client</h2>
                     </div>
                 </div>
@@ -151,10 +145,13 @@
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Select the Marital Status."></i>
                                     </label>
                                     <div class="w-100">
+                                        @php
+                                            $maritalStatus = (isset($client['self']->marital_status)) ? decrypt($client['self']->marital_status) : NULL;
+                                        @endphp
                                         <select id="select2_client_marital_status" class="form-select form-select-solid" name="marital_status" data-placeholder="Select a Marital Status">
                                             <option></option>
-                                            <option value="married" {{ (decrypt($client['self']->marital_status) == 'married') ? 'selected' : '' }}> Married </option>                                            
-                                            <option value="unmarried" {{ (decrypt($client['self']->marital_status) == 'unmarried') ? 'selected' : '' }}> Unmarried </option>
+                                            <option value="married" {{ ($maritalStatus == 'married') ? 'selected' : '' }}> Married </option>                                            
+                                            <option value="unmarried" {{ ($maritalStatus == 'unmarried') ? 'selected' : '' }}> Unmarried </option>
                                         </select>
                                     </div>
                                 </div>
@@ -168,10 +165,13 @@
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Select the Retired."></i>
                                     </label>
                                     <div class="w-100">
+                                        @php
+                                            $retired = (isset($client['self']->retired)) ? decrypt($client['self']->retired) : NULL;
+                                        @endphp
                                         <select id="select2_client_retired" class="form-select form-select-solid" name="retired" data-placeholder="Select a Retired">
                                             <option></option>
-                                            <option value="yes" {{ (decrypt($client['self']->retired) == 'yes') ? 'selected' : '' }}> Yes </option>                                            
-                                            <option value="no" {{ (decrypt($client['self']->retired) == 'no') ? 'selected' : '' }}> No </option>
+                                            <option value="yes" {{ ($retired == 'yes') ? 'selected' : '' }}> Yes </option>                                            
+                                            <option value="no" {{ ($retired == 'no') ? 'selected' : '' }}> No </option>
                                         </select>
                                     </div>
                                 </div>
@@ -182,7 +182,7 @@
                                         <span>Street Address</span>
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Street Address."></i>
                                     </label>
-                                    <textarea class="form-control" data-kt-autosize="true" name="address">{{ decrypt($client['self']->address) }}</textarea>
+                                    <textarea class="form-control" data-kt-autosize="true" name="address">{{ (isset($client['self']->address)) ? decrypt($client['self']->address) : NULL }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -193,7 +193,7 @@
                                         <span>City</span>
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the City."></i>
                                     </label>
-                                    <input type="text" class="form-control form-control-solid" name="city" value="{{ decrypt($client['self']->city) }}"/>
+                                    <input type="text" class="form-control form-control-solid" name="city" value="{{ (isset($client['self']->city)) ? decrypt($client['self']->city) : NULL }}"/>
                                 </div>
                             </div>
                             <div class="col">
@@ -202,7 +202,7 @@
                                         <span>Province</span>
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Province."></i>
                                     </label>
-                                    <input type="text" class="form-control form-control-solid" name="province" value="{{ decrypt($client['self']->province) }}"/>
+                                    <input type="text" class="form-control form-control-solid" name="province" value="{{ (isset($client['self']->province)) ? decrypt($client['self']->province) : NULL }}"/>
                                 </div>
                             </div>
                             <div class="col">
@@ -211,18 +211,18 @@
                                         <span>Postal Code</span>
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Postal Code."></i>
                                     </label>
-                                    <input type="text" class="form-control form-control-solid" name="postal_code" value="{{ decrypt($client['self']->postal_code) }}"/>
+                                    <input type="text" class="form-control form-control-solid" name="postal_code" value="{{ (isset($client['self']->postal_code)) ? decrypt($client['self']->postal_code) : NULL }}"/>
                                 </div>
                             </div>
                         </div>
-                        <div class="separator mb-6 family_details" style="{{ (decrypt($client['self']->marital_status) == 'unmarried') ? 'display: none' : '' }}"></div>
-                        <div class="family_details" style="{{ (decrypt($client['self']->marital_status) == 'unmarried') ? 'display: none' : '' }}">
+                        <div class="separator mb-6 family_details" style="{{ ($maritalStatus == 'unmarried' || $maritalStatus == NULL) ? 'display: none' : '' }}"></div>
+                        <div class="family_details" style="{{ ($maritalStatus == 'unmarried' || $maritalStatus == NULL) ? 'display: none' : '' }}">
                             <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">                            
                                 <div class="col d-flex align-items-center" id="have_child">
                                     <div class="fv-row mb-7">
                                         <div class="form-check form-switch form-check-custom form-check-solid">
                                             @php
-                                                $is_child = ($client['self']->is_child != NULL) ? $client['self']->is_child : NULL
+                                                $is_child = ($client['self']->is_child != NULL) ? decrypt($client['self']->is_child) : NULL
                                             @endphp
                                             <input class="form-check-input" name="have_child" type="checkbox" value="1" id="flexSwitchChecked" {{ ($is_child == 'yes') ? 'checked' : '' }}/>
                                             <label class="form-check-label" for="flexSwitchChecked">

@@ -14,8 +14,7 @@ var KTAppSubAdmins = function () {
             'order': [],
             'pageLength': 10,
             'columnDefs': [
-                { orderable: false, targets: 0 }, // Disable ordering on column 0 (checkbox)
-                { orderable: false, targets: 4 }, // Disable ordering on column 4 (actions)
+                { orderable: false, targets: 3 }, // Disable ordering on column 4 (actions)
             ]
         });
 

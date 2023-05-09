@@ -8,15 +8,15 @@
         <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1" id="kt_app_header_wrapper">
             <div class="app-header-menu app-header-mobile-drawer align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="app-header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="250px" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_app_header_menu_toggle" data-kt-swapper="true" data-kt-swapper-mode="{default: 'append', lg: 'prepend'}" data-kt-swapper-parent="{default: '#kt_app_body', lg: '#kt_app_header_wrapper'}">
                 <div class="menu menu-rounded  menu-column menu-lg-row my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0" id="kt_app_header_menu" data-kt-menu="true">
-                    <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2 here show">
+                    <div class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2 {{ Request::url() == route('dashboard') ? 'here show' : '' }}">
                         <span class="menu-link">
-                            <a href="{{ route('adminDashboard') }}">
+                            <a href="{{ route('dashboard') }}">
                                 <span class="menu-title">Overview</span>
                                 <span class="menu-arrow d-lg-none"></span>
                             </a>
                         </span>
                     </div>
-                    <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
+                    <div class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
                         <span class="menu-link">
                             <a href="#">
                                 <span class="menu-title">Planning</span>
@@ -45,7 +45,7 @@
                             </div>                            
                         </div>
                     </div>
-                    <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
+                    <div class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
                         <span class="menu-link">
                             <a href="#">
                                 <span class="menu-title">Investing</span>
@@ -53,10 +53,18 @@
                             </a>
                         </span>
                     </div>
-                    <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
+                    <div class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
                         <span class="menu-link">
                             <a href="#">
                                 <span class="menu-title">Wealth Management</span>
+                                <span class="menu-arrow d-lg-none"></span>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2 {{ Request::url() == route('booking') ? 'here show' : '' }}">
+                        <span class="menu-link">
+                            <a href="{{ route('booking') }}">
+                                <span class="menu-title">Booking</span>
                                 <span class="menu-arrow d-lg-none"></span>
                             </a>
                         </span>
@@ -90,7 +98,7 @@
                         </div>
                         <div class="separator my-2"></div>
                         <div class="menu-item px-5">
-                            <a href="#" class="menu-link px-5">
+                            <a href="{{ route('profile') }}" class="menu-link px-5">
                                 My Profile
                             </a>
                         </div>

@@ -416,13 +416,13 @@
                                                         </div>
                                                     </td>
                                                     <td class="text-end pe-13">
-                                                        <span class="text-gray-600 fw-bold fs-6">{{ decrypt($personalDetails->phone) }}</span>
+                                                        <span class="text-gray-600 fw-bold fs-6">{{ (isset($personalDetails->phone) && $personalDetails->phone != NULL) ? decrypt($personalDetails->phone) : 'N/A'; }}</span>
                                                     </td>
                                                     <td class="text-end pe-0">
-                                                        <span class="text-gray-600 fw-bold fs-6">{{ decrypt($personalDetails->email) }}</span>
+                                                        <span class="text-gray-600 fw-bold fs-6">{{ (isset($user->email) && $user->email != NULL) ? $user->email : 'N/A'; }}</span>
                                                     </td>
                                                     <td class="text-end">
-                                                        <span class="text-gray-600 fw-bold fs-6">{{ Carbon\Carbon::parse($personalDetails->created_at)->format('M d, Y'); }}</span>
+                                                        <span class="text-gray-600 fw-bold fs-6">{{ (isset($user->created_at) && $user->created_at != NULL) ? Carbon\Carbon::parse($user->created_at)->format('M d, Y') : 'N/A';  }}</span> 
                                                     </td>
                                                 </tr>
                                                 @endforeach

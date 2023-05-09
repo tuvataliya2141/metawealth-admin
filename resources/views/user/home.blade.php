@@ -36,443 +36,8 @@
     <div id="kt_app_content" class="app-content  flex-column-fluid">
         <div id="kt_app_content_container" class="app-container  container-xxl ">
             <div class="d-flex flex-column flex-xl-row">
-                <div class="flex-column flex-lg-row-auto w-100 w-xl-350px mb-10">
-                    <div class="card mb-5 mb-xl-8">
-                        <div class="card-body pt-15">
-                            <div class="d-flex flex-center flex-column mb-5">
-                                <div class="symbol symbol-100px symbol-circle mb-7">
-                                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6.28548 15.0861C7.34369 13.1814 9.35142 12 11.5304 12H12.4696C14.6486 12 16.6563 13.1814 17.7145 15.0861L19.3493 18.0287C20.0899 19.3618 19.1259 21 17.601 21H6.39903C4.87406 21 3.91012 19.3618 4.65071 18.0287L6.28548 15.0861Z" fill="currentColor"></path>
-                                        <rect opacity="0.3" x="8" y="3" width="8" height="8" rx="4" fill="currentColor"></rect>
-                                    </svg>
-                                </div>
-                                <a href="#" class="fs-3 text-gray-800 text-hover-primary fw-bold mb-1"> {{ auth()->user()->name }} </a>
-                                <div class="fs-5 fw-semibold text-muted mb-6"> {{ auth()->user()->email }} </div>
-                            </div>
-                            <div class="d-flex flex-stack fs-4 py-3">
-                                <div class="fw-bold rotate collapsible" data-bs-toggle="collapse" href="#kt_customer_view_details" role="button" aria-expanded="false" aria-controls="kt_customer_view_details"> Details
-                                    <span class="ms-2 rotate-180">
-                                        <span class="svg-icon svg-icon-3">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="currentColor" />
-                                            </svg>
-                                        </span>
-                                    </span>
-                                </div>
-                                <span data-bs-toggle="tooltip" data-bs-trigger="hover" title="Add the events">
-                                    <button type="button" class="btn btn-sm btn-flex btn-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_event">
-                                        <span class="svg-icon svg-icon-3">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor" />
-                                                <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor" />
-                                                <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor" />
-                                            </svg>
-                                        </span>
-                                        Add event
-                                    </button>
-                                </span>
-                            </div>
-                            <div class="separator separator-dashed my-3"></div>
-                            <div id="kt_customer_view_details" class="collapse show">
-                                <div class="py-5 fs-6">
-                                    <div class="text-gray-400 fw-bold mt-5">Net Worth</div>
-                                    <h1 class="mt-2 display-5"> $0 </h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card mb-5 mb-xl-8">
-                        <div class="card-header pt-7">
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">My Details</span>
-                            </h3>
-                        </div>
-                        <div class="card-body">
-                            <ul class="nav nav-pills nav-pills-custom row position-relative mx-0 mb-9">
-                                <li class="nav-item col-4 mx-0 p-0">
-                                    <a class="nav-link active d-flex justify-content-center w-100 border-0 h-100" data-bs-toggle="pill" href="#kt_list_widget_10_tab_1">
-                                        <span class="nav-text text-gray-800 fw-bold fs-6 mb-3">
-                                            Personal
-                                        </span>
-                                        <span class="bullet-custom position-absolute z-index-2 bottom-0 w-100 h-4px bg-primary rounded"></span>
-                                    </a>
-                                </li>
-                                <li class="nav-item col-4 mx-0 px-0">
-                                    <a class="nav-link d-flex justify-content-center w-100 border-0 h-100" data-bs-toggle="pill" href="#kt_list_widget_10_tab_2">
-                                        <span class="nav-text text-gray-800 fw-bold fs-6 mb-3">
-                                            Events
-                                        </span>
-                                        <span class="bullet-custom position-absolute z-index-2 bottom-0 w-100 h-4px bg-primary rounded"></span>
-                                    </a>
-                                </li>
-                                <li class="nav-item col-4 mx-0 px-0">
-                                    <a class="nav-link d-flex justify-content-center w-100 border-0 h-100" data-bs-toggle="pill" href="#kt_list_widget_10_tab_3">
-                                        <span class="nav-text text-gray-800 fw-bold fs-6 mb-3">
-                                            Incomes
-                                        </span>
-                                        <span class="bullet-custom position-absolute z-index-2 bottom-0 w-100 h-4px bg-primary rounded"></span>
-                                    </a>
-                                </li>
-                                <span class="position-absolute z-index-1 bottom-0 w-100 h-4px bg-light rounded"></span>
-                            </ul>
-                            <div class="tab-content">
-                                <div class="tab-pane fade show active" id="kt_list_widget_10_tab_1">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="fw-bold m-0 text-primary">Personal Details</h5>
-                                        <span class="text-end" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Edit client details">
-                                            <a href="{{ route('adminUpdateClient', $clientDetail['user']->id) }}" class="btn btn-sm btn-light-primary"> Edit </a>
-                                        </span>
-                                    </div>
-                                    <div class="separator separator-solid border-success my-6"></div>
-                                    <div class="m-0">
-                                        <div class="fw-bold mt-5">Email Id</div>
-                                        <div class="text-gray-600">
-                                            <a href="mailto:{{ $clientDetail['user']->email }}" class="text-gray-600 text-hover-primary">{{ $clientDetail['user']->email }}</a>
-                                        </div>
-                                        @php
-                                            $phone = ($clientDetail['personalDetails'][0]->phone != NULL) ? decrypt($clientDetail['personalDetails'][0]->phone) : NULL;
-                                        @endphp
-                                        <div class="fw-bold mt-5">Mobile No</div>
-                                        <div class="text-gray-600">
-                                            <a href="tel:{{ $phone }}" class="text-gray-600 text-hover-primary">{{ $phone }}</a>
-                                        </div>
-                                        @if($clientDetail['personalDetails'][0]->gender != NULL)
-                                            @php
-                                                $gender = ($clientDetail['personalDetails'][0]->gender != NULL) ? decrypt($clientDetail['personalDetails'][0]->gender) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Gender</div>
-                                            <div class="text-gray-600">{{ ($gender!= NULL) ? $gender : '' }}</div>
-                                        @endif
-                                        @if($clientDetail['personalDetails'][0]->marital_status != NULL)
-                                            @php
-                                                $maritlStatus = ($clientDetail['personalDetails'][0]->marital_status != NULL) ? decrypt($clientDetail['personalDetails'][0]->marital_status) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Marital Status</div>
-                                            <div class="text-gray-600">{{ ($maritlStatus!= NULL) ? $maritlStatus : '' }}</div>
-                                        @endif
-                                        @if($clientDetail['personalDetails'][0]->address != NULL || $clientDetail['personalDetails'][0]->city != NULL || $clientDetail['personalDetails'][0]->province != NULL || $clientDetail['personalDetails'][0]->postal_code != NULL)
-                                            @php
-                                                $address = ($clientDetail['personalDetails'][0]->address != NULL) ? decrypt($clientDetail['personalDetails'][0]->address) : NULL;
-                                                $city = ($clientDetail['personalDetails'][0]->city != NULL) ? decrypt($clientDetail['personalDetails'][0]->city) : NULL;
-                                                $province = ($clientDetail['personalDetails'][0]->province != NULL) ? decrypt($clientDetail['personalDetails'][0]->province) : NULL;
-                                                $postalCode = ($clientDetail['personalDetails'][0]->postal_code != NULL) ? decrypt($clientDetail['personalDetails'][0]->postal_code) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Address</div>
-                                            <div class="text-gray-600">{{ ($address != NULL) ? $address : '' }}<br />{{ ($city != NULL) ? $city : '' }}<br />{{ ($province != NULL) ? $province : '' }}<br />{{ ($postalCode != NULL) ? $postalCode : '' }}</div>
-                                        @endif
-                                        @if($clientDetail['personalDetails'][0]->dob != NULL)
-                                            @php
-                                                $dob = ($clientDetail['personalDetails'][0]->dob != NULL) ? decrypt($clientDetail['personalDetails'][0]->dob) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Date of Birth</div>
-                                            <div class="text-gray-600">{{ ($dob!= NULL) ? $dob : '' }}</div>
-                                        @endif
-                                        @if($clientDetail['personalDetails'][0]->retired != NULL)
-                                            @php
-                                                $retired = ($clientDetail['personalDetails'][0]->retired != NULL) ? decrypt($clientDetail['personalDetails'][0]->retired) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Retired</div>
-                                            <div class="text-gray-600">{{ ($retired!= NULL) ? $retired : '' }}</div>
-                                        @endif
-                                        @if($clientDetail['personalDetails'][0]->joint_plan != NULL)
-                                            @php
-                                                $joint_plan = ($clientDetail['personalDetails'][0]->joint_plan != NULL) ? decrypt($clientDetail['personalDetails'][0]->joint_plan) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Joint Plan</div>
-                                            <div class="text-gray-600">{{ ($joint_plan!= NULL) ? $joint_plan : '' }}</div>
-                                        @endif
-                                        @if($clientDetail['personalDetails'][0]->child_tot != NULL)
-                                            @php
-                                                $child_tot = ($clientDetail['personalDetails'][0]->child_tot != NULL) ? decrypt($clientDetail['personalDetails'][0]->child_tot) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Joint Plan</div>
-                                            <div class="text-gray-600">{{ ($child_tot!= NULL) ? $child_tot : '' }}</div>
-                                        @endif
-                                    </div>
-                                    @if(isset($clientDetail['personalDetails'][1]))
-                                        <div class="separator separator-dashed my-6"></div>
-                                        <div class="m-0">
-                                            <h5 class="fw-bold m-0 text-primary">Spouse / Partner Details</h5>
-                                            <div class="separator separator-solid border-success my-6"></div>
-                                            @php
-                                                $firstName = ($clientDetail['personalDetails'][1]->first_name != NULL) ? decrypt($clientDetail['personalDetails'][1]->first_name) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">First Name</div>
-                                            <div class="text-gray-600">{{ $firstName }}</div>
-                                            @php
-                                                $lastName = ($clientDetail['personalDetails'][1]->last_name != NULL) ? decrypt($clientDetail['personalDetails'][1]->last_name) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Last Name</div>
-                                            <div class="text-gray-600">{{ $lastName }}</div>
-                                            @php
-                                                $dob = ($clientDetail['personalDetails'][1]->dob != NULL) ? decrypt($clientDetail['personalDetails'][1]->dob) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Date of birth</div>
-                                            <div class="text-gray-600">{{ $dob }}</div>
-                                            @php
-                                                $gender = ($clientDetail['personalDetails'][1]->gender != NULL) ? decrypt($clientDetail['personalDetails'][1]->gender) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Gender</div>
-                                            <div class="text-gray-600">{{ $gender }}</div>
-                                            @php
-                                                $retired = ($clientDetail['personalDetails'][1]->retired != NULL) ? decrypt($clientDetail['personalDetails'][1]->retired) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Retired</div>
-                                            <div class="text-gray-600">{{ $retired }}</div>
-                                            @php
-                                                $maritalStatus = ($clientDetail['personalDetails'][1]->marital_status != NULL) ? decrypt($clientDetail['personalDetails'][1]->marital_status) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Marital Status</div>
-                                            <div class="text-gray-600">{{ $maritalStatus }}</div>
-                                            @php
-                                                $phone = ($clientDetail['personalDetails'][1]->phone != NULL) ? decrypt($clientDetail['personalDetails'][1]->phone) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Phone</div>
-                                            <div class="text-gray-600">{{ $phone }}</div>
-                                            @php
-                                                $email = ($clientDetail['personalDetails'][1]->email != NULL) ? decrypt($clientDetail['personalDetails'][1]->email) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Email</div>
-                                            <div class="text-gray-600">{{ $email }}</div>
-                                            @php
-                                                $address = ($clientDetail['personalDetails'][1]->address != NULL) ? decrypt($clientDetail['personalDetails'][1]->address) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Address</div>
-                                            <div class="text-gray-600">{{ $address }}</div>
-                                        </div>
-                                    @endif
-                                    @if($clientDetail['advisor'] != NULL)
-                                    <div class="separator separator-dashed my-6"></div>
-                                    <div class="m-0">
-                                        <h5 class="fw-bold m-0 text-primary">Advisor Details</h5>
-                                        <div class="separator separator-solid border-success my-6"></div>
-                                        @if($clientDetail['advisor'] != NULL && $clientDetail['advisor']->first_name != NULL)
-                                        <div class="fw-bold mt-5">First Name</div>
-                                        <div class="text-gray-600">
-                                            <div class="text-gray-600">{{ decrypt($clientDetail['advisor']->first_name) }}</div>
-                                        </div>
-                                        @endif
-                                        @if($clientDetail['advisor'] != NULL && $clientDetail['advisor']->last_name != NULL)
-                                        <div class="fw-bold mt-5">Last Name</div>
-                                        <div class="text-gray-600">
-                                            <div class="text-gray-600">{{ decrypt($clientDetail['advisor']->last_name) }}</div>
-                                        </div>
-                                        @endif
-                                        @if($clientDetail['advisor'] != NULL && $clientDetail['advisor']->email != NULL)
-                                        <div class="fw-bold mt-5">Email Id</div>
-                                        <div class="text-gray-600">
-                                            <a href="mailto:{{ decrypt($clientDetail['advisor']->email) }}" class="text-gray-600 text-hover-primary">{{ decrypt($clientDetail['advisor']->email) }}</a>
-                                        </div>
-                                        @endif
-                                        @if($clientDetail['advisor'] != NULL && $clientDetail['advisor']->phone != NULL)
-                                        @php
-                                            $phone = ($clientDetail['advisor']->phone != NULL) ? decrypt($clientDetail['advisor']->phone) : NULL;
-                                        @endphp
-                                        <div class="fw-bold mt-5">Mobile No</div>
-                                        <div class="text-gray-600">
-                                            <a href="tel:{{ $phone }}" class="text-gray-600 text-hover-primary">{{ $phone }}</a>
-                                        </div>
-                                        @endif
-                                        @if($clientDetail['advisor'] != NULL && $clientDetail['advisor']->gender != NULL)
-                                            @php
-                                                $gender = ($clientDetail['advisor']->gender != NULL) ? decrypt($clientDetail['advisor']->gender) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Gender</div>
-                                            <div class="text-gray-600">{{ ($gender!= NULL) ? $gender : '' }}</div>
-                                        @endif
-                                        @if($clientDetail['advisor'] != NULL && $clientDetail['advisor']->dob != NULL)
-                                            @php
-                                                $dob = ($clientDetail['advisor']->dob != NULL) ? decrypt($clientDetail['advisor']->dob) : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Date of Birth</div>
-                                            <div class="text-gray-600">{{ ($dob!= NULL) ? $dob : '' }}</div>
-                                        @endif
-                                        @if($clientDetail['advisor'] != NULL && $clientDetail['advisor']->dob != NULL)
-                                            @php
-                                                $dob = ($clientDetail['advisor']->dob != NULL) ? decrypt($clientDetail['advisor']->dob) : NULL;
-                                                $age = ($dob != NULL) ? Carbon\Carbon::parse($dob)->diff(\Carbon\Carbon::now())->format('%y Years Old') : NULL;
-                                            @endphp
-                                            <div class="fw-bold mt-5">Date of Birth</div>
-                                            <div class="text-gray-600">{{ $age }}</div>
-                                        @endif
-                                    </div>
-                                    @endif
-                                </div>
-                                <div class="tab-pane fade " id="kt_list_widget_10_tab_2">
-                                    <div class="d-flex justify-content-between align-items-center mb-5">
-                                        <h5 class="fw-bold m-0 text-primary">Event Details</h5>
-                                        <button type="button" class="btn btn-sm btn-flex btn-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_event">
-                                            <span class="svg-icon svg-icon-3">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor" />
-                                                    <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor" />
-                                                    <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor" />
-                                                </svg>
-                                            </span>
-                                            Add event
-                                        </button>
-                                    </div>
-                                    <div class="separator separator-solid border-success my-6"></div>
-                                    <div id="kt_table_clients_events">
-                                        @foreach($wealthEvents as $wealthEvent)
-                                            <div class="m-0">
-                                                @if($wealthEvent->eventName != null)
-                                                    <div class="d-flex flex-stack mb-5">
-                                                        <div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
-                                                            <div class="me-5">
-                                                                <h4 class="fw-bold m-0 mb-2 text-primary">{{ $wealthEvent->eventName }}</h4>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <div class="text-gray-600">CAD ${{ $wealthEvent->event_budget }}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>                                                
-                                                @endif
-                                                @if($wealthEvent->event_start_year != null && $wealthEvent->event_end_year)
-                                                    <div class="d-flex flex-stack">
-                                                        <div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
-                                                            <div class="me-5">
-                                                                <div class="text-gray-800 fw-bold fs-6">Start Year to End Year</div>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <div class="text-gray-600">{{ $wealthEvent->event_start_year }} - {{ $wealthEvent->event_end_year }}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                                @if($wealthEvent->interest != null)
-                                                    <div class="d-flex flex-stack">
-                                                        <div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
-                                                            <div class="me-5">
-                                                                <div class="text-gray-800 fw-bold fs-6">Interest</div>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <div class="text-gray-600">{{ $wealthEvent->interest }}%</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                                @if($wealthEvent->rate_return != null)
-                                                    <div class="d-flex flex-stack">
-                                                        <div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
-                                                            <div class="me-5">
-                                                                <div class="text-gray-800 fw-bold fs-6">Return Rate</div>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <div class="text-gray-600">{{ $wealthEvent->rate_return }}%</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                                @if($wealthEvent->down_payment != null)
-                                                    <div class="d-flex flex-stack">
-                                                        <div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
-                                                            <div class="me-5">
-                                                                <div class="text-gray-800 fw-bold fs-6">Down Payment</div>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <div class="text-gray-600">{{ $wealthEvent->down_payment }}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                            <div class="separator separator-dashed my-6"></div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade " id="kt_list_widget_10_tab_3">
-                                    <div class="d-flex justify-content-between align-items-center mb-5">
-                                        <h5 class="fw-bold m-0 text-primary">Income Details</h5>
-                                        <button type="button" class="btn btn-sm btn-flex btn-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_income">
-                                            <span class="svg-icon svg-icon-3">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor" />
-                                                    <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor" />
-                                                    <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor" />
-                                                </svg>
-                                            </span>
-                                            Add income
-                                        </button>
-                                    </div>
-                                    <div class="separator separator-solid border-success my-6"></div>
-                                    <div id="kt_table_clients_incomes">
-                                        @foreach($wealthIncomes as $wealthIncome)
-                                            <div class="m-0">
-                                                @if($wealthIncome->name != null)
-                                                    <div class="d-flex flex-stack mb-5">
-                                                        <div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
-                                                            <div class="me-5">
-                                                                <h4 class="fw-bold m-0 mb-2 text-primary">{{ $wealthIncome->name }}</h4>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <div class="text-gray-600">CAD ${{ $wealthIncome->income_budget }}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>                                                
-                                                @endif
-                                                @if($wealthIncome->income_year != null)
-                                                    <div class="d-flex flex-stack">
-                                                        <div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
-                                                            <div class="me-5">
-                                                                <div class="text-gray-800 fw-bold fs-6">Year</div>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <div class="text-gray-600">{{ $wealthIncome->income_year }}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                                @if($wealthIncome->interest != null)
-                                                    <div class="d-flex flex-stack">
-                                                        <div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
-                                                            <div class="me-5">
-                                                                <div class="text-gray-800 fw-bold fs-6">Interest</div>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <div class="text-gray-600">{{ $wealthIncome->interest }}%</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                                @if($wealthIncome->rate_return != null)
-                                                    <div class="d-flex flex-stack">
-                                                        <div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
-                                                            <div class="me-5">
-                                                                <div class="text-gray-800 fw-bold fs-6">Return Rate</div>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <div class="text-gray-600">{{ $wealthIncome->rate_return }}%</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            </div>                                        
-                                            <div class="separator separator-dashed my-6"></div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card mb-5 mb-xl-8 d-none">
-                        <div class="card-body d-flex flex-column flex-center">
-                            <div class="mb-2">
-                                <h1 class="fw-semibold text-gray-800 text-center lh-lg">
-                                    What's your <span class="fw-bolder"> Net Worth ?</span>
-                                </h1>
-                                <p class="text-center">Link your account to find out. Track it here to help it grow.</p>
-                                <div class="py-10 text-center">
-                                    <img src="{{ asset('assets/media/svg/illustrations/easy/1.svg') }}" class="theme-light-show w-200px" alt="" />
-                                    <img src="{{ asset('assets/media/svg/illustrations/easy/1-dark.svg') }}" class="theme-dark-show w-200px" alt="" />
-                                </div>
-                            </div>
-                            <div class="text-center mb-1">
-                                <a class="btn btn-sm btn-primary me-2" data-bs-target="#kt_modal_new_card" data-bs-toggle="modal"> Show Me </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Sidebar -->
+                @include('user.sidebar')
                 <div class="flex-lg-row-fluid ms-lg-15">
                     <ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-semibold mb-8">
                         <li class="nav-item">
@@ -480,6 +45,12 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-active-primary pb-4" data-kt-countup-tabs="true" data-bs-toggle="tab" href="#kt_user_view_overview_security">Goal Planner</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-active-primary pb-4" data-kt-countup-tabs="true" data-bs-toggle="tab" href="#kt_user_view_personal_details">My Details</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-active-primary pb-4" data-kt-countup-tabs="true" data-bs-toggle="tab" href="#kt_user_view_incomes">Incomes</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
@@ -512,7 +83,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>
                             <div class="card pt-4 mb-6 mb-xl-9">
                                 <div class="card-header">
                                     <h3 class="card-title align-items-start flex-column">
@@ -589,7 +160,7 @@
                                         <h4 class="text-gray-900 fw-bold"> {!! $statement !!} </h4>
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>
                             <div class="card pt-4 mb-6 mb-xl-9">
                                 <div class="card-header">
                                     <h3 class="card-title align-items-start flex-column">
@@ -723,6 +294,370 @@
                                     </table>
                                 </div>
                             </div>                            
+                        </div>
+                        <div class="tab-pane fade" id="kt_user_view_personal_details" role="tabpanel">
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <div class="card-header cursor-pointer">
+                                    <div class="card-title m-0">
+                                        <h3 class="fw-bold m-0">Personal Details</h3>
+                                    </div>
+                                    <a class="btn btn-sm btn-primary align-self-center" href="{{ route('personalDetails', $user->id) }}">                                        
+                                        Edit Details
+                                    </a>
+                                </div>
+                                <div class="card-body p-9">
+                                    <div class="row mb-7">
+                                        <label class="col-lg-4 fw-semibold text-muted">Full Name</label>
+                                        <div class="col-lg-8">
+                                            <span class="fw-bold fs-6 text-gray-800">{{ $clientDetail['user']->name }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-7">
+                                        <label class="col-lg-4 fw-semibold text-muted">Email Id</label>
+                                        <div class="col-lg-8 fv-row">                                            
+                                            <a href="mailto:{{ $clientDetail['user']->email }}" class="fw-semibold fs-6 text-gray-800 text-hover-primary">{{ $clientDetail['user']->email }}</a>
+                                        </div>
+                                    </div>
+                                    @php
+                                        $phone = ($clientDetail['personalDetails'][0]->phone != NULL) ? decrypt($clientDetail['personalDetails'][0]->phone) : 'N/A';
+                                    @endphp
+                                    <div class="row mb-7">
+                                        <label class="col-lg-4 fw-semibold text-muted"> Mobile No. </label>
+                                        <div class="col-lg-8 d-flex align-items-center">
+                                            <a href="tel:{{ $phone }}" class="fw-semibold fs-6 text-gray-800 text-hover-primary">{{ $phone }}</a>
+                                        </div>
+                                    </div>
+                                    @php
+                                        $gender = ($clientDetail['personalDetails'][0]->gender != NULL) ? decrypt($clientDetail['personalDetails'][0]->gender) : 'N/A';
+                                    @endphp
+                                    <div class="row mb-7">
+                                        <label class="col-lg-4 fw-semibold text-muted">Gender</label>
+                                        <div class="col-lg-8">
+                                            <span class="fw-bold fs-6 text-gray-800">{{ $gender }}</span>
+                                        </div>
+                                    </div>
+                                    @php
+                                        $dob = ($clientDetail['personalDetails'][0]->dob != NULL) ? decrypt($clientDetail['personalDetails'][0]->dob) : 'N/A';
+                                    @endphp
+                                    <div class="row mb-7">
+                                        <label class="col-lg-4 fw-semibold text-muted"> Date of Birth </label>
+                                        <div class="col-lg-8">
+                                            <span class="fw-bold fs-6 text-gray-800">{{ $dob }}</span>
+                                        </div>
+                                    </div>
+                                    @php
+                                        $maritalStatus = ($clientDetail['personalDetails'][0]->marital_status != NULL) ? decrypt($clientDetail['personalDetails'][0]->marital_status) : 'N/A';
+                                    @endphp
+                                    <div class="row mb-7">
+                                        <label class="col-lg-4 fw-semibold text-muted">Marital Status</label>
+                                        <div class="col-lg-8">
+                                            <span class="fw-bold fs-6 text-gray-800">{{ $maritalStatus }}</span>
+                                        </div>
+                                    </div>
+                                    @php
+                                        $address = ($clientDetail['personalDetails'][0]->address != NULL) ? decrypt($clientDetail['personalDetails'][0]->address) : NULL;
+                                        $city = ($clientDetail['personalDetails'][0]->city != NULL) ? decrypt($clientDetail['personalDetails'][0]->city) : NULL;
+                                        $province = ($clientDetail['personalDetails'][0]->province != NULL) ? decrypt($clientDetail['personalDetails'][0]->province) : NULL;
+                                        $postalCode = ($clientDetail['personalDetails'][0]->postal_code != NULL) ? decrypt($clientDetail['personalDetails'][0]->postal_code) : NULL;
+                                        $add = ($address == NULL && $city == NULL && $province == NULL && $postalCode == NULL) ? 'N/A' : $address . '<br />' . $city . '<br />' . $province . '<br />' . $postalCode;
+                                    @endphp
+                                    <div class="row mb-10">
+                                        <label class="col-lg-4 fw-semibold text-muted">Address</label>
+                                        <div class="col-lg-8">
+                                            <span class="fw-semibold fs-6 text-gray-800">{{ $add }}</span>
+                                        </div>
+                                    </div>
+                                    @php
+                                        $retired = ($clientDetail['personalDetails'][0]->retired != NULL) ? decrypt($clientDetail['personalDetails'][0]->retired) : 'N/A';
+                                    @endphp
+                                    <div class="row mb-7">
+                                        <label class="col-lg-4 fw-semibold text-muted">Retired</label>
+                                        <div class="col-lg-8">
+                                            <span class="fw-bold fs-6 text-gray-800">{{ $retired }}</span>
+                                        </div>
+                                    </div>
+                                    @php
+                                        $joint_plan = ($clientDetail['personalDetails'][0]->joint_plan != NULL) ? decrypt($clientDetail['personalDetails'][0]->joint_plan) : 'N/A';
+                                    @endphp
+                                    <div class="row mb-7">
+                                        <label class="col-lg-4 fw-semibold text-muted">Joint Plan</label>
+                                        <div class="col-lg-8">
+                                            <span class="fw-bold fs-6 text-gray-800">{{ $joint_plan }}</span>
+                                        </div>
+                                    </div>
+                                    @php
+                                        $child_tot = ($clientDetail['personalDetails'][0]->child_tot != NULL) ? decrypt($clientDetail['personalDetails'][0]->child_tot) : 'N/A';
+                                    @endphp
+                                    <div class="row mb-7">
+                                        <label class="col-lg-4 fw-semibold text-muted">No. of Child</label>
+                                        <div class="col-lg-8">
+                                            <span class="fw-bold fs-6 text-gray-800">{{ $child_tot }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <div class="card-header cursor-pointer">
+                                    <div class="card-title m-0">
+                                        <h3 class="fw-bold m-0">Spouse / Partner Details</h3>
+                                    </div>
+                                    <a class="btn btn-sm btn-primary align-self-center" href="{{ route('personalDetails', $user->id) }}">                                        
+                                        Edit Details
+                                    </a>
+                                </div>
+                                <div class="card-body p-9">                                    
+                                    @if(isset($clientDetail['personalDetails'][1]))
+                                        @php
+                                            $firstName = ($clientDetail['personalDetails'][1]->first_name != NULL) ? decrypt($clientDetail['personalDetails'][1]->first_name) : 'N/A';
+                                            $lastName = ($clientDetail['personalDetails'][1]->last_name != NULL) ? decrypt($clientDetail['personalDetails'][1]->last_name) : 'N/A';
+                                        @endphp
+                                        <div class="row mb-7">
+                                            <label class="col-lg-4 fw-semibold text-muted">Full Name</label>
+                                            <div class="col-lg-8">
+                                                <span class="fw-bold fs-6 text-gray-800">{{ $firstName }} {{ $lastName }}</span>
+                                            </div>
+                                        </div>
+                                        @php
+                                            $phone = ($clientDetail['personalDetails'][1]->phone != NULL) ? decrypt($clientDetail['personalDetails'][1]->phone) : 'N/A';
+                                        @endphp
+                                        <div class="row mb-7">
+                                            <label class="col-lg-4 fw-semibold text-muted">Mobile No</label>
+                                            <div class="col-lg-8">
+                                                <a href="tel:{{ $phone }}" class="fw-semibold fs-6 text-gray-800 text-hover-primary">{{ $phone }}</a>
+                                            </div>
+                                        </div>
+                                        @php
+                                            $email = ($clientDetail['personalDetails'][1]->email != NULL) ? decrypt($clientDetail['personalDetails'][1]->email) : 'N/A';
+                                        @endphp
+                                        <div class="row mb-7">
+                                            <label class="col-lg-4 fw-semibold text-muted">Email Id</label>
+                                            <div class="col-lg-8">
+                                                <a href="mailto:{{ $email }}" class="fw-semibold fs-6 text-gray-800 text-hover-primary">{{ $email }}</a>
+                                            </div>
+                                        </div>
+                                        @php
+                                            $dob = ($clientDetail['personalDetails'][1]->dob != NULL) ? decrypt($clientDetail['personalDetails'][1]->dob) : 'N/A';
+                                        @endphp
+                                        <div class="row mb-7">
+                                            <label class="col-lg-4 fw-semibold text-muted">Date of Birth</label>
+                                            <div class="col-lg-8 fv-row">
+                                                <span class="fw-semibold text-gray-800 fs-6">{{ $dob }}</span>
+                                            </div>
+                                        </div>
+                                        @php
+                                            $gender = ($clientDetail['personalDetails'][1]->gender != NULL) ? decrypt($clientDetail['personalDetails'][1]->gender) : 'N/A';
+                                        @endphp
+                                        <div class="row mb-7">                                            
+                                            <label class="col-lg-4 fw-semibold text-muted"> Gender </label>
+                                            <div class="col-lg-8 d-flex align-items-center">
+                                                <span class="fw-bold fs-6 text-gray-800 me-2">{{ $gender }}</span>
+                                            </div>
+                                        </div>
+                                        @php
+                                            $retired = ($clientDetail['personalDetails'][1]->retired != NULL) ? decrypt($clientDetail['personalDetails'][1]->retired) : 'N/A';
+                                        @endphp
+                                        <div class="row mb-7">
+                                            <label class="col-lg-4 fw-semibold text-muted">Retired</label>
+                                            <div class="col-lg-8">
+                                                <span class="fw-bold fs-6 text-gray-800 me-2">{{ $retired }}</span>
+                                            </div>
+                                        </div>
+                                        @php
+                                            $maritalStatus = ($clientDetail['personalDetails'][1]->marital_status != NULL) ? decrypt($clientDetail['personalDetails'][1]->marital_status) : 'N/A';
+                                        @endphp
+                                        <div class="row mb-7">
+                                            <label class="col-lg-4 fw-semibold text-muted"> Marital Status </label>
+                                            <div class="col-lg-8">
+                                                <span class="fw-bold fs-6 text-gray-800"> {{ $maritalStatus }} </span>
+                                            </div>
+                                        </div>
+                                        @php
+                                            $address = ($clientDetail['personalDetails'][1]->address != NULL) ? decrypt($clientDetail['personalDetails'][1]->address) : 'N/A';
+                                        @endphp
+                                        <div class="row mb-7">
+                                            <label class="col-lg-4 fw-semibold text-muted">Address</label>
+                                            <div class="col-lg-8">
+                                                <span class="fw-bold fs-6 text-gray-800">{{ $address }}</span>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="notice d-flex bg-light-warning rounded border-warning border border-dashed  p-6">
+                                            <span class="svg-icon svg-icon-2tx svg-icon-warning me-4">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="currentColor" />
+                                                    <rect x="11" y="14" width="7" height="2" rx="1" transform="rotate(-90 11 14)" fill="currentColor" />
+                                                    <rect x="11" y="17" width="2" height="2" rx="1" transform="rotate(-90 11 17)" fill="currentColor" />
+                                                </svg>
+                                            </span>
+                                            <div class="d-flex flex-stack flex-grow-1 ">
+                                                <div class=" fw-semibold">
+                                                    <h4 class="text-gray-900 fw-bold">No data available!</h4>
+                                                    <div class="fs-6 text-gray-700 ">Spouse / Partner details are not available, please <a class="fw-bold" href="billing.html">Add Spouse / Partner</a>.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <div class="card-header cursor-pointer">
+                                    <div class="card-title m-0">
+                                        <h3 class="fw-bold m-0">Advisor Details</h3>
+                                    </div>
+                                </div>
+                                <div class="card-body p-9">
+                                    @if($clientDetail['advisor'] != NULL)
+                                        @php
+                                            $firstName = ($clientDetail['advisor'] != NULL && $clientDetail['advisor']->first_name != NULL) ? $clientDetail['advisor']->first_name : 'N/A';
+                                            $lastName = ($clientDetail['advisor'] != NULL && $clientDetail['advisor']->last_name != NULL) ? $clientDetail['advisor']->last_name : 'N/A';
+                                        @endphp
+                                        <div class="row mb-7">
+                                            <label class="col-lg-4 fw-semibold text-muted">Full Name</label>
+                                            <div class="col-lg-8">
+                                                <span class="fw-bold fs-6 text-gray-800">{{ $firstName . ' ' . $lastName }}</span>
+                                            </div>
+                                        </div>
+                                        @php
+                                            $email = ($clientDetail['advisor'] != NULL && $clientDetail['advisor']->email != NULL) ? $clientDetail['advisor']->email : 'N/A';
+                                        @endphp
+                                        <div class="row mb-7">
+                                            <label class="col-lg-4 fw-semibold text-muted">Email Id</label>
+                                            <div class="col-lg-8 fv-row">
+                                                <a href="mailto:{{ $email }}"><span class="fw-semibold text-gray-800 fs-6">{{ $email }}</span></a>
+                                            </div>
+                                        </div>
+                                        @php
+                                            $phone = ($clientDetail['advisor']->phone != NULL) ? decrypt($clientDetail['advisor']->phone) : 'N/A';
+                                        @endphp
+                                        <div class="row mb-7">
+                                            <label class="col-lg-4 fw-semibold text-muted"> Mobile No. </label>
+                                            <div class="col-lg-8 d-flex align-items-center">
+                                                <a href="tel:{{ $phone }}"><span class="fw-semibold text-gray-800 fs-6">{{ $phone }}</span></a>
+                                            </div>
+                                        </div>
+                                        @php
+                                            $gender = ($clientDetail['advisor']->gender != NULL) ? decrypt($clientDetail['advisor']->gender) : 'N/A';
+                                        @endphp
+                                        <div class="row mb-7">
+                                            <label class="col-lg-4 fw-semibold text-muted">Gender</label>
+                                            <div class="col-lg-8">
+                                                <span class="fw-bold fs-6 text-gray-800">{{ $gender }}</span>
+                                            </div>
+                                        </div>
+                                        @php
+                                            $dob = ($clientDetail['advisor']->dob != NULL) ? decrypt($clientDetail['advisor']->dob) : 'N/A';
+                                        @endphp
+                                        <div class="row mb-7">
+                                            <label class="col-lg-4 fw-semibold text-muted"> Date of Birth </label>
+                                            <div class="col-lg-8">
+                                                <span class="fw-bold fs-6 text-gray-800">{{ $dob }}</span>
+                                            </div>
+                                        </div>
+                                        @php
+                                            $dob = ($clientDetail['advisor']->dob != NULL) ? decrypt($clientDetail['advisor']->dob) : 'N/A';
+                                            $age = ($dob != NULL) ? Carbon\Carbon::parse($dob)->diff(\Carbon\Carbon::now())->format('%y Years Old') : 'N/A';
+                                        @endphp
+                                        <div class="row mb-7">
+                                            <label class="col-lg-4 fw-semibold text-muted"> Age </label>
+                                            <div class="col-lg-8">
+                                                <span class="fw-bold fs-6 text-gray-800">{{ $age }}</span>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="notice d-flex bg-light-warning rounded border-warning border border-dashed  p-6">
+                                            <span class="svg-icon svg-icon-2tx svg-icon-warning me-4">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="currentColor" />
+                                                    <rect x="11" y="14" width="7" height="2" rx="1" transform="rotate(-90 11 14)" fill="currentColor" />
+                                                    <rect x="11" y="17" width="2" height="2" rx="1" transform="rotate(-90 11 17)" fill="currentColor" />
+                                                </svg>
+                                            </span>
+                                            <div class="d-flex flex-stack flex-grow-1">
+                                                <div class=" fw-semibold">
+                                                    <h4 class="text-gray-900 fw-bold">No data available!</h4>
+                                                    <div class="fs-6 text-gray-700 ">Advisor details are not available.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="kt_user_view_incomes" role="tabpanel">
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <div class="card-header cursor-pointer">
+                                    <div class="card-title m-0">
+                                        <h3 class="fw-bold m-0">Income Details</h3>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-primary align-self-center" data-bs-toggle="modal" data-bs-target="#kt_modal_add_income">
+                                        <span class="svg-icon svg-icon-3">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor" />
+                                                <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor" />
+                                                <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                        Add income
+                                    </button>
+                                </div>
+                                <div class="card-body p-9">
+                                    <div id="kt_table_clients_incomes">
+                                        @foreach($wealthIncomes as $wealthIncome)
+                                            <div class="m-0">
+                                                @if($wealthIncome->name != null)
+                                                    <div class="d-flex flex-stack mb-5">
+                                                        <div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
+                                                            <div class="me-5">
+                                                                <h4 class="fw-bold m-0 mb-2 text-primary">{{ $wealthIncome->name }}</h4>
+                                                            </div>
+                                                            <div class="d-flex">
+                                                                <div class="text-gray-600">CAD ${{ $wealthIncome->income_budget }}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>                                                
+                                                @endif
+                                                @if($wealthIncome->income_year != null)
+                                                    <div class="d-flex flex-stack">
+                                                        <div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
+                                                            <div class="me-5">
+                                                                <div class="text-gray-800 fw-bold fs-6">Year</div>
+                                                            </div>
+                                                            <div class="d-flex">
+                                                                <div class="text-gray-600">{{ $wealthIncome->income_year }}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                @if($wealthIncome->interest != null)
+                                                    <div class="d-flex flex-stack">
+                                                        <div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
+                                                            <div class="me-5">
+                                                                <div class="text-gray-800 fw-bold fs-6">Interest</div>
+                                                            </div>
+                                                            <div class="d-flex">
+                                                                <div class="text-gray-600">{{ $wealthIncome->interest }}%</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                @if($wealthIncome->rate_return != null)
+                                                    <div class="d-flex flex-stack">
+                                                        <div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
+                                                            <div class="me-5">
+                                                                <div class="text-gray-800 fw-bold fs-6">Return Rate</div>
+                                                            </div>
+                                                            <div class="d-flex">
+                                                                <div class="text-gray-600">{{ $wealthIncome->rate_return }}%</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>                                        
+                                            <div class="separator separator-dashed my-6"></div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

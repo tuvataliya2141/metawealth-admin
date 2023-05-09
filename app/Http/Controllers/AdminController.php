@@ -1164,8 +1164,10 @@ class AdminController extends Controller
 
     public function updateSubAdmin($id) {
         $subAdmin = PersonalDetails::where('user_id', $id)->first();
-        $user = User::where('id', $id)->first();
-        $subAdmin->user_status = $user->status;
+        if($subAdmin) {
+            $user = User::where('id', $id)->first();
+            $subAdmin->user_status = $user->status;
+        }
         return view('admin.subAdmin.updatesubAdmin', compact(['subAdmin']));
     }
 
