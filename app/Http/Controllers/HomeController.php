@@ -280,15 +280,11 @@ class HomeController extends Controller
         $clientDetail['personalDetails'] = $personalDetails;
         $clientDetail['advisor'] = $advisor;
 
-<<<<<<< HEAD
-        $birthday = isset($personalDetails[0]->dob) ? Carbon::createFromFormat('Y-m-d', decrypt($personalDetails[0]->dob)) : NULL;
-=======
         if (isset($personalDetails[0]->dob)) {
             $birthday = Carbon::createFromFormat('Y-m-d', decrypt($personalDetails[0]->dob));
         } else {
             $birthday = null;
         }
->>>>>>> 42779b4fbf6daf6510f81254501b8a63d5a07da2
         $incomes = Incomes::all();
         $events = Events::all();
 
