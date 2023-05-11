@@ -280,7 +280,11 @@ class HomeController extends Controller
         $clientDetail['personalDetails'] = $personalDetails;
         $clientDetail['advisor'] = $advisor;
 
-        $birthday = Carbon::createFromFormat('Y-m-d', decrypt($personalDetails[0]->dob));
+        if (isset($personalDetails[0]->dob)) {
+            $birthday = Carbon::createFromFormat('Y-m-d', decrypt($personalDetails[0]->dob));
+        } else {
+            $birthday = null;
+        }
         $incomes = Incomes::all();
         $events = Events::all();
 
@@ -294,7 +298,7 @@ class HomeController extends Controller
             if (isset($WealthManagementData->age) && ($WealthManagementData->age != null || $WealthManagementData->age != '')) {
                 $userAge = $WealthManagementData->age;
             } else {                
-                $userAge = $birthday->diffInYears(Carbon::now());
+                $userAge = ($birthday != NULL) ? $birthday->diffInYears(Carbon::now()) : 0;
             }
             if (isset($WealthManagementData->rate_return) && ($WealthManagementData->rate_return != null || $WealthManagementData->rate_return != '')) {
                 $rateReturn = $WealthManagementData->rate_return;
@@ -304,7 +308,7 @@ class HomeController extends Controller
         } else {
             $totalWealth = 0;
             $rateReturn = 0;
-            $userAge = $birthday->diffInYears(Carbon::now());
+            $userAge = ($birthday != NULL) ? $birthday->diffInYears(Carbon::now()) : 0;
         }
 
         $wealthIncomes = WealthManagement::select('wealth_management.*', 'incomes.name')->
