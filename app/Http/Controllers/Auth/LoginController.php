@@ -50,7 +50,6 @@ class LoginController extends Controller
                 ],
                 'view' => 'mails.otpVerification'
             ];
-            // dd($details);
             $result = (new MailController)->send($details);
             if($result){
                 if($user) {
@@ -124,7 +123,6 @@ class LoginController extends Controller
     }
 
     public function otpCheck(Request $request) {
-        // dd($request->all());
         $user = User::find($request->id);
         if($user) {
             $role = $user->role;
