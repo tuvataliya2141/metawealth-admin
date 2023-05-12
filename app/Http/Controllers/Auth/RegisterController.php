@@ -76,6 +76,10 @@ class RegisterController extends Controller
     }
 
     public function registration(Request $request) {
+        $existingUser = User::where('email', $request->email)->first();
+        if($existingUser){
+            return redirect()->route('register')->with('error', 'User already exists.');
+        }
         $user = User::create([
             'name' => $request->first_name . ' ' . $request->last_name,
             'email' => $request->email,
