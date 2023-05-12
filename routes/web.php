@@ -234,6 +234,7 @@ Route::middleware(['auth', 'verifUser'])->group(function () {
         Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
         Route::get('/personalDetails/{id}', [App\Http\Controllers\HomeController::class, 'personalDetails'])->name('personalDetails');
         Route::post('/updatePersonalDetails', [App\Http\Controllers\HomeController::class, 'updatePersonalDetails'])->name('updatePersonalDetails');
+        Route::post('/updateAge', [App\Http\Controllers\HomeController::class, 'updateAge'])->name('updateAge');
     });
     
 });

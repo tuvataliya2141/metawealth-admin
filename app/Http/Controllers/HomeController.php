@@ -406,6 +406,18 @@ class HomeController extends Controller
 
         return $data;
     }
+
+    public function updateAge(Request $request) {
+        $WealthManagementData = WealthManagement::select('total_wealth', 'age', 'rate_return')->where('user_id', $request->user_id)->first();
+        if($WealthManagementData) {
+            $WealthManagementData->age = $request->age;
+            $WealthManagementData->update();
+        } else {
+            $this->addLivingExpenses($request->user_id, $request->age);
+        }
+
+        return true;
+    }
     
     public function getLatLng($address) {
         $httpClient = new CurlClient();
@@ -415,8 +427,44 @@ class HomeController extends Controller
             $lat = $results->first()->getCoordinates()->getLatitude();
             $lng = $results->first()->getCoordinates()->getLongitude();
             return [$lat, $lng];
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             return "null";
         }
     }
+    
+    public function addLivingExpenses($userId, $age) {
+
+        $livingExpenceData = WealthManagement::where('user_id', $userId)->where('event_name', 6)->first();
+
+        if(!$livingExpenceData) {
+            $years = [];
+            $year = date("Y");
+
+            for ($i = $age; $i <= 99; $i++) {
+                $years[$year] = 100000;
+                $year++;
+            }
+
+            $eYear = 99 - $age;
+            $endYear = date("Y") + $eYear;
+
+            $WealthManagement = new WealthManagement;
+            $WealthManagement->user_id = $userId;
+            $WealthManagement->event_name = 6;
+            $WealthManagement->event_budget = 100000;
+            $WealthManagement->event_year = date("Y");
+            $WealthManagement->event_start_year = date("Y");
+            $WealthManagement->event_end_year = $endYear;
+            $WealthManagement->total_wealth = 0;
+            $WealthManagement->age = $age;
+            $WealthManagement->devide_year = json_encode($years);
+
+            if($WealthManagement->save()) {
+                return true;
+            } else {
+                return false;
+            }
+        }                
+    }
+
 }
