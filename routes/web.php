@@ -27,11 +27,19 @@ Route::get('/login/google/callback', [App\Http\Controllers\Auth\LoginController:
 Route::get('/signup/google', [App\Http\Controllers\Auth\LoginController::class, 'redirectToGoogle'])->name('signupRedirectToGoogle');
 Route::get('/signup/google/callback', [App\Http\Controllers\Auth\LoginController::class, 'handleGoogleCallback']);
 
+Route::get('/verify-otp/{id}', [App\Http\Controllers\Auth\LoginController::class, 'verifyOtpByLogin'])->name('verifyOtpByLogin');
+Route::post('/otpCheck', [App\Http\Controllers\Auth\LoginController::class, 'otpCheck'])->name('otpCheck');
+Route::post('/otpResendEmail', [App\Http\Controllers\Auth\LoginController::class, 'otpResendEmail'])->name('otpResendEmail');
+Route::post('/password/reset/reset-password', [App\Http\Controllers\Auth\LoginController::class, 'resetPassword'])->name('resetPassword');
+Route::post('/password/reset/verify-otp', [App\Http\Controllers\Auth\LoginController::class, 'verifyOtp'])->name('verifyOtp');
+Route::post('/password/reset/create-new-password', [App\Http\Controllers\Auth\LoginController::class, 'createNewPassword'])->name('createNewPassword');
+
 
 Route::post('/registration', [App\Http\Controllers\Auth\RegisterController::class, 'registration'])->name('registration');
 Route::get('/verify-email', [App\Http\Controllers\Auth\RegisterController::class, 'verifyEmail'])->name('verifyEmail');
 Route::get('/verification/{email}', [App\Http\Controllers\Auth\RegisterController::class, 'verification'])->name('verification');
 Route::post('/resendEmail', [App\Http\Controllers\Auth\RegisterController::class, 'resendEmail'])->name('resendEmail');
+
 
 Route::middleware(['auth', 'verifUser'])->group(function () {
     // Routs for admin
