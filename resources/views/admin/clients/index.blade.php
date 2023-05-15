@@ -69,12 +69,12 @@
                                         </div>
                                     </td>
                                     <td class="text-end pe-0">
-                                        <span class="fw-bold">{{ decrypt($client->phone) }}</span>
+                                        <span class="fw-bold">{{ ($client->phone) ? decrypt($client->phone) : '-' }}</span>
                                     </td>
                                     <td class="text-end pe-0">
                                         <span class="fw-bold">{{ decrypt($client->email) }}</span>
                                     </td>
-                                    <td class="text-end pe-0"> {{ decrypt($client->address) }} </td>
+                                    <td class="text-end pe-0"> {{ ($client->address) ? decrypt($client->address) : '-' }} </td>
                                     <td class="text-end pe-0" data-order="Published">
                                         @if($client->user_status == 1)
                                         <div class="badge badge-light-success">Active</div>

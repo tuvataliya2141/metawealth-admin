@@ -66,8 +66,12 @@ Route::middleware(['auth', 'verifUser'])->group(function () {
             Route::post('/addClientsEvent', [App\Http\Controllers\AdminController::class, 'addClientsEvent'])->name('addClientsEvent');
             Route::get('/editClientsEvent/{id}', [App\Http\Controllers\AdminController::class, 'editClientsEvent'])->name('editClientsEvent');
             Route::get('/delete-clientsEvent/{id}', [App\Http\Controllers\AdminController::class, 'deleteClientsEvent'])->name('adminDeleteClientsEvent');
-            
+
+            Route::get('/adminSupport', [App\Http\Controllers\AdminController::class, 'allSupport'])->name('adminSupport');
+            Route::get('/viewSupport/{id}', [App\Http\Controllers\AdminController::class, 'viewSupport'])->name('adminViewSupport');
         });
+
+        
 
         // Advisors Route
         Route::prefix('advisors')->group(function () {
@@ -131,6 +135,9 @@ Route::middleware(['auth', 'verifUser'])->group(function () {
 
         // Map Route
         Route::get('/map', [App\Http\Controllers\AdminController::class, 'map'])->name('adminMap');
+
+        // Support Tickets Route
+        Route::post('/addReplySupportTickets', [App\Http\Controllers\AdminController::class, 'addReplySupportTickets'])->name('addReplySupportTickets');
         
         // Profile Route
         Route::prefix('profile')->group(function () {
@@ -239,9 +246,13 @@ Route::middleware(['auth', 'verifUser'])->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
         Route::post('/change-risk-rate', [App\Http\Controllers\HomeController::class, 'changeRiskRate'])->name('changeRiskRate');
         Route::get('/booking', [App\Http\Controllers\HomeController::class, 'booking'])->name('booking');
+        Route::get('/supportTickets', [App\Http\Controllers\HomeController::class, 'supportTickets'])->name('supportTickets');
         Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
         Route::get('/personalDetails/{id}', [App\Http\Controllers\HomeController::class, 'personalDetails'])->name('personalDetails');
         Route::post('/updatePersonalDetails', [App\Http\Controllers\HomeController::class, 'updatePersonalDetails'])->name('updatePersonalDetails');
+        Route::post('/user/addSupportTikets', [App\Http\Controllers\HomeController::class, 'addSupportTikets'])->name('addSupportTikets');
+        Route::get('/viewSupport/{id}', [App\Http\Controllers\HomeController::class, 'viewSupport'])->name('userViewSupport');
+        Route::post('/user/replySupportTickets', [App\Http\Controllers\HomeController::class, 'replySupportTickets'])->name('replySupportTickets');
     });
     
 });

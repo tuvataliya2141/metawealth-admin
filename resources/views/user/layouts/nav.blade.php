@@ -69,6 +69,14 @@
                             </a>
                         </span>
                     </div>
+                    <div class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2 {{ Request::url() == route('supportTickets') ? 'here show' : '' }}">
+                        <span class="menu-link">
+                            <a href="{{ route('supportTickets') }}">
+                                <span class="menu-title">Support Tickets</span>
+                                <span class="menu-arrow d-lg-none"></span>
+                            </a>
+                        </span>
+                    </div>
                 </div>
             </div>
             <div class="app-navbar flex-shrink-0">

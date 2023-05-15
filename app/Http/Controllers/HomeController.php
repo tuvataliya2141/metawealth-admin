@@ -11,6 +11,8 @@ use App\Models\Incomes;
 use App\Models\User;
 use App\Models\WealthManagement;
 use App\Models\NetWorthRankings;
+use App\Models\SupportTikets;
+use App\Models\SupportTiketsReplies;
 use Carbon\Carbon;
 use Geocoder\Query\GeocodeQuery;
 use Geocoder\Provider\Nominatim\Nominatim;
@@ -417,6 +419,95 @@ class HomeController extends Controller
             return [$lat, $lng];
         } catch(Exception $e) {
             return "null";
+        }
+    }
+
+
+    public function supportTickets(Request $request) {
+        $data = $this->getData();
+
+        $totalWealth = $data['totalWealth'];
+        $user = $data['user'];
+        $myAge = $data['myAge'];
+        $startYear = $data['startYear'];
+        $endYear = $data['endYear'];
+        $wealthData = $data['wealthData'];
+        $statement = $data['statement'];
+        $clientDetail = $data['clientDetail'];
+        $incomes = $data['incomes'];
+        $events = $data['events'];
+        $totalWealth = $data['totalWealth'];
+        $userAge = $data['userAge'];
+        $rateReturn = $data['rateReturn'];
+        $wealthIncomes = $data['wealthIncomes'];
+        $incomeChart = $data['incomeChart'];
+        $wealthEvents = $data['wealthEvents'];
+        $eventsChart = $data['eventsChart'];
+        $eventsLineChart = $data['eventsLineChart'];
+
+        $supportTiketsList = SupportTikets::where('user_id', auth()->user()->id)->get();
+
+        return view('user.support.support_tickets', compact(['totalWealth', 'user', 'myAge', 'startYear', 'endYear', 'wealthData', 'statement', 'clientDetail', 'incomes', 'events', 'totalWealth', 'userAge', 'rateReturn', 'wealthIncomes', 'incomeChart', 'wealthEvents', 'eventsChart', 'eventsLineChart', 'supportTiketsList']));
+    }
+
+    public function addSupportTikets(Request $request) {
+        $supportTikets = new SupportTikets;
+        $supportTikets->code = random_int(100000, 999999).date('s');
+        $supportTikets->user_id = $request->user_id;
+        $supportTikets->subject = $request->support_subject;
+        $supportTikets->details = $request->support_description;
+        $supportTikets->status = 'pending';
+        // dd($supportTikets);
+        if($supportTikets->save()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function viewSupport($id) {
+        $data = $this->getData();
+
+        $totalWealth = $data['totalWealth'];
+        $user = $data['user'];
+        $myAge = $data['myAge'];
+        $startYear = $data['startYear'];
+        $endYear = $data['endYear'];
+        $wealthData = $data['wealthData'];
+        $statement = $data['statement'];
+        $clientDetail = $data['clientDetail'];
+        $incomes = $data['incomes'];
+        $events = $data['events'];
+        $totalWealth = $data['totalWealth'];
+        $userAge = $data['userAge'];
+        $rateReturn = $data['rateReturn'];
+        $wealthIncomes = $data['wealthIncomes'];
+        $incomeChart = $data['incomeChart'];
+        $wealthEvents = $data['wealthEvents'];
+        $eventsChart = $data['eventsChart'];
+        $eventsLineChart = $data['eventsLineChart'];
+        $SupportTikets = SupportTikets::where('id', $id)->first();
+        $SupportTikets['replies'] = SupportTiketsReplies::where('ticket_id', $id)->orderBy('id', 'ASC')->get();
+        return view('user.support.view', compact(['totalWealth', 'user', 'myAge', 'startYear', 'endYear', 'wealthData', 'statement', 'clientDetail', 'incomes', 'events', 'totalWealth', 'userAge', 'rateReturn', 'wealthIncomes', 'incomeChart', 'wealthEvents', 'eventsChart', 'eventsLineChart', 'SupportTikets']));
+    }
+
+    public function replySupportTickets(Request $request) {
+        // dd($request->all());
+        $supportTikets = SupportTikets::where('id', $request->ticket_id)->first();
+        $supportTikets->status = 'pending';
+        $supportTikets->viewed = '0';
+        $supportTikets->update();
+        
+        $ticket_reply = new SupportTiketsReplies();
+        $ticket_reply->ticket_id = $request->ticket_id;
+        $ticket_reply->user_id = auth()->user()->id;
+        $ticket_reply->details = $request->msg;
+        $ticket_reply->files = '';
+        // dd($ticket_reply);
+        if($ticket_reply->save()) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

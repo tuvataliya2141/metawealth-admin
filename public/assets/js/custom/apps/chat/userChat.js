@@ -2,10 +2,11 @@
 
 // Class definition
 var KTAppChat = function () {
-	function AutoRefresh( t ) {
-		setTimeout("location.reload(true);", t);
-	}
+
 	const siteUrl = $('meta[name="site-url"]').attr('content');
+	$(document).ready(function(){
+		$(window).scrollTop(0);
+	});
 	// Private functions
 	var handeSend = function (element) {
 		if (!element) {
@@ -46,13 +47,15 @@ var KTAppChat = function () {
 				headers: {
 					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 				},
-				url : siteUrl+"addReplySupportTickets",
+				url : siteUrl+"replySupportTickets",
 				type : 'post',
 				data : data,
 				dataType : 'json',
 				success : function(result){
 					if(result == 1) {
 						location.reload();
+						var el = document.querySelector('#kt_chat_messenger_body');
+						el.scrollBottom = el.scrollHeight;
 					}     
 				}
 			});
