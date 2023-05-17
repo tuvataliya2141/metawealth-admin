@@ -16,7 +16,9 @@ use App\Models\SupportTiketsReplies;
 use Carbon\Carbon;
 use Geocoder\Query\GeocodeQuery;
 use Geocoder\Provider\Nominatim\Nominatim;
+use App\Events\NewMessageNotification;
 use Http\Client\Curl\Client as CurlClient;
+use App\Models\Message as ModelsMessage;
 
 class HomeController extends Controller
 {
@@ -451,11 +453,13 @@ class HomeController extends Controller
     }
 
     public function addSupportTikets(Request $request) {
+        // dd($request->all());
         $supportTikets = new SupportTikets;
         $supportTikets->code = random_int(100000, 999999).date('s');
         $supportTikets->user_id = $request->user_id;
         $supportTikets->subject = $request->support_subject;
         $supportTikets->details = $request->support_description;
+        $supportTikets->files = $request->file_name;
         $supportTikets->status = 'pending';
         // dd($supportTikets);
         if($supportTikets->save()) {
@@ -509,5 +513,22 @@ class HomeController extends Controller
         } else {
             return false;
         }
+    }
+
+    public function send()
+    {
+        // ... 
+         
+        // message is being sent 
+        $message = new ModelsMessage;
+        $message->setAttribute('from_data', 1);
+        $message->setAttribute('to_data', 2);
+        $message->setAttribute('message', 'Demo message from user 1 to user 2');
+        $message->save();
+         
+        // want to broadcast NewMessageNotification event 
+        event(new NewMessageNotification($message));
+         
+        // ... 
     }
 }

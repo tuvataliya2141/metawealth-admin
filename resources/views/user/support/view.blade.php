@@ -155,14 +155,14 @@
 @endsection
 @section('script')
     <script>
-        setInterval(function(){
-            $.ajax({
-                url: 'your-url-to-fetch-data',
-                success: function(data) {
-                    $('#your-div-id').html(data);
-                }
-            });
-        }, 5000);
+        // setInterval(function(){
+        //     $.ajax({
+        //         url: 'your-url-to-fetch-data',
+        //         success: function(data) {
+        //             $('#your-div-id').html(data);
+        //         }
+        //     });
+        // }, 5000);
 
     </script>
     {{-- <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script> --}}

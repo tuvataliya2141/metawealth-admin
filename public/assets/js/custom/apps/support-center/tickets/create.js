@@ -11,43 +11,48 @@ var KTModalNewTicket = function () {
 	const siteUrl = $('meta[name="site-url"]').attr('content');
 
 	// Init form inputs
-	var initForm = function() {
-		// Ticket attachments
-		// For more info about Dropzone plugin visit:  https://www.dropzonejs.com/#usage
-		var myDropzone = new Dropzone("#kt_modal_create_ticket_attachments", { 
-			url: "https://keenthemes.com/scripts/void.php", // Set the url for your upload script location
-            paramName: "file", // The name that will be used to transfer the file
-            maxFiles: 10,
-            maxFilesize: 10, // MB
-            addRemoveLinks: true,
-            accept: function(file, done) {
-                if (file.name == "justinbieber.jpg") {
-                    done("Naha, you don't.");
-                } else {
-                    done();
-                }
-            }
-		});  
+	// var initForm = function() {
+	// 	// Ticket attachments
+	// 	// For more info about Dropzone plugin visit:  https://www.dropzonejs.com/#usage
+	// 	var myDropzone = new Dropzone("#kt_modal_create_ticket_attachments", { 
+	// 		headers: {
+	// 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	// 		},
+	// 		url: "http://localhost/metawealth-admin/image-upload", // Set the url for your upload script location
+    //         paramName: "file", // The name that will be used to transfer the file
+    //         maxFiles: 1,
+    //         maxFilesize: 10, // MB
+    //         addRemoveLinks: true,
+    //         accept: function(file, done) {
+	// 			console.log(file);
+	// 			document.getElementById("file_name").value = file.name;
+    //             if (file.name == "justinbieber.jpg") {
+    //                 done("Naha, you don't.");
+    //             } else {
+    //                 done();
+    //             }
+    //         }
+	// 	});  
 
-		// Due date. For more info, please visit the official plugin site: https://flatpickr.js.org/
-		var dueDate = $(form.querySelector('[name="due_date"]'));
-		dueDate.flatpickr({
-			enableTime: true,
-			dateFormat: "d, M Y, H:i",
-		});
+	// 	// Due date. For more info, please visit the official plugin site: https://flatpickr.js.org/
+	// 	var dueDate = $(form.querySelector('[name="due_date"]'));
+	// 	dueDate.flatpickr({
+	// 		enableTime: true,
+	// 		dateFormat: "d, M Y, H:i",
+	// 	});
 
-		// Ticket user. For more info, plase visit the official plugin site: https://select2.org/
-        $(form.querySelector('[name="user"]')).on('change', function() {
-            // Revalidate the field when an option is chosen
-            validator.revalidateField('user');
-        });
+	// 	// Ticket user. For more info, plase visit the official plugin site: https://select2.org/
+    //     $(form.querySelector('[name="user"]')).on('change', function() {
+    //         // Revalidate the field when an option is chosen
+    //         validator.revalidateField('user');
+    //     });
 
-		// Ticket status. For more info, plase visit the official plugin site: https://select2.org/
-        $(form.querySelector('[name="status"]')).on('change', function() {
-            // Revalidate the field when an option is chosen
-            validator.revalidateField('status');
-        });
-	}
+	// 	// Ticket status. For more info, plase visit the official plugin site: https://select2.org/
+    //     $(form.querySelector('[name="status"]')).on('change', function() {
+    //         // Revalidate the field when an option is chosen
+    //         validator.revalidateField('status');
+    //     });
+	// }
 
 	// Handle form validation and submittion
 	var handleForm = function() {
@@ -123,11 +128,13 @@ var KTModalNewTicket = function () {
 						var userId = $('.user_id').val();
                         var supportSubject = $(".support_subject").val();
                         var supportDescription = $('.support_description').val();
+                        var file_name = $('.support_file').val();
                         
                         const data = {
                             user_id: userId,
                             support_subject: supportSubject,
                             support_description: supportDescription,
+                            file_name: file_name,
                         };
 
 						setTimeout(function() {
@@ -252,7 +259,7 @@ var KTModalNewTicket = function () {
 			submitButton = document.getElementById('kt_modal_new_ticket_submit');
 			cancelButton = document.getElementById('kt_modal_new_ticket_cancel');
 
-			initForm();
+			// initForm();
 			handleForm();
 		}
 	};

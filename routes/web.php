@@ -18,6 +18,8 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::get('message/send', [App\Http\Controllers\HomeController::class, 'send']);
+
 Auth::routes();
 
 // Social logins
@@ -40,6 +42,8 @@ Route::get('/verify-email', [App\Http\Controllers\Auth\RegisterController::class
 Route::get('/verification/{email}', [App\Http\Controllers\Auth\RegisterController::class, 'verification'])->name('verification');
 Route::post('/resendEmail', [App\Http\Controllers\Auth\RegisterController::class, 'resendEmail'])->name('resendEmail');
 
+Route::get('/image-upload', [App\Http\Controllers\FileUpload::class, 'createForm']);
+Route::post('/image-upload', [App\Http\Controllers\FileUpload::class, 'fileUpload'])->name('imageUpload');
 
 Route::middleware(['auth', 'verifUser'])->group(function () {
     // Routs for admin
