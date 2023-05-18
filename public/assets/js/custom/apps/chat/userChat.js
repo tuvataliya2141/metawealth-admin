@@ -14,7 +14,7 @@ var KTAppChat = function () {
 		}
 
 		// Handle send
-		KTUtil.on(element, '[data-kt-element="input"]', 'keydown', function(e) {
+		KTUtil.on(element, '[data-kt-element="inputUser"]', 'keydown', function(e) {
 			$('#msg_errors').text('');
 			if (e.keyCode == 13) {
 				handeMessaging(element);
@@ -23,25 +23,28 @@ var KTAppChat = function () {
 			}
 		});
 
-		KTUtil.on(element, '[data-kt-element="send"]', 'click', function(e) {
+		KTUtil.on(element, '[data-kt-element="sendUser"]', 'click', function(e) {
 			handeMessaging(element);
 		});
 	}
 
 	var handeMessaging = function(element) {
+		
 		var messages = element.querySelector('[data-kt-element="messages"]');
-		var input = element.querySelector('[data-kt-element="input"]');
+		var input = element.querySelector('[data-kt-element="inputUser"]');
 		var ticket_id = element.querySelector('[data-kt-element="ticket_id"]');
+		var file_name = $('#fileid').prop('files')[0];
 
         if (input.value.length === 0 ) {
             document.getElementById('msg_errors').innerHTML="Please enter a message";
      		return false;
         }
-		const data = {
-			msg: input.value,
-			ticket_id: ticket_id.value,
-		};
+		var formData = new FormData();
 
+		formData.append('msg', input.value);
+		formData.append('ticket_id', ticket_id.value);
+		formData.append('file_name', file_name);
+		
 		setTimeout(function() {
 			$.ajax({
 				headers: {
@@ -49,8 +52,10 @@ var KTAppChat = function () {
 				},
 				url : siteUrl+"replySupportTickets",
 				type : 'post',
-				data : data,
+				data : formData,
 				dataType : 'json',
+				contentType: false,
+				processData: false,
 				success : function(result){
 					if(result == 1) {
 						location.reload();
@@ -95,8 +100,8 @@ var KTAppChat = function () {
 // On document ready
 KTUtil.onDOMContentLoaded(function () {
 	// Init inline chat messenger
-    KTAppChat.init(document.querySelector('#kt_chat_messenger'));
+    KTAppChat.init(document.querySelector('#kt_chat_messenger_user'));
 
 	// Init drawer chat messenger
-	KTAppChat.init(document.querySelector('#kt_drawer_chat_messenger'));
+	// KTAppChat.init(document.querySelector('#kt_drawer_chat_messenger_user'));
 });

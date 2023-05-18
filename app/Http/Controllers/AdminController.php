@@ -1430,16 +1430,22 @@ class AdminController extends Controller
     
 
     public function addReplySupportTickets(Request $request) {
+        // dd($request->all());
         $supportTikets = SupportTikets::where('id', $request->ticket_id)->first();
         $supportTikets->status = 'solved';
         $supportTikets->update();
         
         $ticket_reply = new SupportTiketsReplies();
+        if($request->file_name) {
+            $file = $request->file_name;
+            
+            $name = $file->getClientOriginalName();
+            $file->move(public_path().'/uploads/', $name);
+            $ticket_reply->files = $name;
+        }
         $ticket_reply->ticket_id = $request->ticket_id;
         $ticket_reply->user_id = auth()->user()->id;
         $ticket_reply->details = $request->msg;
-        $ticket_reply->files = '';
-        // dd($ticket_reply);
         if($ticket_reply->save()) {
             return true;
         } else {

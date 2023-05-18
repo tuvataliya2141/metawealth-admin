@@ -35,25 +35,20 @@
                 <!-- Sidebar -->
                 @include('user.sidebar')
                 <div class="flex-lg-row-fluid ms-lg-15">
-                    <div class="card mb-5 mb-xl-10">
-                        <div class="card-header">
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">Shupport Ticket</span>
-                            </h3>
-                        </div>
-                        <div class="card-body pt-9 pb-0">
-                            <div class="card mb-12">
-                                <div class="card-body flex-column p-5">
-                                    <div class="d-flex align-items-center h-lg-300px p-5 p-lg-15">
-                                        <div class="d-flex flex-column align-items-start justift-content-center flex-equal me-5">
-                                            <h1 class="fw-bold fs-4 fs-lg-1 text-gray-800 mb-5 mb-lg-10">Shupport Ticket</h1>
-                                        </div>
-                                        <div class="flex-equal d-flex justify-content-center align-items-end ms-5">
-                                            <img src="{{ asset('assets/media/illustrations/sketchy-1/20.png') }}" alt="" class="mw-100 mh-125px mh-lg-275px mb-lg-n12"/>                 
-                                        </div>
-                                    </div>
+                    <div class="card mb-12">
+                        <div class="card-body flex-column p-5">
+                            <div class="d-flex align-items-center h-lg-300px p-5 p-lg-15">
+                                <div class="d-flex flex-column align-items-start justift-content-center flex-equal me-5">
+                                    <h1 class="fw-bold fs-4 fs-lg-1 text-gray-800 mb-5 mb-lg-10">Support Chat</h1>
+                                </div>
+                                <div class="flex-equal d-flex justify-content-center align-items-end ms-5">
+                                    <img src="{{ asset('assets/media/illustrations/sketchy-1/20.png') }}" alt="" class="mw-100 mh-125px mh-lg-275px mb-lg-n12"/>                 
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="card mb-5 mb-xl-10">       
+                        <div class="card-body pt-9 pb-0">
                             <div class="mb-0">
                                 <h1 class="text-dark mb-10">Public Tickets</h1>
                                 <div class="mb-10">
@@ -68,7 +63,9 @@
                                             <div class="d-flex flex-column">
                                                     <div class="d-flex align-items-center mb-2">
                                                         <a href="{{ route('userViewSupport', $val->id) }}" class="text-dark text-hover-primary fs-4 me-3 fw-semibold">{{$val->subject }}</a>
-                                                        {{-- <span class="badge badge-light my-1">React</span> --}}
+                                                        @if($val->status  == 'solved')
+                                                            <span class="badge badge-dark my-1">New</span>
+                                                        @endif
                                                     </div>
                                                     <span class="text-muted fw-semibold fs-6">{{$val->details }}</span>
                                             </div>
@@ -91,7 +88,6 @@
                                 <!--end::Pagination--> --}}
                             </div>
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -113,7 +109,7 @@
                     </div>
                 </div>
                 <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
-                    <form id="kt_modal_new_ticket_form" class="form" action="#" enctype="multipart/form-data">
+                    <form id="kt_modal_new_ticket_form" class="form" action="#"  enctype="multipart/form-data">
                         <div class="mb-13 text-center">
                             <h1 class="mb-3">Create Ticket</h1>
                         </div>
@@ -129,7 +125,7 @@
     
                             <textarea class="form-control form-control-solid support_description" rows="4" name="support_description" placeholder="Type your ticket description"></textarea>
                         </div>
-                        <input type="hidden" name="file_name" id="file_name" value="">
+                        {{-- <input type="hidden" name="file_name" id="file_name" > --}}
                         <div class="fv-row mb-8">            
                             <div class="d-flex flex-column mb-8 fv-row">
                                 <label class="fs-6 fw-semibold mb-2">Attachments</label>

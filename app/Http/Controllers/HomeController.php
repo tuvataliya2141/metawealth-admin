@@ -455,13 +455,18 @@ class HomeController extends Controller
     public function addSupportTikets(Request $request) {
         // dd($request->all());
         $supportTikets = new SupportTikets;
+        if($request->file_name) {
+            $file = $request->file_name;
+            
+            $name = $file->getClientOriginalName();
+            $file->move(public_path().'/uploads/', $name);
+            $supportTikets->files = $name;
+        }
         $supportTikets->code = random_int(100000, 999999).date('s');
-        $supportTikets->user_id = $request->user_id;
-        $supportTikets->subject = $request->support_subject;
-        $supportTikets->details = $request->support_description;
-        $supportTikets->files = $request->file_name;
+        $supportTikets->user_id = $request->userId;
+        $supportTikets->subject = $request->supportSubject;
+        $supportTikets->details = $request->supportDescription;
         $supportTikets->status = 'pending';
-        // dd($supportTikets);
         if($supportTikets->save()) {
             return true;
         } else {
@@ -503,10 +508,16 @@ class HomeController extends Controller
         $supportTikets->update();
         
         $ticket_reply = new SupportTiketsReplies();
+        if($request->file_name) {
+            $file = $request->file_name;
+            
+            $name = $file->getClientOriginalName();
+            $file->move(public_path().'/uploads/', $name);
+            $ticket_reply->files = $name;
+        }
         $ticket_reply->ticket_id = $request->ticket_id;
         $ticket_reply->user_id = auth()->user()->id;
         $ticket_reply->details = $request->msg;
-        $ticket_reply->files = '';
         // dd($ticket_reply);
         if($ticket_reply->save()) {
             return true;

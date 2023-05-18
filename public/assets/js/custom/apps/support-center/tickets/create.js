@@ -124,19 +124,18 @@ var KTModalNewTicket = function () {
 
 						// Disable button to avoid multiple click 
 						submitButton.disabled = true;
+						var formData = new FormData();
 
 						var userId = $('.user_id').val();
                         var supportSubject = $(".support_subject").val();
                         var supportDescription = $('.support_description').val();
-                        var file_name = $('.support_file').val();
-                        
-                        const data = {
-                            user_id: userId,
-                            support_subject: supportSubject,
-                            support_description: supportDescription,
-                            file_name: file_name,
-                        };
+						var file_name = $('.support_file').prop('files')[0];
 
+
+                        formData.append('userId', userId);
+						formData.append('supportSubject', supportSubject);
+						formData.append('supportDescription', supportDescription);
+						formData.append('file_name', file_name);
 						setTimeout(function() {
 							$.ajax({
                                 headers: {
@@ -144,8 +143,10 @@ var KTModalNewTicket = function () {
                                 },
                                 url : siteUrl+"addSupportTikets",
                                 type : 'post',
-                                data : data,
-                                dataType : 'json',
+								data: formData,
+								dataType : 'json',
+								contentType: false,
+								processData: false,
                                 success : function(result){
                                     if(result == 1) {
                                         // Remove loading indication

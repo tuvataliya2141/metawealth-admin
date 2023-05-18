@@ -28,19 +28,22 @@ var KTAppChat = function () {
 	}
 
 	var handeMessaging = function(element) {
+		
 		var messages = element.querySelector('[data-kt-element="messages"]');
 		var input = element.querySelector('[data-kt-element="input"]');
 		var ticket_id = element.querySelector('[data-kt-element="ticket_id"]');
+		var file_name = $('#fileid').prop('files')[0];
 
         if (input.value.length === 0 ) {
             document.getElementById('msg_errors').innerHTML="Please enter a message";
      		return false;
         }
-		const data = {
-			msg: input.value,
-			ticket_id: ticket_id.value,
-		};
+		var formData = new FormData();
 
+		formData.append('msg', input.value);
+		formData.append('ticket_id', ticket_id.value);
+		formData.append('file_name', file_name);
+		
 		setTimeout(function() {
 			$.ajax({
 				headers: {
@@ -48,8 +51,10 @@ var KTAppChat = function () {
 				},
 				url : siteUrl+"addReplySupportTickets",
 				type : 'post',
-				data : data,
+				data : formData,
 				dataType : 'json',
+				contentType: false,
+				processData: false,
 				success : function(result){
 					if(result == 1) {
 						location.reload();

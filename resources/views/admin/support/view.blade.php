@@ -48,19 +48,25 @@
                                 <div class="d-flex flex-column align-items-start">
                                     <div class="d-flex align-items-center mb-2">
                                         <div class="symbol  symbol-35px symbol-circle ">
-                                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M6.28548 15.0861C7.34369 13.1814 9.35142 12 11.5304 12H12.4696C14.6486 12 16.6563 13.1814 17.7145 15.0861L19.3493 18.0287C20.0899 19.3618 19.1259 21 17.601 21H6.39903C4.87406 21 3.91012 19.3618 4.65071 18.0287L6.28548 15.0861Z" fill="currentColor"></path>
                                                 <rect opacity="0.3" x="8" y="3" width="8" height="8" rx="4" fill="currentColor"></rect>
                                             </svg>
                                         </div>
                                         <div class="ms-3">
-                                            <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary me-1">{{ $data->user->name }}</a>
+                                            <a href="#" class="fs-7 fw-bold text-gray-900 text-hover-primary me-1">{{ $data->user->name }}</a>
                                             {{-- <span class="text-muted fs-7 mb-1">2 mins</span> --}}
                                         </div>
                                     </div>
-                                    <div class="p-5 rounded bg-light-info text-dark fw-semibold mw-lg-400px text-start" data-kt-element="message-text">
+                                    <div class="p-5 rounded bg-light-info text-dark fw-semibold mw-lg-400px text-start mb-5" data-kt-element="message-text">
                                         {{ $data->details }}            
                                     </div>
+                                    @if($data->files)
+                                        <a href="{{ asset('uploads/') .'/'. $data->files }}" class="btn btn-outline btn-outline-dashed btn-outline-info btn-active-light-info" download>
+                                            <i class="fa fa-download"><span class="path1"></span><span class="path2"></span></i>
+                                            Attachments
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                             @foreach($data->replies as $val)
@@ -71,18 +77,24 @@
                                             <div class="d-flex align-items-center mb-2">
                                                 <div class="me-3">
                                                     {{-- <span class="text-muted fs-7 mb-1">5 mins</span> --}}
-                                                    <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">You</a>  
+                                                    <a href="#" class="fs-7 fw-bold text-gray-900 text-hover-primary ms-1">You</a>  
                                                 </div>
                                                 <div class="symbol  symbol-35px symbol-circle ">
-                                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M6.28548 15.0861C7.34369 13.1814 9.35142 12 11.5304 12H12.4696C14.6486 12 16.6563 13.1814 17.7145 15.0861L19.3493 18.0287C20.0899 19.3618 19.1259 21 17.601 21H6.39903C4.87406 21 3.91012 19.3618 4.65071 18.0287L6.28548 15.0861Z" fill="currentColor"></path>
                                                         <rect opacity="0.3" x="8" y="3" width="8" height="8" rx="4" fill="currentColor"></rect>
                                                     </svg>
                                                 </div>              
                                             </div>
-                                            <div class="p-5 rounded bg-light-primary text-dark fw-semibold mw-lg-400px text-end" data-kt-element="message-text">
+                                            <div class="p-5 rounded bg-light-primary text-dark fw-semibold mw-lg-400px text-end mb-5" data-kt-element="message-text">
                                                 {{ $val->details  }}            
                                             </div>
+                                            @if($val->files)
+                                                <a href="{{ asset('uploads/') .'/'. $val->files }}" class="btn btn-outline btn-outline-dashed btn-outline-info btn-active-light-info" download>
+                                                    <i class="fa fa-download"><span class="path1"></span><span class="path2"></span></i>
+                                                    Attachments
+                                                </a>
+                                            @endif
                                         </div>
                                     </div>
                                 @else
@@ -91,19 +103,25 @@
                                         <div class="d-flex flex-column align-items-start">
                                             <div class="d-flex align-items-center mb-2">
                                                 <div class="symbol  symbol-35px symbol-circle ">
-                                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M6.28548 15.0861C7.34369 13.1814 9.35142 12 11.5304 12H12.4696C14.6486 12 16.6563 13.1814 17.7145 15.0861L19.3493 18.0287C20.0899 19.3618 19.1259 21 17.601 21H6.39903C4.87406 21 3.91012 19.3618 4.65071 18.0287L6.28548 15.0861Z" fill="currentColor"></path>
                                                         <rect opacity="0.3" x="8" y="3" width="8" height="8" rx="4" fill="currentColor"></rect>
                                                     </svg>
                                                 </div>
                                                 <div class="ms-3">
-                                                    <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary me-1">{{ $val->user->name }}</a>
+                                                    <a href="#" class="fs-7 fw-bold text-gray-900 text-hover-primary me-1">{{ $val->user->name }}</a>
                                                     {{-- <span class="text-muted fs-7 mb-1">2 mins</span> --}}
                                                 </div>
                                             </div>
-                                            <div class="p-5 rounded bg-light-info text-dark fw-semibold mw-lg-400px text-start" data-kt-element="message-text">
+                                            <div class="p-5 rounded bg-light-info text-dark fw-semibold mw-lg-400px text-start mb-5" data-kt-element="message-text">
                                                 {{ $val->details  }}           
                                             </div>
+                                            @if($val->files)
+                                                <a href="{{ asset('uploads/') .'/'. $val->files }}" class="btn btn-outline btn-outline-dashed btn-outline-info btn-active-light-info" download>
+                                                    <i class="fa fa-download"><span class="path1"></span><span class="path2"></span></i>
+                                                    Attachments
+                                                </a>
+                                            @endif
                                         </div>
                                     </div>
                                 @endif
@@ -116,7 +134,8 @@
                         <input type="hidden" data-kt-element="ticket_id" name="ticket_id" value="{{ $data->id }}"/>
                         <div class="d-flex flex-stack">
                             <div class="d-flex align-items-center me-2">
-                                <button class="btn btn-sm btn-icon btn-active-light-primary me-1" type="button" data-bs-toggle="tooltip" title="Coming soon"><i class="ki-duotone ki-paper-clip fs-2x"></i></button>
+                                <input id='fileid' name="chatImg" type='file' hidden/>
+                                <button class="btn btn-sm btn-icon btn-active-light-primary me-1" type="button" id="buttonid" data-bs-toggle="tooltip" title="File Upload"><i class="ki-duotone ki-paper-clip fs-2x"></i></button>
                             </div>
                             <button class="btn btn-primary" type="button" data-kt-element="send">Send</button>
                         </div>
@@ -129,6 +148,13 @@
 
 @endsection
 @section('script')
+    <script>
+        document.getElementById('buttonid').addEventListener('click', openDialog);
+
+        function openDialog() {
+        document.getElementById('fileid').click();
+        }
+    </script>
     <script src="{{ asset('assets/js/custom/apps/customers/view/events-table.js') }}"></script>
     <script src="{{ asset('assets/js/custom/apps/chat/chat.js') }}"></script>
 @endsection

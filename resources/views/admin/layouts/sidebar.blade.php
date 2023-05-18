@@ -281,7 +281,8 @@
                                 </svg>
                             </span>
                         </span>
-                        <span class="menu-title">Support Ticket</span>
+                        @php $ticketData = \App\Models\SupportTikets::where('status', 'pending')->get(); @endphp
+                        <span class="menu-title">Support Ticket @if($ticketData) <span class="badge badge-changelog badge-light-danger fw-semibold fs-8 px-2 ms-2">{{ count($ticketData) }}</span> @endif</span>
                     </a>
                 </div>
             </div>
