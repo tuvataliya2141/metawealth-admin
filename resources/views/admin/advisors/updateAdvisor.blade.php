@@ -22,6 +22,15 @@
                     <li class="breadcrumb-item text-muted"> Update Advisor </li>
                 </ul>
             </div>
+            @if(session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
+            @error('phone')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+            @error('email')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
     </div>
     <div id="kt_app_content" class="app-content  flex-column-fluid ">

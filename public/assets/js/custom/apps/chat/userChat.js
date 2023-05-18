@@ -2,10 +2,11 @@
 
 // Class definition
 var KTAppChat = function () {
-	function AutoRefresh( t ) {
-		setTimeout("location.reload(true);", t);
-	}
+
 	const siteUrl = $('meta[name="site-url"]').attr('content');
+	$(document).ready(function(){
+		$(window).scrollTop(0);
+	});
 	// Private functions
 	var handeSend = function (element) {
 		if (!element) {
@@ -13,7 +14,7 @@ var KTAppChat = function () {
 		}
 
 		// Handle send
-		KTUtil.on(element, '[data-kt-element="input"]', 'keydown', function(e) {
+		KTUtil.on(element, '[data-kt-element="inputUser"]', 'keydown', function(e) {
 			$('#msg_errors').text('');
 			if (e.keyCode == 13) {
 				handeMessaging(element);
@@ -22,7 +23,7 @@ var KTAppChat = function () {
 			}
 		});
 
-		KTUtil.on(element, '[data-kt-element="send"]', 'click', function(e) {
+		KTUtil.on(element, '[data-kt-element="sendUser"]', 'click', function(e) {
 			handeMessaging(element);
 		});
 	}
@@ -30,7 +31,7 @@ var KTAppChat = function () {
 	var handeMessaging = function(element) {
 		
 		var messages = element.querySelector('[data-kt-element="messages"]');
-		var input = element.querySelector('[data-kt-element="input"]');
+		var input = element.querySelector('[data-kt-element="inputUser"]');
 		var ticket_id = element.querySelector('[data-kt-element="ticket_id"]');
 		var file_name = $('#fileid').prop('files')[0];
 
@@ -49,7 +50,7 @@ var KTAppChat = function () {
 				headers: {
 					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 				},
-				url : siteUrl+"addReplySupportTickets",
+				url : siteUrl+"replySupportTickets",
 				type : 'post',
 				data : formData,
 				dataType : 'json',
@@ -58,6 +59,8 @@ var KTAppChat = function () {
 				success : function(result){
 					if(result == 1) {
 						location.reload();
+						var el = document.querySelector('#kt_chat_messenger_body');
+						el.scrollBottom = el.scrollHeight;
 					}     
 				}
 			});
@@ -97,8 +100,8 @@ var KTAppChat = function () {
 // On document ready
 KTUtil.onDOMContentLoaded(function () {
 	// Init inline chat messenger
-    KTAppChat.init(document.querySelector('#kt_chat_messenger'));
+    KTAppChat.init(document.querySelector('#kt_chat_messenger_user'));
 
 	// Init drawer chat messenger
-	KTAppChat.init(document.querySelector('#kt_drawer_chat_messenger'));
+	// KTAppChat.init(document.querySelector('#kt_drawer_chat_messenger_user'));
 });

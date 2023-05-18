@@ -11,10 +11,14 @@ use App\Models\Incomes;
 use App\Models\User;
 use App\Models\WealthManagement;
 use App\Models\NetWorthRankings;
+use App\Models\SupportTikets;
+use App\Models\SupportTiketsReplies;
 use Carbon\Carbon;
 use Geocoder\Query\GeocodeQuery;
 use Geocoder\Provider\Nominatim\Nominatim;
+use App\Events\NewMessageNotification;
 use Http\Client\Curl\Client as CurlClient;
+use App\Models\Message as ModelsMessage;
 
 class HomeController extends Controller
 {
@@ -431,7 +435,108 @@ class HomeController extends Controller
             return "null";
         }
     }
-    
+
+    public function supportTickets(Request $request) {
+        $data = $this->getData();
+
+        $totalWealth = $data['totalWealth'];
+        $user = $data['user'];
+        $myAge = $data['myAge'];
+        $startYear = $data['startYear'];
+        $endYear = $data['endYear'];
+        $wealthData = $data['wealthData'];
+        $statement = $data['statement'];
+        $clientDetail = $data['clientDetail'];
+        $incomes = $data['incomes'];
+        $events = $data['events'];
+        $totalWealth = $data['totalWealth'];
+        $userAge = $data['userAge'];
+        $rateReturn = $data['rateReturn'];
+        $wealthIncomes = $data['wealthIncomes'];
+        $incomeChart = $data['incomeChart'];
+        $wealthEvents = $data['wealthEvents'];
+        $eventsChart = $data['eventsChart'];
+        $eventsLineChart = $data['eventsLineChart'];
+
+        $supportTiketsList = SupportTikets::where('user_id', auth()->user()->id)->get();
+
+        return view('user.support.support_tickets', compact(['totalWealth', 'user', 'myAge', 'startYear', 'endYear', 'wealthData', 'statement', 'clientDetail', 'incomes', 'events', 'totalWealth', 'userAge', 'rateReturn', 'wealthIncomes', 'incomeChart', 'wealthEvents', 'eventsChart', 'eventsLineChart', 'supportTiketsList']));
+    }
+
+    public function addSupportTikets(Request $request) {
+        $supportTikets = new SupportTikets;
+        if($request->file_name) {
+            $file = $request->file_name;
+            
+            $name = $file->getClientOriginalName();
+            $file->move(public_path().'/uploads/', $name);
+            $supportTikets->files = $name;
+        }
+        $supportTikets->code = random_int(100000, 999999).date('s');
+        $supportTikets->user_id = $request->userId;
+        $supportTikets->subject = $request->supportSubject;
+        $supportTikets->details = $request->supportDescription;
+        $supportTikets->status = 'pending';
+        if($supportTikets->save()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function viewSupport($id) {
+        $data = $this->getData();
+
+        $totalWealth = $data['totalWealth'];
+        $user = $data['user'];
+        $myAge = $data['myAge'];
+        $startYear = $data['startYear'];
+        $endYear = $data['endYear'];
+        $wealthData = $data['wealthData'];
+        $statement = $data['statement'];
+        $clientDetail = $data['clientDetail'];
+        $incomes = $data['incomes'];
+        $events = $data['events'];
+        $totalWealth = $data['totalWealth'];
+        $userAge = $data['userAge'];
+        $rateReturn = $data['rateReturn'];
+        $wealthIncomes = $data['wealthIncomes'];
+        $incomeChart = $data['incomeChart'];
+        $wealthEvents = $data['wealthEvents'];
+        $eventsChart = $data['eventsChart'];
+        $eventsLineChart = $data['eventsLineChart'];
+
+        $SupportTikets = SupportTikets::where('id', $id)->first();
+        $SupportTikets['replies'] = SupportTiketsReplies::where('ticket_id', $id)->orderBy('id', 'ASC')->get();
+
+        return view('user.support.view', compact(['totalWealth', 'user', 'myAge', 'startYear', 'endYear', 'wealthData', 'statement', 'clientDetail', 'incomes', 'events', 'totalWealth', 'userAge', 'rateReturn', 'wealthIncomes', 'incomeChart', 'wealthEvents', 'eventsChart', 'eventsLineChart', 'SupportTikets']));
+    }
+
+    public function replySupportTickets(Request $request) {
+        $supportTikets = SupportTikets::where('id', $request->ticket_id)->first();
+        $supportTikets->status = 'pending';
+        $supportTikets->viewed = '0';
+        $supportTikets->update();
+        
+        $ticket_reply = new SupportTiketsReplies();
+        if($request->file_name) {
+            $file = $request->file_name;
+            
+            $name = $file->getClientOriginalName();
+            $file->move(public_path().'/uploads/', $name);
+            $ticket_reply->files = $name;
+        }
+        $ticket_reply->ticket_id = $request->ticket_id;
+        $ticket_reply->user_id = auth()->user()->id;
+        $ticket_reply->details = $request->msg;
+
+        if($ticket_reply->save()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function addLivingExpenses($userId, $age) {
 
         $livingExpenceData = WealthManagement::where('user_id', $userId)->where('event_name', 6)->first();
@@ -466,5 +571,4 @@ class HomeController extends Controller
             }
         }                
     }
-
 }
