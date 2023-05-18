@@ -1404,7 +1404,7 @@ class AdminController extends Controller
             $lat = $results->first()->getCoordinates()->getLatitude();
             $lng = $results->first()->getCoordinates()->getLongitude();
             return [$lat, $lng];
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             return "null";
         }
     }

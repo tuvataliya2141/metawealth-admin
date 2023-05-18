@@ -74,12 +74,18 @@ var KTChartsEvents = function () {
     return {
         init: function () {
             var eventsChartData = JSON.parse($(".events_chart_data").val());
+
+            var sta = (eventsChartData.short_term_allocation != '') ? eventsChartData.short_term_allocation : 0;
+            var mta = (eventsChartData.mid_term_allocation != '') ? eventsChartData.mid_term_allocation : 0;
+            var lta = (eventsChartData.long_term_allocation != '') ? eventsChartData.long_term_allocation : 0;
+            var lagacy = (eventsChartData.lagacy_allocation != '') ? eventsChartData.lagacy_allocation : 0;
+
             var eventsChart = [];            
 
-            eventsChart.push(parseFloat(eventsChartData.short_term_allocation).toFixed(2));
-            eventsChart.push(parseFloat(eventsChartData.mid_term_allocation).toFixed(2));
-            eventsChart.push(parseFloat(eventsChartData.long_term_allocation).toFixed(2));
-            eventsChart.push(parseFloat(eventsChartData.lagacy_allocation).toFixed(2));
+            eventsChart.push(parseFloat(sta).toFixed(2));
+            eventsChart.push(parseFloat(mta).toFixed(2));
+            eventsChart.push(parseFloat(lta).toFixed(2));
+            eventsChart.push(parseFloat(lagacy).toFixed(2));
             
             var arrayOfNumbers = eventsChart.map(parseFloat);
 

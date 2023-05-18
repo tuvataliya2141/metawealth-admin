@@ -410,6 +410,18 @@ class HomeController extends Controller
 
         return $data;
     }
+
+    public function updateAge(Request $request) {
+        $WealthManagementData = WealthManagement::select('total_wealth', 'age', 'rate_return')->where('user_id', $request->user_id)->first();
+        if($WealthManagementData) {
+            $WealthManagementData->age = $request->age;
+            $WealthManagementData->update();
+        } else {
+            $this->addLivingExpenses($request->user_id, $request->age);
+        }
+
+        return true;
+    }
     
     public function getLatLng($address) {
         $httpClient = new CurlClient();
@@ -419,11 +431,10 @@ class HomeController extends Controller
             $lat = $results->first()->getCoordinates()->getLatitude();
             $lng = $results->first()->getCoordinates()->getLongitude();
             return [$lat, $lng];
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             return "null";
         }
     }
-
 
     public function supportTickets(Request $request) {
         $data = $this->getData();
@@ -453,7 +464,6 @@ class HomeController extends Controller
     }
 
     public function addSupportTikets(Request $request) {
-        // dd($request->all());
         $supportTikets = new SupportTikets;
         if($request->file_name) {
             $file = $request->file_name;
@@ -495,13 +505,14 @@ class HomeController extends Controller
         $wealthEvents = $data['wealthEvents'];
         $eventsChart = $data['eventsChart'];
         $eventsLineChart = $data['eventsLineChart'];
+
         $SupportTikets = SupportTikets::where('id', $id)->first();
         $SupportTikets['replies'] = SupportTiketsReplies::where('ticket_id', $id)->orderBy('id', 'ASC')->get();
+
         return view('user.support.view', compact(['totalWealth', 'user', 'myAge', 'startYear', 'endYear', 'wealthData', 'statement', 'clientDetail', 'incomes', 'events', 'totalWealth', 'userAge', 'rateReturn', 'wealthIncomes', 'incomeChart', 'wealthEvents', 'eventsChart', 'eventsLineChart', 'SupportTikets']));
     }
 
     public function replySupportTickets(Request $request) {
-        // dd($request->all());
         $supportTikets = SupportTikets::where('id', $request->ticket_id)->first();
         $supportTikets->status = 'pending';
         $supportTikets->viewed = '0';
@@ -518,7 +529,7 @@ class HomeController extends Controller
         $ticket_reply->ticket_id = $request->ticket_id;
         $ticket_reply->user_id = auth()->user()->id;
         $ticket_reply->details = $request->msg;
-        // dd($ticket_reply);
+
         if($ticket_reply->save()) {
             return true;
         } else {
@@ -526,20 +537,38 @@ class HomeController extends Controller
         }
     }
 
-    public function send()
-    {
-        // ... 
-         
-        // message is being sent 
-        $message = new ModelsMessage;
-        $message->setAttribute('from_data', 1);
-        $message->setAttribute('to_data', 2);
-        $message->setAttribute('message', 'Demo message from user 1 to user 2');
-        $message->save();
-         
-        // want to broadcast NewMessageNotification event 
-        event(new NewMessageNotification($message));
-         
-        // ... 
+    public function addLivingExpenses($userId, $age) {
+
+        $livingExpenceData = WealthManagement::where('user_id', $userId)->where('event_name', 6)->first();
+
+        if(!$livingExpenceData) {
+            $years = [];
+            $year = date("Y");
+
+            for ($i = $age; $i <= 99; $i++) {
+                $years[$year] = 100000;
+                $year++;
+            }
+
+            $eYear = 99 - $age;
+            $endYear = date("Y") + $eYear;
+
+            $WealthManagement = new WealthManagement;
+            $WealthManagement->user_id = $userId;
+            $WealthManagement->event_name = 6;
+            $WealthManagement->event_budget = 100000;
+            $WealthManagement->event_year = date("Y");
+            $WealthManagement->event_start_year = date("Y");
+            $WealthManagement->event_end_year = $endYear;
+            $WealthManagement->total_wealth = 0;
+            $WealthManagement->age = $age;
+            $WealthManagement->devide_year = json_encode($years);
+
+            if($WealthManagement->save()) {
+                return true;
+            } else {
+                return false;
+            }
+        }                
     }
 }

@@ -257,6 +257,7 @@ Route::middleware(['auth', 'verifUser'])->group(function () {
         Route::post('/user/addSupportTikets', [App\Http\Controllers\HomeController::class, 'addSupportTikets'])->name('addSupportTikets');
         Route::get('/viewSupport/{id}', [App\Http\Controllers\HomeController::class, 'viewSupport'])->name('userViewSupport');
         Route::post('/user/replySupportTickets', [App\Http\Controllers\HomeController::class, 'replySupportTickets'])->name('replySupportTickets');
+        Route::post('/updateAge', [App\Http\Controllers\HomeController::class, 'updateAge'])->name('updateAge');
     });
     
 });
