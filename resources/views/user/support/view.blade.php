@@ -73,17 +73,17 @@
                                             </div>              
                                         </div>
                                         <div class="p-5 rounded bg-light-primary text-dark fw-semibold mw-lg-400px text-end mb-5" data-kt-element="message-text">
-                                            {{ $SupportTikets->details }}          
+                                            {{ $SupportTickets->details }}          
                                         </div>
-                                        @if($SupportTikets->files)
-                                            <a href="{{ asset('uploads/') .'/'. $SupportTikets->files }}" class="btn btn-outline btn-outline-dashed btn-outline-info btn-active-light-info" download>
+                                        @if($SupportTickets->files)
+                                            <a href="{{ asset('uploads/') .'/'. $SupportTickets->files }}" class="btn btn-outline btn-outline-dashed btn-outline-info btn-active-light-info" download>
                                                 <i class="fa fa-download"><span class="path1"></span><span class="path2"></span></i>
                                                 Attachments
                                             </a>
                                         @endif
                                     </div>
                                 </div>
-                                @foreach($SupportTikets->replies as $val)
+                                @foreach($SupportTickets->replies as $val)
                                     @if($val->user_id == Auth::user()->id)
                                         <div class="d-flex justify-content-end mb-10" data-kt-element="template-out">
                                         {{-- <div class="d-flex justify-content-end mb-10 d-none" data-kt-element="template-out"> --}}
@@ -147,7 +147,7 @@
                         <div class="card-footer pt-4" id="kt_chat_messenger_footer">
                             <span id="msg_errors" style="color: red"></span>
                             <textarea class="form-control form-control-flush mb-3" rows="1" data-kt-element="inputUser" placeholder="Type a message"></textarea>
-                            <input type="hidden" data-kt-element="ticket_id" name="ticket_id" value="{{ $SupportTikets->id }}"/>
+                            <input type="hidden" data-kt-element="ticket_id" name="ticket_id" value="{{ $SupportTickets->id }}"/>
                             <div class="d-flex flex-stack">
                                 <div class="d-flex align-items-center me-2">
                                     <input id='fileid' name="chatImg" type='file' hidden/>

@@ -15,8 +15,8 @@ use App\Models\Incomes;
 use App\Models\WealthManagement;
 use App\Models\Location;
 use App\Http\Controllers\MailController;
-use App\Models\SupportTikets;
-use App\Models\SupportTiketsReplies;
+use App\Models\SupportTickets;
+use App\Models\SupportTicketsReplies;
 use Exception;
 use Illuminate\Validation\Rule;
 use Geocoder\Query\GeocodeQuery;
@@ -1411,19 +1411,19 @@ class AdminController extends Controller
 
     // Clients
     public function allSupport() {
-        $list = SupportTikets::select('support_tikets.*', 'users.name')
-                        ->join('users', 'users.id', '=', 'support_tikets.user_id')
+        $list = SupportTickets::select('support_tickets.*', 'users.name')
+                        ->join('users', 'users.id', '=', 'support_tickets.user_id')
                         ->get();
         // dd($list);
         return view('admin.support.index', compact(['list']));
     }
 
     public function viewSupport($id) {
-        $data = SupportTikets::where('id', $id)->first();
+        $data = SupportTickets::where('id', $id)->first();
         $data->viewed = 1;
         $data->status = "open";
         $data->save();
-        $data['replies'] = SupportTiketsReplies::where('ticket_id', $id)->orderBy('id', 'ASC')->get();
+        $data['replies'] = SupportTicketsReplies::where('ticket_id', $id)->orderBy('id', 'ASC')->get();
         
         return view('admin.support.view', compact(['data']));
     }
@@ -1431,11 +1431,11 @@ class AdminController extends Controller
 
     public function addReplySupportTickets(Request $request) {
         // dd($request->all());
-        $supportTikets = SupportTikets::where('id', $request->ticket_id)->first();
-        $supportTikets->status = 'solved';
-        $supportTikets->update();
+        $supportTickets = SupportTickets::where('id', $request->ticket_id)->first();
+        $supportTickets->status = 'solved';
+        $supportTickets->update();
         
-        $ticket_reply = new SupportTiketsReplies();
+        $ticket_reply = new SupportTicketsReplies();
         if($request->file_name) {
             $file = $request->file_name;
             

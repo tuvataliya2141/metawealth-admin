@@ -52,7 +52,7 @@
                             <div class="mb-0">
                                 <h1 class="text-dark mb-10">Public Tickets</h1>
                                 <div class="mb-10">
-                                    @foreach($supportTiketsList as $key => $val)
+                                    @foreach($supportTicketsList as $key => $val)
                                         <div class="d-flex mb-10">
                                             <span class="svg-icon svg-icon-2x me-5 ms-n1 mt-2 svg-icon-success"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path opacity="0.3" d="M19 22H5C4.4 22 4 21.6 4 21V3C4 2.4 4.4 2 5 2H14L20 8V21C20 21.6 19.6 22 19 22ZM11.7 17.7L16 14C16.4 13.6 16.4 12.9 16 12.5C15.6 12.1 15.4 12.6 15 13L11 16L9 15C8.6 14.6 8.4 14.1 8 14.5C7.6 14.9 8.1 15.6 8.5 16L10.3 17.7C10.5 17.9 10.8 18 11 18C11.2 18 11.5 17.9 11.7 17.7Z" fill="currentColor"/>

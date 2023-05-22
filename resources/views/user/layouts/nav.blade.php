@@ -72,7 +72,7 @@
                     <div class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2 {{ Request::url() == route('supportTickets') || str_contains(Request::url(), 'viewSupport') ? 'here show' : '' }}">
                         <span class="menu-link">
                             <a href="{{ route('supportTickets') }}">
-                                @php $ticketData = \App\Models\SupportTikets::where('status', 'solved')->get(); @endphp
+                                @php $ticketData = \App\Models\SupportTickets::where('status', 'solved')->get(); @endphp
                                 <span class="menu-title">Support Tickets @if($ticketData) <span class="badge badge-changelog badge-light-danger fw-semibold fs-8 px-2 ms-2">{{ count($ticketData) }}</span> @endif</span>
                                 <span class="menu-arrow d-lg-none"></span>
                             </a>

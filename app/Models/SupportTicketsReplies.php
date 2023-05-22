@@ -5,22 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SupportTikets extends Model
+class SupportTicketsReplies extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'code',
+        'ticket_id',
         'user_id',
         'subject',
         'details',
         'files',
-        'status',
-        'viewed',
     ];
 
-    public function ticketreplies()
-    {
-        return $this->hasMany(SupportTiketsReplies::class)->orderBy('created_at', 'desc');
+    public function ticket(){
+    	return $this->belongsTo(SupportTickets::class);
     }
 
     public function user(){

@@ -11,8 +11,8 @@ use App\Models\Incomes;
 use App\Models\User;
 use App\Models\WealthManagement;
 use App\Models\NetWorthRankings;
-use App\Models\SupportTikets;
-use App\Models\SupportTiketsReplies;
+use App\Models\SupportTickets;
+use App\Models\SupportTicketsReplies;
 use Carbon\Carbon;
 use Geocoder\Query\GeocodeQuery;
 use Geocoder\Provider\Nominatim\Nominatim;
@@ -458,26 +458,26 @@ class HomeController extends Controller
         $eventsChart = $data['eventsChart'];
         $eventsLineChart = $data['eventsLineChart'];
 
-        $supportTiketsList = SupportTikets::where('user_id', auth()->user()->id)->get();
+        $SupportTicketsList = SupportTickets::where('user_id', auth()->user()->id)->get();
 
-        return view('user.support.support_tickets', compact(['totalWealth', 'user', 'myAge', 'startYear', 'endYear', 'wealthData', 'statement', 'clientDetail', 'incomes', 'events', 'totalWealth', 'userAge', 'rateReturn', 'wealthIncomes', 'incomeChart', 'wealthEvents', 'eventsChart', 'eventsLineChart', 'supportTiketsList']));
+        return view('user.support.support_tickets', compact(['totalWealth', 'user', 'myAge', 'startYear', 'endYear', 'wealthData', 'statement', 'clientDetail', 'incomes', 'events', 'totalWealth', 'userAge', 'rateReturn', 'wealthIncomes', 'incomeChart', 'wealthEvents', 'eventsChart', 'eventsLineChart', 'SupportTicketsList']));
     }
 
-    public function addSupportTikets(Request $request) {
-        $supportTikets = new SupportTikets;
+    public function addSupportTickets(Request $request) {
+        $SupportTickets = new SupportTickets;
         if($request->file_name) {
             $file = $request->file_name;
             
             $name = $file->getClientOriginalName();
             $file->move(public_path().'/uploads/', $name);
-            $supportTikets->files = $name;
+            $SupportTickets->files = $name;
         }
-        $supportTikets->code = random_int(100000, 999999).date('s');
-        $supportTikets->user_id = $request->userId;
-        $supportTikets->subject = $request->supportSubject;
-        $supportTikets->details = $request->supportDescription;
-        $supportTikets->status = 'pending';
-        if($supportTikets->save()) {
+        $SupportTickets->code = random_int(100000, 999999).date('s');
+        $SupportTickets->user_id = $request->userId;
+        $SupportTickets->subject = $request->supportSubject;
+        $SupportTickets->details = $request->supportDescription;
+        $SupportTickets->status = 'pending';
+        if($SupportTickets->save()) {
             return true;
         } else {
             return false;
@@ -506,19 +506,19 @@ class HomeController extends Controller
         $eventsChart = $data['eventsChart'];
         $eventsLineChart = $data['eventsLineChart'];
 
-        $SupportTikets = SupportTikets::where('id', $id)->first();
-        $SupportTikets['replies'] = SupportTiketsReplies::where('ticket_id', $id)->orderBy('id', 'ASC')->get();
+        $SupportTickets = SupportTickets::where('id', $id)->first();
+        $SupportTickets['replies'] = SupportTicketsReplies::where('ticket_id', $id)->orderBy('id', 'ASC')->get();
 
-        return view('user.support.view', compact(['totalWealth', 'user', 'myAge', 'startYear', 'endYear', 'wealthData', 'statement', 'clientDetail', 'incomes', 'events', 'totalWealth', 'userAge', 'rateReturn', 'wealthIncomes', 'incomeChart', 'wealthEvents', 'eventsChart', 'eventsLineChart', 'SupportTikets']));
+        return view('user.support.view', compact(['totalWealth', 'user', 'myAge', 'startYear', 'endYear', 'wealthData', 'statement', 'clientDetail', 'incomes', 'events', 'totalWealth', 'userAge', 'rateReturn', 'wealthIncomes', 'incomeChart', 'wealthEvents', 'eventsChart', 'eventsLineChart', 'SupportTickets']));
     }
 
     public function replySupportTickets(Request $request) {
-        $supportTikets = SupportTikets::where('id', $request->ticket_id)->first();
-        $supportTikets->status = 'pending';
-        $supportTikets->viewed = '0';
-        $supportTikets->update();
+        $SupportTickets = SupportTickets::where('id', $request->ticket_id)->first();
+        $SupportTickets->status = 'pending';
+        $SupportTickets->viewed = '0';
+        $SupportTickets->update();
         
-        $ticket_reply = new SupportTiketsReplies();
+        $ticket_reply = new SupportTicketsReplies();
         if($request->file_name) {
             $file = $request->file_name;
             
