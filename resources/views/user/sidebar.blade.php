@@ -49,7 +49,7 @@
                             <div class="d-flex flex-stack mb-5">
                                 <div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
                                     <div class="me-5">
-                                        <h4 class="fw-bold m-0 mb-2 text-primary">{{ $wealthEvent->eventName }}</h4>
+                                        <h4 class="fw-bold m-0 mb-2 text-primary"><a href="" data-bs-toggle="modal" data-bs-target="#kt_modal_add_event">{{ $wealthEvent->eventName }}</a></h4>
                                     </div>
                                     <div class="d-flex">
                                         <div class="text-gray-600">CAD ${{ $wealthEvent->event_budget }}</div>

@@ -667,6 +667,7 @@
 </div>
 
 <!--begin::Modal - Add event-->
+<input type="hidden" value="addClientsEvent" id="addEventUrl" name="addEventUrl">
 <div class="modal fade" id="kt_modal_add_event" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered mw-650px">
         <div class="modal-content">
@@ -762,6 +763,7 @@
 <!--end::Modal - Add event-->
 
 <!--begin::Modal - Add income-->
+<input type="hidden" value="addClientsIncome" id="addIncomeUrl" name="addIncomeUrl">
 <div class="modal fade" id="kt_modal_add_income" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered mw-650px">
         <div class="modal-content">

@@ -95,6 +95,7 @@ class LoginController extends Controller
 
         if ($existingUser) {
             auth()->login($existingUser, true);
+            return redirect()->route('dashboard')->with('user', $existingUser);
         } else {
             $password = $user->given_name . '@123';
             $newUser = User::create([

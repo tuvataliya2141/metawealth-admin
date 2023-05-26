@@ -386,7 +386,6 @@ class HomeController extends Controller
             $totalWealth = 0;
         }
 
-
         $data = [
             'totalWealth' => $totalWealth,
             'user' => $user,
@@ -571,4 +570,199 @@ class HomeController extends Controller
             }
         }                
     }
+    
+    public function addClientsEvent(Request $request) {
+        $interest = $downPayment = $isOtherEvent = 0;
+        $spam_words = ["house", "home"];
+        $expression = '/\b(?:' . implode($spam_words, "|") . ')\b/i';
+
+        if ($request->event_name == 'other') {
+            $otherEvent = OtherEvents::where('name', $request->other_event_name)->first();
+            if ($otherEvent) {
+                $eventName = $otherEvent->id;
+            } else {                
+                $otherEvent = OtherEvents::create([
+                    'name' => $request->other_event_name,
+                ]);
+            }
+            $eventName = $otherEvent->id;
+            $isOtherEvent = 1;
+        } else {
+            $eventName = $request->event_name;            
+        }
+
+        if($request->event_end_year == $request->event_start_year){
+            $total_year = 1;
+        }else{
+            $total_year = abs($request->event_end_year - $request->event_start_year + 1);
+        }
+
+        if($request->interest){
+            $interest = $request->interest;
+        }
+
+        if($request->down_payment){
+            $downPayment = $request->down_payment;
+        }
+
+        if(($request->event_name == 1) || ($request->other_event_name != null && preg_match($expression, $request->other_event_name))) {
+            $index = 0;
+            if ($interest == 0) {
+                $years[$request->event_start_year] = (int)(str_replace(',', '', $request->event_amount));
+                $down_payment = $downPayment;
+            } else {
+                if ($downPayment > 0 && $downPayment != '' && $downPayment != null) {
+                    $down_payment = $downPayment;
+                    $r = (int)$interest / 100;
+                    $p = (int)(str_replace(',', '', $request->event_amount) - $down_payment);
+                    $t = (int)$total_year;
+                    $n = 12;
+
+                    $final_amount = (($p) * ($r / $n) * pow((1 + ($r / $n)), ($n * $t)) / (pow((1 + ($r / $n)), ($n * $t)) - (1)));
+                    $years = [];
+
+                    for ($i = $request->event_start_year; $i <= $request->event_end_year; $i++) {
+                        $finalValue = number_format((float)$final_amount, 2, '.', '') * 12;
+                        if($index == 0){
+                            $value = $finalValue + $down_payment;
+                        }else{
+                            $value = $finalValue;
+                        }
+                        $years[$i] = $value;
+                        $index++;
+                    }
+                } else {
+                    $r = (int)$interest / 100;
+                    $p = (int)(str_replace(',', '', $request->event_amount));
+                    $t = (int)$total_year;
+                    $n = 12;
+
+                    $final_amount = (($p) * ($r / $n) * pow((1 + ($r / $n)), ($n * $t)) / (pow((1 + ($r / $n)), ($n * $t)) - (1)));
+                    $years = [];
+                    $down_payment = null;
+
+                    for ($i = $request->event_start_year; $i <= $request->event_end_year; $i++) {
+                        $years[$i] = str_replace(',', '', $final_amount) * 12;
+                    }
+                }
+            }
+        } else {
+            $index = 0;
+            $years = [];
+            $down_payment = $downPayment;
+
+            if($down_payment > 0 && $down_payment != null){
+                $eventBudget = str_replace(',', '', $request->event_amount);
+                $finalValue = $eventBudget - $down_payment;
+            }else{
+                $finalValue = str_replace(',', '',$request->event_amount);
+            }
+            $eventfinalValue = $finalValue / $total_year;
+            for ($i = $request->event_start_year; $i <= $request->event_end_year; $i++) {
+                if($index == 0){
+                    $value = $eventfinalValue +  $down_payment;
+                }else{
+                    $value = $eventfinalValue;
+                }
+                $years[$i] = $value;
+                $index++;
+            }
+        }
+
+        if (!isset($request->wealth_management_id) && ($request->wealth_management_id == null || $request->wealth_management_id == '')) {
+            $WealthManagement = new WealthManagement;
+            $WealthManagement->user_id = $request->user_id;
+            $WealthManagement->event_name = $eventName;
+            $WealthManagement->event_budget = str_replace(',', '', $request->event_amount);
+            $WealthManagement->event_year = $request->event_start_year;
+            $WealthManagement->event_start_year = $request->event_start_year;
+            $WealthManagement->event_end_year = $request->event_end_year;
+            $WealthManagement->interest =  $interest;
+            $WealthManagement->down_payment = $down_payment;
+            $WealthManagement->devide_year = json_encode($years);
+            $WealthManagement->rate_return = $request->rate_return;
+            $WealthManagement->total_wealth = str_replace(',', '', $request->total_wealth);
+            $WealthManagement->age = $request->age;
+            $WealthManagement->is_other_event = $isOtherEvent;
+            
+            if($WealthManagement->save()) {
+                $updateTotalWealth = WealthManagement::where('user_id', $request->user_id)->get();
+                foreach($updateTotalWealth as $wealth) {
+                    $wealth->total_wealth = str_replace(',', '', $request->total_wealth);
+                    $wealth->update();
+                }
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            $wealthManagement = WealthManagement::where('id', $request->wealth_management_id)->first();
+            if ($wealthManagement) {
+                $wealthManagement->event_name = $eventName;
+                $wealthManagement->event_budget = str_replace(',', '', $request->event_amount);
+                $wealthManagement->event_year = $request->event_start_year;
+                $wealthManagement->event_start_year = $request->event_start_year;
+                $wealthManagement->event_end_year = $request->event_end_year;
+                $wealthManagement->interest =  $interest;
+                $wealthManagement->down_payment = $down_payment;
+                $wealthManagement->devide_year = json_encode($years);
+                $wealthManagement->rate_return = $request->rate_return;
+                $wealthManagement->total_wealth = str_replace(',', '', $request->total_wealth);
+                $wealthManagement->age = $request->age;
+                $wealthManagement->is_other_event = $isOtherEvent;
+            
+                if($wealthManagement->save()) {
+                    $updateTotalWealth = WealthManagement::where('user_id', $request->user_id)->get();
+                    foreach($updateTotalWealth as $wealth) {
+                        $wealth->total_wealth = str_replace(',', '', $request->total_wealth);
+                        $wealth->update();
+                    }
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+    }
+
+    public function addClientsIncome(Request $request) {
+        if(isset($request->interest)){
+            $interest = $request->interest;
+        }else{
+            $interest = null;
+        }
+
+        if (!isset($request->wealth_management_id) && ($request->wealth_management_id == null || $request->wealth_management_id == '')) {
+            $WealthManagement = new WealthManagement;
+            $WealthManagement->user_id = $request->user_id;
+            $WealthManagement->income_name = $request->income_name;
+            $WealthManagement->income_budget = $request->income_amount;
+            $WealthManagement->income_year = $request->income_year;
+            $WealthManagement->total_wealth = $request->total_wealth;;
+            $WealthManagement->age = $request->age;
+            $WealthManagement->interest = $interest;
+            $WealthManagement->rate_return = $request->rate_return;
+
+            if($WealthManagement->save()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            $wealthManagement = WealthManagement::where('id', $request->wealth_management_id)->where('user_id', $request->user_id)->first();
+        
+            if($wealthManagement){
+                $wealthManagement->income_name = $request->income_name;
+                $wealthManagement->income_budget = $request->income_amount;
+                $wealthManagement->income_year = $request->income_year;
+                $wealthManagement->total_wealth = $request->total_wealth;;
+                $wealthManagement->age = $request->age;
+                $wealthManagement->interest = $interest;
+                $wealthManagement->rate_return = $request->rate_return;
+                $wealthManagement->update();
+                return true;
+            }
+        }                
+    }    
+
 }

@@ -200,6 +200,7 @@ var KTUsersAddEvents = function () {
 						submitButton.disabled = true;
 
                         var userId = $('.user_id').val();
+                        var addEventUrl = $('#addEventUrl').val();
                         var wealthManagementId = $(".event_wealth_management_id").val();
                         var eventName = $('.select_event_name').val();
                         var otherEventName = $('.other_event_name').val();
@@ -232,7 +233,7 @@ var KTUsersAddEvents = function () {
                                 headers: {
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 },
-                                url : siteUrl+"clients/addClientsEvent",
+                                url : siteUrl+addEventUrl,
                                 type : 'post',
                                 data : data,
                                 dataType : 'json',

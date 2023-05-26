@@ -103,6 +103,23 @@ Route::middleware(['auth', 'verifUser'])->group(function () {
             Route::post('/assign-subAdmin', [App\Http\Controllers\AdminController::class, 'assignSubAdmin'])->name('adminAssignSubAdmin');
         });
 
+        // CRM Route
+        Route::prefix('crm')->group(function () {
+            Route::get('/clients', [App\Http\Controllers\AdminController::class, 'allCRMClients'])->name('adminCRMAllClients');
+            Route::get('/add-crm-client', [App\Http\Controllers\AdminController::class, 'addCRMClient'])->name('adminAddCRMClient');
+            Route::post('/storeClient', [App\Http\Controllers\AdminController::class, 'storeCRMClient'])->name('adminStoreCRMClient');
+            Route::get('/view-crm-client', [App\Http\Controllers\AdminController::class, 'viewCRMClient'])->name('adminViewCRMClient');
+
+            Route::get('/update-crm-client/{id}', [App\Http\Controllers\AdminController::class, 'updateCRMClient'])->name('adminUpdateCRMClient');
+            Route::post('/editClient', [App\Http\Controllers\AdminController::class, 'editCRMClient'])->name('adminEditCRMClient');
+            
+            Route::get('/delete-crm-client/{id}', [App\Http\Controllers\AdminController::class, 'deleteCRMClient'])->name('adminDeleteCRMClient');
+            Route::get('/add-crm-client/{id}', [App\Http\Controllers\AdminController::class, 'convertCRMClient'])->name('adminConvertCRMClient');
+            Route::get('/remove-crm-client/{id}', [App\Http\Controllers\AdminController::class, 'removeCRMClient'])->name('adminRemoveCRMClient');
+
+            Route::get('/leads', [App\Http\Controllers\AdminController::class, 'allLeads'])->name('adminAllLeads');
+        });
+
         // Booking Route
         Route::get('/booking', [App\Http\Controllers\AdminController::class, 'booking'])->name('adminBooking');
 
@@ -258,6 +275,8 @@ Route::middleware(['auth', 'verifUser'])->group(function () {
         Route::get('/viewSupport/{id}', [App\Http\Controllers\HomeController::class, 'viewSupport'])->name('userViewSupport');
         Route::post('/user/replySupportTickets', [App\Http\Controllers\HomeController::class, 'replySupportTickets'])->name('replySupportTickets');
         Route::post('/updateAge', [App\Http\Controllers\HomeController::class, 'updateAge'])->name('updateAge');
+        Route::post('/addClientsEvent', [App\Http\Controllers\HomeController::class, 'addClientsEvent'])->name('addClientsEvent');
+        Route::post('/addClientsIncome', [App\Http\Controllers\AdvisorController::class, 'addClientsIncome'])->name('addClientsIncome');
     });
     
 });

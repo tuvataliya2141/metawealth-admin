@@ -13,7 +13,7 @@ use App\Models\Events;
 use App\Models\OtherEvents;
 use App\Models\Incomes;
 use App\Models\WealthManagement;
-use App\Models\Location;
+use App\Models\CrmClients;
 use App\Http\Controllers\MailController;
 use App\Models\SupportTickets;
 use App\Models\SupportTicketsReplies;
@@ -1427,7 +1427,6 @@ class AdminController extends Controller
         
         return view('admin.support.view', compact(['data']));
     }
-    
 
     public function addReplySupportTickets(Request $request) {
         // dd($request->all());
@@ -1452,8 +1451,6 @@ class AdminController extends Controller
             return false;
         }
     }
-
-
 
     public function storeSupport(Request $request) {
         $findVal = 0;
@@ -1695,6 +1692,179 @@ class AdminController extends Controller
         if($client) {
             $client->delete();
         }
+
+        return true;
+    }
+
+    // CRM
+    public function allCRMClients() {
+        $allClients = CrmClients::where('clients', 'no')->get();
+        $advisors = User::where('role', 3)->get();
+
+        return view('admin.crm.index', compact(['allClients', 'advisors']));
+    }
+
+    public function addCRMClient() {
+        return view('admin.crm.addClient');
+    }
+
+    public function storeCRMClient(Request $request) {
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'dob' => 'required',
+            'gender' => 'required',
+            'nationality' => 'required',
+            'occupation' => 'required',
+            'industry' => 'required',
+            'employer' => 'required',
+            'id_type' => 'required',
+            'id_number' => 'required',
+            'id_place' => 'required',
+            'phone' => 'required',
+            'fax' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+            'receiving_funds' => 'required',
+            'sending_funds' => 'required',
+            'expected_transaction' => 'required',
+            'annual_income' => 'required',
+            'source_funds' => 'required',
+            'trading_purpose' => 'required',
+        ]);
+
+
+        $crmClients = new CrmClients;
+        $crmClients->first_name = $request->first_name;
+        $crmClients->last_name = $request->last_name;
+        $crmClients->birth_date = $request->dob;
+        $crmClients->gender = $request->gender;
+        $crmClients->nationality = $request->nationality;
+        $crmClients->occupation = $request->occupation;
+        $crmClients->industry = $request->industry;
+        $crmClients->employer = $request->employer;
+        $crmClients->id_type = $request->id_type;
+        $crmClients->id_number = $request->id_number;
+        $crmClients->id_place = $request->id_place;
+        $crmClients->phone_number = $request->phone;
+        $crmClients->cell_phone = $request->cell_phone;
+        $crmClients->fax = $request->fax;
+        $crmClients->email = $request->email;
+        $crmClients->address = $request->address;
+        $crmClients->receiving_funds = $request->receiving_funds;
+        $crmClients->sending_funds = $request->sending_funds;
+        $crmClients->expected_transaction = $request->expected_transaction;
+        $crmClients->annual_income = $request->annual_income;
+        $crmClients->source_funds = $request->source_funds;
+        $crmClients->trading_purpose = $request->trading_purpose;
+        $crmClients->date_of_contact = isset($request->date_contact) ? $request->date_contact : null;
+        $crmClients->mode_of_contact = isset($request->mode_contact) ? $request->mode_contact : null;
+        $crmClients->notes_from_contact = isset($request->notes_from_contact) ? $request->notes_from_contact : null;
+        $crmClients->followup_date = isset($request->followup_date) ? $request->followup_date : null;
+        $crmClients->status = isset($request->status) ? $request->status : null;
+        $crmClients->followup_notification = isset($request->followup_notification) ? $request->followup_notification : 0;
+        $crmClients->followup_notification_email = isset($request->followup_notification_email) ? $request->followup_notification_email : 0;
+        $crmClients->clients = isset($request->clients) ? $request->clients : 'no';
+        $crmClients->save();
+
+        return redirect()->route('adminCRMAllClients');
+    }
+
+    public function viewCRMClient($id) {
+        $client = CrmClients::where('id', $id)->first();
+        return view('admin.crm.view', compact(['client']));
+    }
+
+    public function updateCRMClient($id) {
+        $client = CrmClients::where('id', $id)->first();
+        return view('admin.crm.updateClient', compact(['client']));
+    }
+
+    public function editCRMClient(Request $request) {
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'dob' => 'required',
+            'gender' => 'required',
+            'nationality' => 'required',
+            'occupation' => 'required',
+            'industry' => 'required',
+            'employer' => 'required',
+            'id_type' => 'required',
+            'id_number' => 'required',
+            'id_place' => 'required',
+            'phone' => 'required',
+            'fax' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+            'receiving_funds' => 'required',
+            'sending_funds' => 'required',
+            'expected_transaction' => 'required',
+            'annual_income' => 'required',
+            'source_funds' => 'required',
+            'trading_purpose' => 'required',
+        ]);
+
+
+        $crmClients = CrmClients::where('id', $request->id)->first();
+        $crmClients->first_name = $request->first_name;
+        $crmClients->last_name = $request->last_name;
+        $crmClients->birth_date = $request->dob;
+        $crmClients->gender = $request->gender;
+        $crmClients->nationality = $request->nationality;
+        $crmClients->occupation = $request->occupation;
+        $crmClients->industry = $request->industry;
+        $crmClients->employer = $request->employer;
+        $crmClients->id_type = $request->id_type;
+        $crmClients->id_number = $request->id_number;
+        $crmClients->id_place = $request->id_place;
+        $crmClients->phone_number = $request->phone;
+        $crmClients->cell_phone = $request->cell_phone;
+        $crmClients->fax = $request->fax;
+        $crmClients->email = $request->email;
+        $crmClients->address = $request->address;
+        $crmClients->receiving_funds = $request->receiving_funds;
+        $crmClients->sending_funds = $request->sending_funds;
+        $crmClients->expected_transaction = $request->expected_transaction;
+        $crmClients->annual_income = $request->annual_income;
+        $crmClients->source_funds = $request->source_funds;
+        $crmClients->trading_purpose = $request->trading_purpose;
+        $crmClients->date_of_contact = isset($request->date_contact) ? $request->date_contact : null;
+        $crmClients->mode_of_contact = isset($request->mode_contact) ? $request->mode_contact : null;
+        $crmClients->notes_from_contact = isset($request->notes_from_contact) ? $request->notes_from_contact : null;
+        $crmClients->followup_date = isset($request->followup_date) ? $request->followup_date : null;
+        $crmClients->status = isset($request->status) ? $request->status : null;
+        $crmClients->followup_notification = isset($request->followup_notification) ? $request->followup_notification : 0;
+        $crmClients->followup_notification_email = isset($request->followup_notification_email) ? $request->followup_notification_email : 0;
+        $crmClients->clients = isset($request->clients) ? $request->clients : 'no';
+        $crmClients->update();
+
+        return redirect()->route('adminCRMAllClients');
+    }
+
+    public function deleteCRMClient($id) {
+        CrmClients::where('id', $id)->delete();
+        
+        return true;
+    }
+    
+    public function allLeads() {
+        $allClients = CrmClients::where('clients', 'yes')->get();
+        return view('admin.crm.leads', compact(['allClients']));
+    }
+    
+    public function convertCRMClient($id) {
+        $client = CrmClients::where('id', $id)->first();
+        $client->clients = 'yes';
+        $client->update();
+
+        return true;
+    }
+    
+    public function removeCRMClient($id) {
+        $client = CrmClients::where('id', $id)->first();
+        $client->clients = 'no';
+        $client->update();
 
         return true;
     }

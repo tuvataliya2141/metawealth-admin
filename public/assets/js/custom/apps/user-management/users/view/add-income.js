@@ -178,6 +178,7 @@ var KTUsersAddSchedule = function () {
 						// Disable button to avoid multiple click 
 						submitButton.disabled = true;
 
+                        var addIncomeUrl = $('#addIncomeUrl').val();
                         var userId = $('.user_id').val();
                         var wealthManagementId = $(".wealth_management_id").val();
                         var incomeName = $('.income_name').val();
@@ -194,7 +195,7 @@ var KTUsersAddSchedule = function () {
                                 headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 },
-                                url : siteUrl+"clients/addClientsIncome",
+                                url : siteUrl+addIncomeUrl,
                                 type : 'post',
                                 data : data,
                                 dataType : 'json',

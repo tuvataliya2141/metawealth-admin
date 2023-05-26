@@ -397,7 +397,7 @@
     </div>
 </div>
 
-<!--begin::Modal - Add event-->
+<!--begin::Modal - Assign Advisor-->
 
 <div class="modal fade" id="kt_modal_assign_advisor" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered mw-650px">
@@ -443,9 +443,10 @@
         </div>
     </div>
 </div>
-<!--end::Modal - Add event-->
+<!--end::Modal - Assign Advisor-->
 
 <!--begin::Modal - Add event-->
+<input type="hidden" value="clients/addClientsEvent" id="addEventUrl" name="addEventUrl">
 <div class="modal fade" id="kt_modal_add_event" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered mw-650px">
         <div class="modal-content">
@@ -541,6 +542,7 @@
 <!--end::Modal - Add event-->
 
 <!--begin::Modal - Add income-->
+<input type="hidden" value="clients/addClientsIncome" id="addIncomeUrl" name="addIncomeUrl">
 <div class="modal fade" id="kt_modal_add_income" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered mw-650px">
         <div class="modal-content">
