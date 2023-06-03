@@ -297,7 +297,7 @@ class AdminController extends Controller
 
     public function assignAdvisor(Request $request) {
         $advisor=User::where('id', $request->advisor_id)->where('role', 3)->first();
-        $user=User::where('id', $request->client_id)->where('role', 0)->first();
+        $user=CrmClients::where('id', $request->client_id)->first();
 
         if($advisor) {
             if($user) {
@@ -1100,7 +1100,8 @@ class AdminController extends Controller
 
         $advisorDetails['user'] = $user;
         $advisorDetails['personalDetails'] = $personalDetails;
-        $advisorDetails['users'] = AssignAdvisor::where('advisor_id', $id)->join('users', 'users.id', '=', 'assign_advisors.user_id')->get();
+        $advisorDetails['clients'] = AssignAdvisor::where('advisor_id', $id)->join('crm_clients', 'crm_clients.id', '=', 'assign_advisors.user_id')->where('crm_clients.clients', 'no')->get();
+        $advisorDetails['leads'] = AssignAdvisor::where('advisor_id', $id)->join('users', 'users.id', '=', 'assign_advisors.user_id')->get();
 
         return view('admin.advisors.view', compact(['advisorDetails']));
     }
@@ -1858,6 +1859,53 @@ class AdminController extends Controller
         $client->clients = 'yes';
         $client->update();
 
+        return true;
+    }
+
+    public function statusUpdateAdvisor($id) {
+        $client = CrmClients::where('id', $id)->first();
+        if($client){
+            $user = new User;
+            $user->name = $client->first_name . ' ' . $client->last_name;
+            $user->role = 0;
+            $user->email  = $client->email;
+            $user->password  = Hash::make($client->phone_number);
+            $user->status  = 1;
+            $user->save();
+            $details =[
+                'user' => [
+                    'user_id' => encrypt($user->id),
+                    'email' => $user->email,
+                    'img' => env('LOGO'),
+                ],
+                'view' => 'mails.verifyAccount'
+            ];
+    
+            $result = (new MailController)->send($details);
+            $latLng = $this->getLatLng($client->address);
+            if($latLng != null) {
+                $latitude = $latLng[0];
+                $longitude = $latLng[1];
+            }
+            if($result){
+                $personalDetails = new PersonalDetails;
+                $personalDetails->user_id = $user->id;
+                $personalDetails->first_name = isset($client->first_name) ? encrypt($client->first_name) : NULL;
+                $personalDetails->last_name = isset($client->last_name) ? encrypt($client->last_name) : NULL;
+                $personalDetails->dob = isset($client->birth_date) ? encrypt($client->birth_date) : NULL;
+                $personalDetails->gender = isset($client->gender) ? encrypt($client->gender) : NULL;
+                $personalDetails->phone = isset($client->phone_number) ? encrypt($client->phone_number) : NULL;
+                $personalDetails->email = isset($client->email) ? encrypt($client->email) : NULL;
+                $personalDetails->address = isset($client->address) ? encrypt($client->address) : NULL;
+                $personalDetails->latitude = isset($latitude) ? encrypt($latitude) : NULL;
+                $personalDetails->longitude = isset($longitude) ? encrypt($longitude) : NULL;
+                $personalDetails->status = encrypt('self');
+                $personalDetails->save();
+            }
+            // dd($client);
+            $client->clients = 'yes';
+            $client->update();
+        }
         return true;
     }
     

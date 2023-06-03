@@ -325,7 +325,7 @@
                                         <span>Date of Contact</span>
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Select the date of contact."></i>
                                     </label>
-                                    <input type="date" class="form-control" name="date_contact" value="{{ $client->date_contact }}"/>
+                                    <input type="date" class="form-control" name="date_contact" value="{{ date("Y-m-d", strtotime($client->date_of_contact)) }}"/>
                                 </div>
                             </div>
                             <div class="col">
@@ -334,7 +334,7 @@
                                         <span>Mode of Contact</span>
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Mode of Contact."></i>
                                     </label>
-                                    <input type="text" class="form-control" name="mode_contact" value="{{ $client->mode_contact }}"/>
+                                    <input type="text" class="form-control" name="mode_contact" value="{{ $client->mode_of_contact }}"/>
                                 </div>
                             </div>
                         </div>
@@ -365,7 +365,7 @@
                                         <span>Follow up Date</span>
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Select the Follow up date."></i>
                                     </label>
-                                    <input type="date" class="form-control" name="followup_date" value="{{ $client->followup_date }}"/>
+                                    <input type="date" class="form-control" name="followup_date" value="{{ date("Y-m-d", strtotime($client->followup_date)) }}"/>
                                 </div>
                             </div>
                             <div class="col">
@@ -408,7 +408,7 @@
                             </div>
                             <div class="col">
                                 <div class="form-check form-switch form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" value="yes" id="client" name="client" {{ ($client->clients == 'yes') ? 'checked' : '' }}/>
+                                    <input class="form-check-input" type="checkbox" value="yes" id="clients" name="clients" {{ ($client->clients == 'yes') ? 'checked' : '' }}/>
                                     <label class="form-check-label" for="client">
                                         Client
                                     </label>

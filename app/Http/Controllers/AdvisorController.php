@@ -15,6 +15,7 @@ use App\Models\Incomes;
 use App\Models\WealthManagement;
 use App\Models\Location;
 use App\Http\Controllers\MailController;
+use App\Models\CrmClients;
 use Exception;
 use Illuminate\Validation\Rule;
 use Geocoder\Query\GeocodeQuery;
@@ -32,6 +33,30 @@ class AdvisorController extends Controller
 
     // Clients
     public function allClients() {
+        // $clients = AssignAdvisor::select('users.*', 'personal_details.*', 'users.status as user_status')
+        //         ->where('advisor_id', auth()->user()->id)
+        //         ->where('users.role', 0)
+        //         ->join('users', 'users.id', '=', 'assign_advisors.user_id')
+        //         ->join('personal_details', 'users.id', '=', 'personal_details.user_id')
+        //         ->get();
+        $clients = AssignAdvisor::select('crm_clients.*')
+                ->where('advisor_id', auth()->user()->id)
+                ->where('crm_clients.clients', 'no')
+                ->join('crm_clients', 'crm_clients.id', '=', 'assign_advisors.user_id')
+                ->get();
+        // dd($clients);
+        $assignedUser = AssignAdvisor::pluck('user_id')->toArray();
+
+        if(count($assignedUser) > 0) {
+            $users = User::where('role', 0)->whereNotIn('id', $assignedUser)->get();
+        } else {
+            $users = User::where('role', 0)->get();
+        }
+
+        return view('advisor.clients.index', compact(['clients', 'users']));
+    }
+
+    public function advisorAllLeads() {
         $clients = AssignAdvisor::select('users.*', 'personal_details.*', 'users.status as user_status')
                 ->where('advisor_id', auth()->user()->id)
                 ->where('users.role', 0)
@@ -46,8 +71,8 @@ class AdvisorController extends Controller
         } else {
             $users = User::where('role', 0)->get();
         }
-
-        return view('advisor.clients.index', compact(['clients', 'users']));
+        // dd($clients);
+        return view('advisor.clients.leadsList', compact(['clients', 'users']));
     }
 
     public function addClient() {
@@ -167,13 +192,89 @@ class AdvisorController extends Controller
     }
 
     public function updateClient($id) {
+        $client = CrmClients::where('id', $id)->first();
+        return view('advisor.clients.updateClient', compact(['client']));
+    }
+
+    public function editCRMClient(Request $request) {
+        $request->validate([
+            'date_contact' => 'required',
+            'mode_contact' => 'required',
+            'notes_from_contact' => 'required',
+            'followup_date' => 'required',
+            'status' => 'required',
+            'followup_notification' => 'required',
+            'followup_notification_email' => 'required',
+        ]);
+
+        $crmClients = CrmClients::where('id', $request->id)->first();
+        $crmClients->date_of_contact = isset($request->date_contact) ? $request->date_contact : null;
+        $crmClients->mode_of_contact = isset($request->mode_contact) ? $request->mode_contact : null;
+        $crmClients->notes_from_contact = isset($request->notes_from_contact) ? $request->notes_from_contact : null;
+        $crmClients->followup_date = isset($request->followup_date) ? $request->followup_date : null;
+        $crmClients->status = isset($request->status) ? $request->status : null;
+        $crmClients->followup_notification = isset($request->followup_notification) ? $request->followup_notification : 0;
+        $crmClients->followup_notification_email = isset($request->followup_notification_email) ? $request->followup_notification_email : 0;
+        $crmClients->clients = isset($request->client) ? $request->client : 'no';
+        $crmClients->update();
+        return redirect()->route('advisorAllClients')->with('success', 'Cliens Updated successfully!');
+    }
+
+    public function statusUpdateAdvisor($id) {
+        $client = CrmClients::where('id', $id)->first();
+        if($client){
+            $user = new User;
+            $user->name = $client->first_name . ' ' . $client->last_name;
+            $user->role = 0;
+            $user->email  = $client->email;
+            $user->password  = Hash::make($client->phone_number);
+            $user->status  = 1;
+            $user->save();
+            $details =[
+                'user' => [
+                    'user_id' => encrypt($user->id),
+                    'email' => $user->email,
+                    'img' => env('LOGO'),
+                ],
+                'view' => 'mails.verifyAccount'
+            ];
+    
+            $result = (new MailController)->send($details);
+            $latLng = $this->getLatLng($client->address);
+            if($latLng != null) {
+                $latitude = $latLng[0];
+                $longitude = $latLng[1];
+            }
+            if($result){
+                $personalDetails = new PersonalDetails;
+                $personalDetails->user_id = $user->id;
+                $personalDetails->first_name = isset($client->first_name) ? encrypt($client->first_name) : NULL;
+                $personalDetails->last_name = isset($client->last_name) ? encrypt($client->last_name) : NULL;
+                $personalDetails->dob = isset($client->birth_date) ? encrypt($client->birth_date) : NULL;
+                $personalDetails->gender = isset($client->gender) ? encrypt($client->gender) : NULL;
+                $personalDetails->phone = isset($client->phone_number) ? encrypt($client->phone_number) : NULL;
+                $personalDetails->email = isset($client->email) ? encrypt($client->email) : NULL;
+                $personalDetails->address = isset($client->address) ? encrypt($client->address) : NULL;
+                $personalDetails->latitude = isset($latitude) ? encrypt($latitude) : NULL;
+                $personalDetails->longitude = isset($longitude) ? encrypt($longitude) : NULL;
+                $personalDetails->status = encrypt('self');
+                $personalDetails->save();
+            }
+            // dd($client);
+            $client->clients = 'yes';
+            $client->update();
+        }
+        return true;
+    }
+    
+    public function updateLeads($id) {
         $client = [];
 
         $clientPersonalDetails = PersonalDetails::where('user_id', $id)->orderBy('id', 'ASC')->get();        
         $client['self'] = $clientPersonalDetails[0];
         $client['spouse'] = isset($clientPersonalDetails[1]) ? $clientPersonalDetails[1] : '';
 
-        return view('advisor.clients.updateClient', compact(['client']));
+        return view('advisor.clients.updateLeads', compact(['client']));
     }
 
     public function editClient(Request $request) {

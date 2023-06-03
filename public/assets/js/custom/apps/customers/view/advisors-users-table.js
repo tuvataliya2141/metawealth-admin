@@ -5,7 +5,19 @@ var KTCustomerViewPaymentTable = function () {
 
     // Define shared variables
     var datatable;
-    var table = document.querySelector('#kt_table_advisors_users');
+    var table;
+    // var table = document.querySelector('#kt_table_advisors_users');
+
+    var initDatatable = function () {
+        datatable = $(table).DataTable({
+            // "info": false,
+            // 'order': [],
+            // 'pageLength': 10,
+            // 'columnDefs': [
+            //     { orderable: false, targets: 10 },
+            // ]
+        });
+    }
 
     // Delete customer
     var deleteRows = () => {
@@ -78,12 +90,21 @@ var KTCustomerViewPaymentTable = function () {
     // Public methods
     return {
         init: function () {
+            table = document.querySelector('#kt_table_advisors_users');
             if (!table) {
                 return;
             }
-
             deleteRows();
+            initDatatable();
         }
+        // init: function () {
+        //     if (!table) {
+        //         return;
+        //     }
+
+        //     deleteRows();
+        //     initDatatable();
+        // }
     }
 }();
 

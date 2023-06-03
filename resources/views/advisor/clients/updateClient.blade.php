@@ -14,7 +14,7 @@
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
                     <li class="breadcrumb-item text-muted">
-                        <a href="{{ route('advisorAllClients') }}" class="text-muted text-hover-primary"> All Clients </a>
+                        <a href="{{ route('advisorAllLeads') }}" class="text-muted text-hover-primary"> All Clients </a>
                     </li>
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
@@ -42,7 +42,8 @@
                     </div>
                 </div>
                 <div class="card-body pt-5">
-                    <form class="form" action="{{ route('advisorEditClient') }}" method="post">
+                    <form class="form" action="{{ route('advisorEditCRMClient') }}" method="post">
+                        <input type="hidden" name="id" value="{{ $client->id }}"/>
                         @csrf
                         <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
                             <div class="col">
@@ -51,13 +52,11 @@
                                         <span class="required">First Name</span>
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the first name."></i>
                                     </label>
-                                    <input type="hidden" name="user_id" value="{{ $client['self']->user_id }}"/>
-                                    <input type="hidden" name="self_id" value="{{ $client['self']->id }}"/>
-                                    @if($client['spouse'] != NULL)
-                                        <input type="hidden" name="spouse_id" value="{{ $client['spouse']->id }}"/>
-                                    @endif
-                                    <input type="text" class="form-control form-control-solid" name="first_name" value="{{ decrypt($client['self']->first_name) }}" required/>
+                                    <input type="text" class="form-control" name="first_name" disabled value="{{ $client->first_name }}" required/>
                                 </div>
+                                @error('first_name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col">
                                 <div class="fv-row mb-7">
@@ -65,42 +64,75 @@
                                         <span class="required">Last Name</span>
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the last name."></i>
                                     </label>
-                                    <input type="text" class="form-control form-control-solid" name="last_name" value="{{ decrypt($client['self']->last_name) }}" required/>
+                                    <input type="text" class="form-control" name="last_name" disabled value="{{ $client->last_name }}" required/>
                                 </div>
+                                @error('last_name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
-                        <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+                        <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
                             <div class="col">
                                 <div class="fv-row mb-7">
                                     <label class="fs-6 fw-semibold form-label mt-3">
                                         <span class="required">Phone</span>
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the phone number."></i>
                                     </label>
-                                    <input type="text" class="form-control form-control-solid" name="phone" value="{{ decrypt($client['self']->phone) }}" required/>
-                                    @error('phone')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
+                                    <input type="text" class="form-control" name="phone" disabled value="{{ $client->phone_number }}" required/>
                                 </div>
+                                @error('phone')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span>Cell Phone</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Cell Phone."></i>
+                                    </label>
+                                    <input type="text" class="form-control" name="cell_phone" disabled value="{{ $client->cell_phone }}"/>
+                                </div>
+                                @error('cell_phone')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span class="required">Fax</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Fax."></i>
+                                    </label>
+                                    <input type="text" class="form-control" name="fax" disabled value="{{ $client->fax }}" required/>
+                                </div>
+                                @error('fax')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
                             <div class="col">
                                 <div class="fv-row mb-7">
                                     <label class="fs-6 fw-semibold form-label mt-3">
                                         <span class="required">Email</span>
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the email id."></i>
                                     </label>
-                                    <input type="email" class="form-control form-control-solid" name="email" value="{{ decrypt($client['self']->email) }}" required/>
+                                    <input type="email" class="form-control" name="email" disabled value="{{ $client->email }}" required/>
                                 </div>
+                                @error('email')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-                        </div>
-                        <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
                             <div class="col">
                                 <div class="fv-row mb-7">
                                     <label class="fs-6 fw-semibold form-label mt-3">
                                         <span class="required">Date of Birth</span>
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the date of birth."></i>
                                     </label>
-                                    <input type="date" class="form-control form-control-solid" name="dob" value="{{ decrypt($client['self']->dob) }}" required/>
+                                    <input type="date" class="form-control" name="dob" disabled value="{{ $client->dob }}" required/>
                                 </div>
+                                @error('dob')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col">
                                 <div class="fv-row mb-7">
@@ -109,262 +141,303 @@
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Select the gender."></i>
                                     </label>
                                     <div class="w-100">
-                                        <select id="select2_client_gender" class="form-select form-select-solid" name="gender" data-placeholder="Select a Gender" required>
+                                        <select id="select2_client_gender" class="form-select" disabled name="gender" data-placeholder="Select a Gender" required>
                                             <option></option>
-                                            <option value="male" {{ (decrypt($client['self']->gender) == 'male') ? 'selected' : '' }}> Male </option>
-                                            <option value="female" {{ (decrypt($client['self']->gender) == 'female') ? 'selected' : '' }}> Female </option>
-                                            <option value="other" {{ (decrypt($client['self']->gender) == 'other') ? 'selected' : '' }}> Other </option>
+                                            <option value="male" {{ ($client->gender == 'male') ? 'selected' : '' }}> Male </option>
+                                            <option value="female" {{ ($client->gender == 'female') ? 'selected' : '' }}> Female </option>
+                                            <option value="other" {{ ($client->gender == 'other') ? 'selected' : '' }}> Other </option>
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
-                            <div class="col">
-                                <div class="fv-row mb-7">
-                                    @php
-                                        $jointPlan = ($client['self']->joint_plan != NULL) ? decrypt($client['self']->joint_plan) : NULL;
-                                    @endphp
-                                    <label class="fs-6 fw-semibold form-label mt-3">
-                                        <span>Joint Profile</span>
-                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Select the Joint Profile."></i>
-                                    </label>
-                                    <div class="w-100">
-                                        <select id="select2_client_joint_profile" class="form-select form-select-solid" name="joint_profile" data-placeholder="Select a Joint Profile">
-                                            <option></option>
-                                            <option value="yes" {{ ($jointPlan == 'yes') ? 'selected' : '' }}> Yes </option>                                            
-                                            <option value="no" {{ ($jointPlan == 'no') ? 'selected' : '' }}> No </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="fv-row mb-7">
-                                    <label class="fs-6 fw-semibold form-label mt-3">
-                                        <span>Marital Status</span>
-                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Select the Marital Status."></i>
-                                    </label>
-                                    <div class="w-100">
-                                        @php
-                                            $maritalStatus = (isset($client['self']->marital_status)) ? decrypt($client['self']->marital_status) : NULL;
-                                        @endphp
-                                        <select id="select2_client_marital_status" class="form-select form-select-solid" name="marital_status" data-placeholder="Select a Marital Status">
-                                            <option></option>
-                                            <option value="married" {{ ($maritalStatus == 'married') ? 'selected' : '' }}> Married </option>                                            
-                                            <option value="unmarried" {{ ($maritalStatus == 'unmarried') ? 'selected' : '' }}> Unmarried </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
-                            <div class="col">
-                                <div class="fv-row mb-7">
-                                    <label class="fs-6 fw-semibold form-label mt-3">
-                                        <span>Retired</span>
-                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Select the Retired."></i>
-                                    </label>
-                                    <div class="w-100">
-                                        @php
-                                            $retired = (isset($client['self']->retired)) ? decrypt($client['self']->retired) : NULL;
-                                        @endphp
-                                        <select id="select2_client_retired" class="form-select form-select-solid" name="retired" data-placeholder="Select a Retired">
-                                            <option></option>
-                                            <option value="yes" {{ ($retired == 'yes') ? 'selected' : '' }}> Yes </option>                                            
-                                            <option value="no" {{ ($retired == 'no') ? 'selected' : '' }}> No </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="fv-row mb-7">
-                                    <label class="fs-6 fw-semibold form-label mt-3">
-                                        <span>Street Address</span>
-                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Street Address."></i>
-                                    </label>
-                                    <textarea class="form-control" data-kt-autosize="true" name="address">{{ (isset($client['self']->address)) ? decrypt($client['self']->address) : NULL }}</textarea>
-                                </div>
+                                @error('gender')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
                             <div class="col">
                                 <div class="fv-row mb-7">
                                     <label class="fs-6 fw-semibold form-label mt-3">
-                                        <span>City</span>
-                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the City."></i>
+                                        <span class="required">Occupation</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the occupation."></i>
                                     </label>
-                                    <input type="text" class="form-control form-control-solid" name="city" value="{{ (isset($client['self']->city)) ? decrypt($client['self']->city) : NULL }}"/>
+                                    <input type="text" class="form-control" name="occupation" disabled value="{{ $client->occupation }}" required/>
                                 </div>
+                                @error('occupation')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col">
                                 <div class="fv-row mb-7">
                                     <label class="fs-6 fw-semibold form-label mt-3">
-                                        <span>Province</span>
-                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Province."></i>
+                                        <span class="required">Industry</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Industry."></i>
                                     </label>
-                                    <input type="text" class="form-control form-control-solid" name="province" value="{{ (isset($client['self']->province)) ? decrypt($client['self']->province) : NULL }}"/>
+                                    <input type="text" class="form-control" name="industry" disabled value="{{ $client->industry }}" required/>
                                 </div>
+                                @error('industry')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col">
                                 <div class="fv-row mb-7">
                                     <label class="fs-6 fw-semibold form-label mt-3">
-                                        <span>Postal Code</span>
-                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Postal Code."></i>
+                                        <span class="required">Nationality</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Nationality."></i>
                                     </label>
-                                    <input type="text" class="form-control form-control-solid" name="postal_code" value="{{ (isset($client['self']->postal_code)) ? decrypt($client['self']->postal_code) : NULL }}"/>
+                                    <input type="text" class="form-control" name="nationality" disabled value="{{ $client->nationality }}" required/>
+                                </div>
+                                @error('nationality')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-4">
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span class="required">Employer</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Employer."></i>
+                                    </label>
+                                    <input type="text" class="form-control" name="employer" disabled value="{{ $client->employer }}" required/>
+                                </div>
+                                @error('employer')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span class="required">Id Type</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Id Type."></i>
+                                    </label>
+                                    <input type="text" class="form-control" name="id_type" disabled value="{{ $client->id_type }}" required/>
+                                </div>
+                                @error('id_type')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span class="required">Id Number</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Id Number."></i>
+                                    </label>
+                                    <input type="text" class="form-control" name="id_number" disabled value="{{ $client->id_number }}" required/>
+                                </div>
+                                @error('id_number')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span class="required">Id Place</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Id Place."></i>
+                                    </label>
+                                    <input type="text" class="form-control" name="id_place" disabled value="{{ $client->id_place }}" required/>
+                                </div>
+                                @error('id_place')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span class="required">Receiving Funds</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Receiving Funds."></i>
+                                    </label>
+                                    <input type="text" class="form-control" name="receiving_funds" disabled value="{{ $client->receiving_funds }}" required/>
+                                </div>
+                                @error('receiving_funds')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span class="required">Sending Funds</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Sending Funds."></i>
+                                    </label>
+                                    <input type="text" class="form-control" name="sending_funds" disabled value="{{ $client->sending_funds }}" required/>
+                                </div>
+                                @error('sending_funds')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span class="required">Source Funds</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Source Funds."></i>
+                                    </label>
+                                    <input type="text" class="form-control" name="source_funds" disabled value="{{ $client->source_funds }}" required/>
+                                </div>
+                                @error('source_funds')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span class="required">Expected Transaction</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Expected Transaction."></i>
+                                    </label>
+                                    <input type="text" class="form-control" name="expected_transaction" disabled value="{{ $client->expected_transaction }}" required/>
+                                </div>
+                                @error('expected_transaction')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span class="required">Annual Income</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Annual Income."></i>
+                                    </label>
+                                    <input type="text" class="form-control" name="annual_income" disabled value="{{ $client->annual_income }}" required/>
+                                </div>
+                                @error('annual_income')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span class="required">Purpose of Trading</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Trading Purpose."></i>
+                                    </label>
+                                    <input type="text" class="form-control" name="trading_purpose" disabled value="{{ $client->trading_purpose }}" required/>
+                                </div>
+                                @error('trading_purpose')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span>Date of Contact</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Select the date of contact."></i>
+                                    </label>
+                                    <input type="date" class="form-control" name="date_contact" value="{{ date("Y-m-d", strtotime($client->date_of_contact)) }}"/>
+                                </div>
+                                @error('date_contact')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span>Mode of Contact</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Mode of Contact."></i>
+                                    </label>
+                                    <input type="text" class="form-control" name="mode_contact" value="{{ $client->mode_of_contact }}"/>
+                                </div>
+                                @error('mode_contact')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span>Notes from Contact</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Notes from Contact."></i>
+                                    </label>
+                                    <textarea class="form-control" data-kt-autosize="true" name="notes_from_contact">{{ $client->notes_from_contact }}</textarea>
+                                </div>
+                                @error('notes_from_contact')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span>Address</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Address."></i>
+                                    </label>
+                                    <textarea class="form-control" data-kt-autosize="true" disabled name="address">{{ $client->address }}</textarea>
                                 </div>
                             </div>
                         </div>
-                        <div class="separator mb-6 family_details" style="{{ ($maritalStatus == 'unmarried' || $maritalStatus == NULL) ? 'display: none' : '' }}"></div>
-                        <div class="family_details" style="{{ ($maritalStatus == 'unmarried' || $maritalStatus == NULL) ? 'display: none' : '' }}">
-                            <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">                            
-                                <div class="col d-flex align-items-center" id="have_child">
-                                    <div class="fv-row mb-7">
-                                        <div class="form-check form-switch form-check-custom form-check-solid">
-                                            @php
-                                                $is_child = ($client['self']->is_child != NULL) ? decrypt($client['self']->is_child) : NULL
-                                            @endphp
-                                            <input class="form-check-input" name="have_child" type="checkbox" value="1" id="flexSwitchChecked" {{ ($is_child == 'yes') ? 'checked' : '' }}/>
-                                            <label class="form-check-label" for="flexSwitchChecked">
-                                                Do you have a child?
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col {{ ($is_child == 'yes') ? '' : 'd-none' }}" id="child_count">
-                                    <div class="fv-row mb-7">
-                                        <label class="fs-6 fw-semibold form-label mt-3">
-                                            <span>How Many Children?</span>
-                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the no. of children."></i>
-                                        </label>
-                                        <input type="text" class="form-control form-control-solid spouse_details" name="child" value="{{ ($client['self']->child_tot != NULL) ? decrypt($client['self']->child_tot) : '' }}"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-title">
-                                <h2>SPOUSE / PARTNER</h2>
-                            </div>
-                            <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
-                                <div class="col">
-                                    <div class="fv-row mb-7">
-                                        <label class="fs-6 fw-semibold form-label mt-3">
-                                            <span>First Name</span>
-                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the first name."></i>
-                                        </label>
-                                        <input type="text" class="form-control form-control-solid spouse_details" name="p_first_name" value="{{ (isset($client['spouse']->first_name) && $client['spouse']->first_name != NULL) ? decrypt($client['spouse']->first_name) : '' }}"/>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="fv-row mb-7">
-                                        <label class="fs-6 fw-semibold form-label mt-3">
-                                            <span>Last Name</span>
-                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the last name."></i>
-                                        </label>
-                                        <input type="text" class="form-control form-control-solid spouse_details" name="p_last_name" value="{{ (isset($client['spouse']->last_name) && $client['spouse']->last_name != NULL) ? decrypt($client['spouse']->last_name) : '' }}"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
-                                <div class="col">
-                                    <div class="fv-row mb-7">
-                                        <label class="fs-6 fw-semibold form-label mt-3">
-                                            <span>Date of Birth</span>
-                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the date of birth."></i>
-                                        </label>
-                                        <input type="date" class="form-control form-control-solid spouse_details" name="p_dob" value="{{ (isset($client['spouse']->dob) && $client['spouse']->dob != NULL) ? decrypt($client['spouse']->dob) : '' }}"/>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="fv-row mb-7">
-                                        <label class="fs-6 fw-semibold form-label mt-3">
-                                            <span>Gender</span>
-                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Select the gender."></i>
-                                        </label>
-                                        <div class="w-100">
-                                            @php
-                                                $pGender = (isset($client['spouse']->gender) && $client['spouse']->gender != NULL) ? decrypt($client['spouse']->gender) : NULL
-                                            @endphp
-                                            <select id="select2_client_p_gender" class="form-select form-select-solid spouse_select" name="p_gender" data-placeholder="Select a Gender">
-                                                <option></option>
-                                                <option value="male" {{ ($pGender == 'male') ? 'selected' : '' }}> Male </option>
-                                                <option value="female" {{ ($pGender == 'female') ? 'selected' : '' }}> Female </option>
-                                                <option value="other" {{ ($pGender == 'other') ? 'selected' : '' }}> Other </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
-                                <div class="col">
-                                    <div class="fv-row mb-7">
-                                        <label class="fs-6 fw-semibold form-label mt-3">
-                                            <span>Retired</span>
-                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Select the Retired."></i>
-                                        </label>
-                                        <div class="w-100">
-                                            @php
-                                                $pRetired = (isset($client['spouse']->retired) && $client['spouse']->retired != NULL) ? decrypt($client['spouse']->retired) : NULL
-                                            @endphp
-                                            <select id="select2_client_p_retired" class="form-select form-select-solid spouse_select" name="p_retired" data-placeholder="Select a Retired">
-                                                <option></option>
-                                                <option value="yes" {{ ($pRetired == 'yes') ? 'selected' : '' }}> Yes </option>                                            
-                                                <option value="no" {{ ($pRetired == 'no') ? 'selected' : '' }}> No </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+                            <div class="col">
                                 <div class="fv-row mb-7">
                                     <label class="fs-6 fw-semibold form-label mt-3">
-                                        <span>Marital Status</span>
-                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Select the Marital Status."></i>
+                                        <span>Follow up Date</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Select the Follow up date."></i>
+                                    </label>
+                                    <input type="date" class="form-control" name="followup_date" value="{{ date("Y-m-d", strtotime($client->followup_date)) }}"/>
+                                </div>
+                                @error('followup_date')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mt-3">
+                                        <span>Status</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Select the Status."></i>
                                     </label>
                                     <div class="w-100">
-                                        @php
-                                            $pMaritalStatus = (isset($client['spouse']->marital_status) && $client['spouse']->marital_status != NULL) ? decrypt($client['spouse']->marital_status) : NULL
-                                        @endphp
-                                        <select id="select2_client_p_marital_status" class="form-select form-select-solid spouse_select" name="p_marital_status" data-placeholder="Select a Marital Status">
-                                            <option></option>
-                                            <option value="married" {{ ($pMaritalStatus == 'married') ? 'selected' : '' }}> Married </option>                                            
-                                            <option value="unmarried" {{ ($pMaritalStatus == 'unmarried') ? 'selected' : '' }}> Unmarried </option>
+                                        <select id="select2_client_status" class="form-select" name="status" data-placeholder="Select a Status">
+                                            <option value=""></option>
+                                            <option value="Cold" {{ ($client->status == 'Cold') ? 'selected' : '' }}> Cold </option>
+                                            <option value="Warm" {{ ($client->status == 'Warm') ? 'selected' : '' }}> Warm </option>
+                                            <option value="Hot" {{ ($client->status == 'Hot') ? 'selected' : '' }}> Hot </option>
                                         </select>
                                     </div>
                                 </div>
+                                @error('status')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-                            <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
-                                <div class="col">
+                        </div>
+                        <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
+                            <div class="col">
+                                <div class="form-check">
                                     <div class="fv-row mb-7">
-                                        <label class="fs-6 fw-semibold form-label mt-3">
-                                            <span>Phone</span>
-                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the phone number."></i>
+                                        <input class="form-check-input" type="checkbox" value="1" id="followup_notification" name="followup_notification" {{ ($client->followup_notification == '1') ? 'checked' : '' }}/>
+                                        <label class="form-check-label" for="followup_notification">
+                                            Follow up Notification
                                         </label>
-                                        <input type="text" class="form-control form-control-solid spouse_details" name="p_phone" value="{{ (isset($client['spouse']->phone) && $client['spouse']->phone != NULL) ? decrypt($client['spouse']->phone) : '' }}"/>
                                     </div>
                                 </div>
-                                <div class="col">
+                                @error('followup_notification')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col">
+                                <div class="form-check">
                                     <div class="fv-row mb-7">
-                                        <label class="fs-6 fw-semibold form-label mt-3">
-                                            <span>Email</span>
-                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the email id."></i>
+                                        <input class="form-check-input" type="checkbox" value="1" id="followup_notification_email" name="followup_notification_email" {{ ($client->followup_notification_email == '1') ? 'checked' : '' }}/>
+                                        <label class="form-check-label" for="followup_notification_email">
+                                            Email notification to agents for Follow up
                                         </label>
-                                        <input type="email" class="form-control form-control-solid spouse_details" name="p_email" value="{{ (isset($client['spouse']->email) && $client['spouse']->email != NULL) ? decrypt($client['spouse']->email) : '' }}"/>
                                     </div>
                                 </div>
+                                @error('followup_notification_email')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-                            <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
-                                <div class="col">
-                                    <div class="fv-row mb-7">
-                                        <label class="fs-6 fw-semibold form-label mt-3">
-                                            <span>Street Address</span>
-                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Enter the Street Address."></i>
-                                        </label>
-                                        <textarea class="form-control spouse_details" data-kt-autosize="true" name="p_address">{{ (isset($client['spouse']->address) && $client['spouse']->address != NULL) ? decrypt($client['spouse']->address) : '' }}</textarea>
-                                    </div>
+                            <div class="col">
+                                <div class="form-check form-switch form-check-custom form-check-solid">
+                                    <input class="form-check-input" type="checkbox" value="yes" id="client" name="client" {{ ($client->clients == 'yes') ? 'checked' : '' }}/>
+                                    <label class="form-check-label" for="client">
+                                        Client
+                                    </label>
                                 </div>
                             </div>
                         </div>
-                        <div class="separator mb-6"></div>
                         <div class="d-flex justify-content-end">
-                            <a href="{{ route('advisorAllClients') }}" class="btn btn-light me-3"> Cancel </a>
+                            <a href="{{ route('adminCRMAllClients') }}" class="btn btn-light me-3"> Cancel </a>
                             <button type="submit" data-kt-contacts-type="submit" class="btn btn-primary"> Save </button>
                         </div>
                     </form>
@@ -380,50 +453,9 @@
         placeholder: "Select a gender",
         minimumResultsForSearch: Infinity
     });
-    $('#select2_client_p_gender').select2({
-        placeholder: "Select a gender",
+    $('#select2_client_status').select2({
+        placeholder: "Select a status",
         minimumResultsForSearch: Infinity
-    });
-    $('#select2_client_joint_profile').select2({
-        placeholder: "Select a joint profile",
-        minimumResultsForSearch: Infinity
-    });
-    $('#select2_client_marital_status').select2({
-        placeholder: "Select a marital status",
-        minimumResultsForSearch: Infinity
-    });
-    $('#select2_client_retired').select2({
-        placeholder: "Select a retired",
-        minimumResultsForSearch: Infinity
-    });
-    $('#select2_client_p_marital_status').select2({
-        placeholder: "Select a marital status",
-        minimumResultsForSearch: Infinity
-    });
-    $('#select2_client_p_retired').select2({
-        placeholder: "Select a retired",
-        minimumResultsForSearch: Infinity
-    });
-    $('#select2_client_marital_status').change(function(){
-        var maritalStatus = $(this).val();
-
-        if(maritalStatus == 'married') {
-            $(".family_details").slideDown();
-
-            $("#have_child").click(function(){
-                if($("#flexSwitchChecked").prop('checked')==true) {
-                    $("#child_count").removeClass('d-none');
-                } else {
-                    $("#child_count").addClass('d-none');
-                }
-            });
-
-        } else if(maritalStatus == 'unmarried') {
-            $("#flexSwitchChecked").prop('checked', false);
-            $(".spouse_details").val('');
-            $('.spouse_select').val('').trigger("change");
-            $(".family_details").slideUp();
-        }
     });
 </script>
 @endsection
