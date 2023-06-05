@@ -134,7 +134,10 @@
                 <div class="flex-lg-row-fluid ms-lg-15">
                     <ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-semibold mb-8">
                         <li class="nav-item">
-                            <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab" href="#kt_client_view_advisors_tab">Users</a>
+                            <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab" href="#kt_client_view_advisors_tab">Clients</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#kt_leads_view_advisors_tab">Leads</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
@@ -142,11 +145,57 @@
                             <div class="card pt-4 mb-6 mb-xl-9">
                                 <div class="card-header border-0">
                                     <div class="card-title">
-                                        <h2>Users</h2>
+                                        <h2>Clients</h2>
                                     </div>
                                 </div>
                                 <div class="card-body pt-0 pb-5">
-                                    <table class="table align-middle table-row-dashed gy-5" id="kt_table_advisors_users">
+                                    <table class="table align-middle table-row-dashed gy-5"  id="kt_table_advisors_users">
+                                        <thead class="border-bottom border-gray-200 fs-7 fw-bold">
+                                            <tr class="text-start text-muted text-uppercase gs-0">
+                                                <th class="min-w-120px">Id</th>
+                                                <th class="min-w-120px">Name</th>
+                                                <th class="min-w-120px">Phone</th>
+                                                <th class="min-w-120px">Email</th>
+                                                <th class="min-w-120px">Notes From Contact</th>
+                                                <th class="min-w-120px">Followup Date</th>
+                                                <th class="min-w-120px">Status</th>
+                                                <th class="min-w-120px">Clients</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="fs-6 fw-semibold text-gray-600">
+                                            @foreach($advisorDetails['clients'] as $key => $user)
+                                                @php
+                                                    $personalDetails = App\Models\PersonalDetails::where('user_id', $user->id)->first();
+                                                @endphp
+                                            <tr>
+                                                <td><a href="#" class="text-gray-600 text-hover-primary mb-1"> {{ $key + 1 }} </a></td>
+                                                <td data-kt-users-filter="product_name"> {{ $user->first_name .' '. $user->last_name }} </td>
+                                                <td> {{ $user->phone_number }} </td>
+                                                <td> {{ $user->email }} </td>
+                                                <td> {{ $user->notes_from_contact }} </td>
+                                                <td> {{ Carbon\Carbon::parse($user->followup_date)->format('M d, Y') }} </td>
+                                                <td> {{ $user->status }} </td>
+                                                <td> 
+                                                    <div class="form-switch">
+                                                        <input class="form-check-input" type="checkbox" value="yes" id="client" name="client" data-id="{{ $user->id }}" onChange="convertIntoLeads(this)"/>
+                                                    </div>    
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade show" id="kt_leads_view_advisors_tab" role="tabpanel">
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <div class="card-header border-0">
+                                    <div class="card-title">
+                                        <h2>Leads</h2>
+                                    </div>
+                                </div>
+                                <div class="card-body pt-0 pb-5">
+                                    <table class="table align-middle table-row-dashed gy-5">
                                         <thead class="border-bottom border-gray-200 fs-7 fw-bold">
                                             <tr class="text-start text-muted text-uppercase gs-0">
                                                 <th class="min-w-100px">Id</th>
@@ -157,7 +206,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="fs-6 fw-semibold text-gray-600">
-                                            @foreach($advisorDetails['users'] as $key => $user)
+                                            @foreach($advisorDetails['leads'] as $key => $user)
                                                 @php
                                                     $personalDetails = App\Models\PersonalDetails::where('user_id', $user->id)->first();
                                                 @endphp
@@ -203,4 +252,60 @@
 @endsection
 @section('script')
     <script src="{{ asset('assets/js/custom/apps/customers/view/advisors-users-table.js') }}"></script>
+    <script>
+        const siteUrl = $('meta[name="site-url"]').attr('content');
+        function convertIntoLeads(val) {
+            const parent = $(val).parent().closest('tr');
+            const productName = parent.find('[data-kt-crm-client-filter="product_name"]').text();
+            const clientId = $(val).attr('data-id');
+            if($(val).prop('checked') == true) {
+                Swal.fire({
+                    html: "Are you sure you want to add <strong>" + productName + "</strong> as a client?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "Yes, add!",
+                    cancelButtonText: "No, cancel",
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-danger",
+                        cancelButton: "btn fw-bold btn-active-light-primary"
+                    }
+                }).then(function (result) {
+                    if (result.value) {
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            url : siteUrl+"advisors/status-update-client/"+clientId,
+                            type : 'get',
+                            dataType : 'json',
+                            success : function(result){
+                                Swal.fire({
+                                    html: "You have added <strong>" + productName + "</strong>!.",
+                                    icon: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary",
+                                    }
+                                }).then(function () {
+                                    location.reload();
+                                });
+                            }
+                        });
+                    } else if (result.dismiss === 'cancel') {
+                        Swal.fire({
+                            html: "<strong>" +productName + "</strong> was not added.",
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn fw-bold btn-primary",
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    </script>
 @endsection

@@ -73,6 +73,7 @@ Route::middleware(['auth', 'verifUser'])->group(function () {
 
             Route::get('/adminSupport', [App\Http\Controllers\AdminController::class, 'allSupport'])->name('adminSupport');
             Route::get('/viewSupport/{id}', [App\Http\Controllers\AdminController::class, 'viewSupport'])->name('adminViewSupport');
+            Route::get('/statusUpdateLeads/{id}', [App\Http\Controllers\AdminController::class, 'statusUpdateLeads'])->name('advisorStatusUpdateLeads');
         });
 
         
@@ -88,6 +89,7 @@ Route::middleware(['auth', 'verifUser'])->group(function () {
             
             Route::get('/delete-advisor/{id}', [App\Http\Controllers\AdminController::class, 'deleteAdvisor'])->name('adminDeleteAdvisor');
             Route::post('/assign-advisor', [App\Http\Controllers\AdminController::class, 'assignAdvisor'])->name('adminAssignAdvisor');
+            Route::get('/status-update-client/{id}', [App\Http\Controllers\AdminController::class, 'statusUpdateAdvisor'])->name('adminStatusUpdateAdvisor');
         });
 
         // Sub Admin Route
@@ -227,13 +229,18 @@ Route::middleware(['auth', 'verifUser'])->group(function () {
         // Clients Route
         Route::prefix('clients')->group(function () {
             Route::get('/', [App\Http\Controllers\AdvisorController::class, 'allClients'])->name('advisorAllClients');
+            Route::get('/advisorAllLeads', [App\Http\Controllers\AdvisorController::class, 'advisorAllLeads'])->name('advisorAllLeads');
             Route::get('/add-client', [App\Http\Controllers\AdvisorController::class, 'addClient'])->name('advisorAddClient');
             Route::post('/storeClient', [App\Http\Controllers\AdvisorController::class, 'storeClient'])->name('advisorStoreClient');
             
             Route::get('/update-client/{id}', [App\Http\Controllers\AdvisorController::class, 'updateClient'])->name('advisorUpdateClient');
+            Route::get('/update-leads/{id}', [App\Http\Controllers\AdvisorController::class, 'updateLeads'])->name('advisorUpdateLeads');
             Route::post('/editClient', [App\Http\Controllers\AdvisorController::class, 'editClient'])->name('advisorEditClient');
             Route::get('/view-client/{id}', [App\Http\Controllers\AdvisorController::class, 'viewClient'])->name('advisorViewClient');
             Route::get('/delete-client/{id}', [App\Http\Controllers\AdvisorController::class, 'deleteClient'])->name('advisorDeleteClient');
+            Route::post('/editCRMClient', [App\Http\Controllers\AdvisorController::class, 'editCRMClient'])->name('advisorEditCRMClient');
+            Route::get('/statusUpdateClient/{id}', [App\Http\Controllers\AdvisorController::class, 'statusUpdateAdvisor'])->name('advisorStatusUpdateAdvisor');
+            Route::get('/statusUpdateLeads/{id}', [App\Http\Controllers\AdvisorController::class, 'statusUpdateLeads'])->name('advisorStatusUpdateLeads');
             
             Route::post('/addClientsIncome', [App\Http\Controllers\AdvisorController::class, 'addClientsIncome'])->name('addClientsIncome');
             Route::get('/editClientsIncome/{id}', [App\Http\Controllers\AdvisorController::class, 'editClientsIncome'])->name('editClientsIncome');

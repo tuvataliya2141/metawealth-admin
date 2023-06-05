@@ -64,11 +64,11 @@
                     </div>
                     <div class="menu-sub menu-sub-accordion">
                         <div class="menu-item">
-                            <a class="menu-link {{ Request::url() == route('advisorAddClient') ? 'active' : '' }}" href="{{ route('advisorAddClient') }}">
+                            <a class="menu-link {{ Request::url() == route('advisorAddClient') ? 'active' : '' }}" href="{{ route('advisorAllLeads') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Add Client</span>
+                                <span class="menu-title">All Leads</span>
                             </a>
                         </div>
                     </div>
