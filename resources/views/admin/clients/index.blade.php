@@ -54,6 +54,7 @@
                                 <th class="text-end min-w-100px">Email</th>
                                 <th class="text-end min-w-100px">Address</th>
                                 <th class="text-end min-w-100px">Status</th>
+                                <th class="text-end min-w-100px">Clients</th>
                                 <th class="text-end min-w-70px">Actions</th>
                             </tr>
                         </thead>
@@ -81,6 +82,11 @@
                                         @else
                                         <div class="badge badge-light-danger">Inactive</div>
                                         @endif
+                                    </td>
+                                    <td class="text-end"> 
+                                        <div class="form-switch">
+                                            <input class="form-check-input" type="checkbox" checked value="no" id="client" name="client" data-id="{{ $client->user_id }}" onChange="convertIntoLeads(this)"/>
+                                        </div>    
                                     </td>
                                     <td class="text-end">
                                         <a href="#" class="btn btn-sm btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -166,6 +172,62 @@
 @section('script')
 <script src="{{ asset('assets/js/custom/apps/ecommerce/catalog/clients.js') }}"></script>
 <script src="{{ asset('assets/js/custom/apps/ecommerce/catalog/assignAdvisor.js') }}"></script>
+<script>
+    const siteUrl = $('meta[name="site-url"]').attr('content');
+    function convertIntoLeads(val) {
+        const parent = $(val).parent().closest('tr');
+        const productName = parent.find('[data-kt-crm-client-filter="product_name"]').text();
+        const clientId = $(val).attr('data-id');
+        // if($(val).prop('checked') == true) {
+            Swal.fire({
+                html: "Are you sure you want to add <strong>" + productName + "</strong> as a client?",
+                icon: "warning",
+                showCancelButton: true,
+                buttonsStyling: false,
+                confirmButtonText: "Yes, add!",
+                cancelButtonText: "No, cancel",
+                customClass: {
+                    confirmButton: "btn fw-bold btn-danger",
+                    cancelButton: "btn fw-bold btn-active-light-primary"
+                }
+            }).then(function (result) {
+                if (result.value) {
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url : "clients/statusUpdateLeads/"+clientId,
+                        type : 'get',
+                        dataType : 'json',
+                        success : function(result){
+                            Swal.fire({
+                                html: "You have added <strong>" + productName + "</strong>!.",
+                                icon: "success",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn fw-bold btn-primary",
+                                }
+                            }).then(function () {
+                                location.reload();
+                            });
+                        }
+                    });
+                } else if (result.dismiss === 'cancel') {
+                    Swal.fire({
+                        html: "<strong>" +productName + "</strong> was not added.",
+                        icon: "error",
+                        buttonsStyling: false,
+                        confirmButtonText: "Ok, got it!",
+                        customClass: {
+                            confirmButton: "btn fw-bold btn-primary",
+                        }
+                    });
+                }
+            });
+        // }
+    }
+</script>
 <script>
     $('.assignUser').click(function(){
         var clientId = $(this).attr('data-client-id');

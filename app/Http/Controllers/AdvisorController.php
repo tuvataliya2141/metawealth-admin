@@ -266,6 +266,20 @@ class AdvisorController extends Controller
         }
         return true;
     }
+
+    public function statusUpdateLeads($id) {
+        $user = User::where('id', $id)->where('role', 0)->first();
+        if($user){
+            $client = CrmClients::where('email', $user->email)->first();
+            if($client){
+                $client->clients = 'no';
+                $client->update();
+            }
+            PersonalDetails::where('user_id', $user->id)->delete();
+            $user->delete();
+        }
+        return true;
+    }
     
     public function updateLeads($id) {
         $client = [];

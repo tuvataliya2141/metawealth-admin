@@ -36,7 +36,7 @@
                                     <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="currentColor" />
                                 </svg>
                             </span>
-                            <input type="text" data-kt-ecommerce-product-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search Client" />
+                            <input type="text" data-kt-ecommerce-product-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search Leads" />
                         </div>
                     </div>
                     <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
@@ -62,6 +62,7 @@
                                 <th class="text-end min-w-100px">Email</th>
                                 <th class="text-end min-w-100px">Address</th>
                                 <th class="text-end min-w-100px">Status</th>
+                                <th class="text-end min-w-100px">Clients</th>
                                 <th class="text-end min-w-70px">Actions</th>
                             </tr>
                         </thead>
@@ -94,6 +95,11 @@
                                         @else
                                         <div class="badge badge-light-danger">Inactive</div>
                                         @endif
+                                    </td>
+                                    <td class="text-end"> 
+                                        <div class="form-switch">
+                                            <input class="form-check-input" type="checkbox" checked value="no" id="client" name="client" data-id="{{ $client->user_id }}" onChange="convertIntoLeads(this)"/>
+                                        </div>    
                                     </td>
                                     <td class="text-end">
                                         <a href="#" class="btn btn-sm btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -176,4 +182,60 @@
 @section('script')
 <script src="{{ asset('assets/js/custom/apps/ecommerce/catalog/clients.js') }}"></script>
 <script src="{{ asset('assets/js/custom/apps/ecommerce/catalog/assignUser.js') }}"></script>
+<script>
+    const siteUrl = $('meta[name="site-url"]').attr('content');
+    function convertIntoLeads(val) {
+        const parent = $(val).parent().closest('tr');
+        const productName = parent.find('[data-kt-crm-client-filter="product_name"]').text();
+        const clientId = $(val).attr('data-id');
+        // if($(val).prop('checked') == true) {
+            Swal.fire({
+                html: "Are you sure you want to add <strong>" + productName + "</strong> as a client?",
+                icon: "warning",
+                showCancelButton: true,
+                buttonsStyling: false,
+                confirmButtonText: "Yes, add!",
+                cancelButtonText: "No, cancel",
+                customClass: {
+                    confirmButton: "btn fw-bold btn-danger",
+                    cancelButton: "btn fw-bold btn-active-light-primary"
+                }
+            }).then(function (result) {
+                if (result.value) {
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url : "statusUpdateLeads/"+clientId,
+                        type : 'get',
+                        dataType : 'json',
+                        success : function(result){
+                            Swal.fire({
+                                html: "You have added <strong>" + productName + "</strong>!.",
+                                icon: "success",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn fw-bold btn-primary",
+                                }
+                            }).then(function () {
+                                location.reload();
+                            });
+                        }
+                    });
+                } else if (result.dismiss === 'cancel') {
+                    Swal.fire({
+                        html: "<strong>" +productName + "</strong> was not added.",
+                        icon: "error",
+                        buttonsStyling: false,
+                        confirmButtonText: "Ok, got it!",
+                        customClass: {
+                            confirmButton: "btn fw-bold btn-primary",
+                        }
+                    });
+                }
+            });
+        // }
+    }
+</script>
 @endsection

@@ -1090,7 +1090,6 @@ class AdminController extends Controller
         $personalDetails->delete();
         $advisor = User::where('id', $id)->first();
         $advisor->delete();
-
         return true;
     }
 
@@ -1914,6 +1913,20 @@ class AdminController extends Controller
         $client->clients = 'no';
         $client->update();
 
+        return true;
+    }
+
+    public function statusUpdateLeads($id) {
+        $user = User::where('id', $id)->where('role', 0)->first();
+        if($user){
+            $client = CrmClients::where('email', $user->email)->first();
+            if($client){
+                $client->clients = 'no';
+                $client->update();
+            }
+            PersonalDetails::where('user_id', $user->id)->delete();
+            $user->delete();
+        }
         return true;
     }
 }
