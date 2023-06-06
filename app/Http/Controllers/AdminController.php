@@ -1901,7 +1901,6 @@ class AdminController extends Controller
                 $personalDetails->status = encrypt('self');
                 $personalDetails->save();
             }
-            // dd($client);
             $client->clients = 'yes';
             $client->update();
         }
