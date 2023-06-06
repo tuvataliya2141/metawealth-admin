@@ -457,9 +457,9 @@ class HomeController extends Controller
         $eventsChart = $data['eventsChart'];
         $eventsLineChart = $data['eventsLineChart'];
 
-        $SupportTicketsList = SupportTickets::where('user_id', auth()->user()->id)->get();
+        $supportTicketsList = SupportTickets::where('user_id', auth()->user()->id)->get();
 
-        return view('user.support.support_tickets', compact(['totalWealth', 'user', 'myAge', 'startYear', 'endYear', 'wealthData', 'statement', 'clientDetail', 'incomes', 'events', 'totalWealth', 'userAge', 'rateReturn', 'wealthIncomes', 'incomeChart', 'wealthEvents', 'eventsChart', 'eventsLineChart', 'SupportTicketsList']));
+        return view('user.support.support_tickets', compact(['totalWealth', 'user', 'myAge', 'startYear', 'endYear', 'wealthData', 'statement', 'clientDetail', 'incomes', 'events', 'totalWealth', 'userAge', 'rateReturn', 'wealthIncomes', 'incomeChart', 'wealthEvents', 'eventsChart', 'eventsLineChart', 'supportTicketsList']));
     }
 
     public function addSupportTickets(Request $request) {
